@@ -89,6 +89,8 @@ html:not([data-theme="dark"]) .moon{display:none}
 html[data-theme="dark"] .chip[aria-pressed="true"]{color:#0b1020}
 .chip.mode{flex-direction:column;align-items:flex-start;display:flex;gap:2px;padding:11px 15px;text-align:left}
 .chip.mode small{font-size:11px;font-weight:500;opacity:.72}
+.sublabel{font-size:12.5px;font-weight:700;color:var(--text-3);margin-bottom:8px}
+.sublabel+.chips{margin-bottom:0}
 
 .row{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end}
 .field{display:flex;flex-direction:column;gap:6px}
@@ -439,7 +441,11 @@ kbd{font-family:inherit;background:var(--surface-in);border:1px solid var(--bord
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M3 20h4l11-11a2.8 2.8 0 0 0-4-4L3 16v4z"/></svg>
         Kiểu câu hỏi
       </div>
-      <div class="chips" id="modeChips"></div>
+      <div class="sublabel">Câu hỏi hiện bằng</div>
+      <div class="chips" id="qSideChips"></div>
+      <div class="sublabel" style="margin-top:14px">Đáp án chọn bằng</div>
+      <div class="chips" id="aSideChips"></div>
+      <div id="modeHint" style="margin-top:11px;font-size:12.5px;color:var(--text-3);font-weight:600"></div>
     </div>
 
     <div class="card">
@@ -719,14 +725,32 @@ applyTheme();
 $('themeBtn').onclick = () => { S.theme = S.theme==='dark'?'light':'dark'; applyTheme(); save(); };
 
 /* ================= modes ================= */
-const MODES = {
-  k2m:{ label:'漢字 → Nghĩa',      note:'Xem chữ, chọn nghĩa',      q:'kanji', a:'mean',  kicker:'Từ này nghĩa là gì?' },
-  m2k:{ label:'Nghĩa → 漢字',      note:'Xem nghĩa, chọn chữ',      q:'mean',  a:'kanji', kicker:'Chọn từ tiếng Nhật đúng' },
-  k2r:{ label:'漢字 → Cách đọc',   note:'Xem chữ, chọn furigana',   q:'kanji', a:'kana',  kicker:'Từ này đọc thế nào?' },
-  r2m:{ label:'Cách đọc → Nghĩa',  note:'Xem kana, chọn nghĩa',     q:'kana',  a:'mean',  kicker:'Cách đọc này nghĩa là gì?' },
-  mix:{ label:'Trộn tất cả',       note:'Ngẫu nhiên 4 kiểu trên',   mix:true,             kicker:'' }
+// 3 dạng của một từ: k = 漢字, r = cách đọc (hiragana), m = nghĩa tiếng Việt
+const SIDE_FIELD = { k:'kanji', r:'kana', m:'mean' };
+const SIDE_LABEL = { k:'漢字', r:'ひらがな', m:'Tiếng Việt', any:'Ngẫu nhiên' };
+const KICKER = {
+  k2m:'Từ này nghĩa là gì?',      k2r:'Từ này đọc thế nào?',
+  m2k:'Chọn từ tiếng Nhật đúng',  m2r:'Chọn cách đọc đúng',
+  r2m:'Cách đọc này nghĩa là gì?', r2k:'Chọn chữ Hán đúng'
 };
-const MIX = ['k2m','m2k','k2r','r2m'];
+// đủ 6 cặp hỏi → trả lời (bỏ cặp trùng dạng)
+const MODES = {};
+for(const q of ['k','r','m']) for(const a of ['k','r','m']){
+  if(q === a) continue;
+  MODES[q+'2'+a] = { q:SIDE_FIELD[q], a:SIDE_FIELD[a], kicker:KICKER[q+'2'+a],
+                     label:`${SIDE_LABEL[q]} → ${SIDE_LABEL[a]}` };
+}
+const SIDES = ['k','r','m','any'].map(v => ({ label:SIDE_LABEL[v], val:v }));
+// 'k2m' -> ['k2m']; 'any2m' -> mọi kiểu có đáp án là nghĩa; 'mix' (bản cũ) = ngẫu nhiên hết
+function expandMode(mode){
+  const [qs, as] = (!mode || mode === 'mix' ? 'any2any' : mode).split('2');
+  const all = ['k','r','m'], out = [];
+  (qs === 'any' ? all : [qs]).forEach(q => (as === 'any' ? all : [as]).forEach(a => {
+    if(MODES[q+'2'+a]) out.push(q+'2'+a);
+  }));
+  return out.length ? out : ['k2m'];
+}
+const sideOf = (mode, i) => (!mode || mode === 'mix' ? 'any2any' : mode).split('2')[i];
 
 /* ================= setup UI ================= */
 function chipGroup(host, items, isOn, onPick, rerender){
@@ -758,8 +782,13 @@ function renderSetup(){
   const P = S.prefs;
   chipGroup($('rangeChips'), RANGES, v => v[0]===P.from && v[1]===P.to,
             v => { P.from=v[0]; P.to=v[1]; save(); });
-  chipGroup($('modeChips'), Object.entries(MODES).map(([k,m]) => ({label:m.label, note:m.note, val:k})),
-            v => v===P.mode, v => { P.mode=v; save(); });
+  // chọn riêng dạng câu hỏi và dạng đáp án; chọn trùng nhau thì bên kia tự thành 'Ngẫu nhiên'
+  chipGroup($('qSideChips'), SIDES, v => sideOf(P.mode,0)===v,
+            v => { P.mode = v + '2' + (sideOf(P.mode,1)===v ? 'any' : sideOf(P.mode,1)); save(); });
+  chipGroup($('aSideChips'), SIDES, v => sideOf(P.mode,1)===v,
+            v => { P.mode = (sideOf(P.mode,0)===v ? 'any' : sideOf(P.mode,0)) + '2' + v; save(); });
+  $('modeHint').textContent = 'Sẽ hỏi: ' +
+    expandMode(P.mode).map(k => `${SIDE_LABEL[k[0]]} → ${SIDE_LABEL[k[2]]}`).join('  ·  ');
   chipGroup($('countChips'), [10,20,30,50,100].map(n => ({label:`${n} câu`, val:n})).concat([{label:'Tất cả', val:0}]),
             v => v===P.count, v => { P.count=v; save(); });
   chipGroup($('poolChips'), [
@@ -868,8 +897,11 @@ let Q = null;
 function buildQuestions(list, count, mode){
   const pick = shuffle([...list]);
   const items = count ? pick.slice(0, count) : pick;
+  const cand = expandMode(mode);                  // các kiểu hỏi hợp với lựa chọn ở trang chủ
   return items.map(w => {
-    const m = mode==='mix' ? MIX[Math.floor(Math.random()*MIX.length)] : mode;
+    let m = cand.length === 1 ? cand[0] : cand[Math.floor(Math.random()*cand.length)];
+    // từ viết toàn kana (漢字 == かな): hỏi 漢字 ↔ かな sẽ lộ đáp án -> đổi bên hỏi sang nghĩa
+    if(w.kanji === w.kana && (m === 'k2r' || m === 'r2k')) m = 'm2' + m[2];
     const ansKey = MODES[m].a;
     return { w, m, opts: makeOpts(w, ansKey, list), chosen:null };
   });
@@ -903,7 +935,7 @@ function renderQ(){
   const host = $('qOpts'); host.innerHTML = '';
   q.opts.forEach((o, idx) => {
     const b = document.createElement('button');
-    b.className = 'opt' + (q.m==='m2k' || q.m==='k2r' ? ' jp' : '');
+    b.className = 'opt' + (cfg.a !== 'mean' ? ' jp' : '');
     b.type = 'button';
     b.innerHTML = `<span class="k">${idx+1}</span><span>${o.text}</span>`;
     b.onclick = () => answer(idx);
