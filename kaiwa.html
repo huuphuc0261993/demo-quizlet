@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kaiwa N3 · Luyện hội thoại</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6fb; --bg-grad-1:#e0e7ff; --bg-grad-2:#fce7f3;
+  --surface:#ffffff; --surface-2:#f8fafc; --surface-in:#eef2f7;
+  --text:#111827; --text-2:#475569; --text-3:#94a3b8;
+  --border:#e2e8f0; --border-2:#cbd5e1;
+  --primary:#4f46e5; --primary-2:#6366f1; --primary-soft:#eef2ff;
+  --accent:#f97316; --accent-soft:#fff7ed;
+  --ok:#16a34a; --ok-soft:#f0fdf4; --bad:#e11d48; --bad-soft:#fff1f2;
+  --shadow:0 1px 2px rgba(15,23,42,.06),0 8px 24px -8px rgba(15,23,42,.12);
+  --radius:20px; --radius-sm:14px;
+}
+html[data-theme="dark"]{
+  --bg:#0b1020; --bg-grad-1:#1e1b4b; --bg-grad-2:#3b0764;
+  --surface:#151a2d; --surface-2:#1b2138; --surface-in:#212942;
+  --text:#f1f5f9; --text-2:#a5b0c5; --text-3:#6b7794;
+  --border:#2a3350; --border-2:#3b4668;
+  --primary:#818cf8; --primary-2:#a5b4fc; --primary-soft:#1e2445;
+  --accent:#fb923c; --accent-soft:#2a1c10;
+  --ok:#4ade80; --ok-soft:#10231a; --bad:#fb7185; --bad-soft:#2a1220;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -8px rgba(0,0,0,.6);
+}
+body{font-family:"Be Vietnam Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(60rem 40rem at 12% -10%,var(--bg-grad-1) 0%,transparent 60%),
+             radial-gradient(50rem 36rem at 92% 8%,var(--bg-grad-2) 0%,transparent 55%);opacity:.75}
+.jp{font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:20px 16px 64px}
+
+/* topbar */
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--primary),#8b5cf6);color:#fff;font-weight:800;font-size:17px}
+.brand h1{font-size:17px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.brand p{font-size:12.5px;color:var(--text-3);font-weight:500}
+.spacer{flex:1}
+.icon-btn{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text-2);display:grid;place-items:center;cursor:pointer;
+  text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+.icon-btn:hover{background:var(--surface-in);color:var(--text);border-color:var(--border-2)}
+.icon-btn svg{width:20px;height:20px}
+html[data-theme="dark"] .sun{display:none}
+html:not([data-theme="dark"]) .moon{display:none}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px}
+.card+.card{margin-top:16px}
+.card-title{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+
+/* chips / buttons */
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{padding:9px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);
+  color:var(--text-2);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:border-color .18s,background .18s,color .18s}
+.chip:hover{border-color:var(--primary-2);color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
+html[data-theme="dark"] .chip[aria-pressed="true"]{color:#0b1020}
+.tag{display:inline-block;padding:4px 11px;border-radius:99px;font-size:11.5px;font-weight:700;
+  background:var(--primary-soft);color:var(--primary);letter-spacing:.02em}
+
+/* question */
+.qbox{border-left:4px solid var(--primary);background:var(--surface-2);border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+  padding:15px 18px;margin:14px 0 4px}
+.qbox .q{font-size:19px;font-weight:600;line-height:2.1}
+.qbox .vn{font-size:13.5px;color:var(--text-2);margin-top:6px;font-style:italic}
+
+/* answer lines */
+.line{display:flex;gap:12px;padding:14px 0;border-top:1px dashed var(--border)}
+.line:first-of-type{border-top:none}
+.line .n{width:26px;height:26px;flex:none;border-radius:9px;display:grid;place-items:center;
+  background:var(--primary-soft);color:var(--primary);font-size:12.5px;font-weight:800}
+.line .body{flex:1;min-width:0}
+.line .ja{font-size:17.5px;line-height:2.15;font-weight:500}
+.line .vn{font-size:13.5px;color:var(--text-2);margin-top:4px}
+.play{width:30px;height:30px;flex:none;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);
+  color:var(--text-2);cursor:pointer;display:grid;place-items:center;transition:all .18s}
+.play:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.play svg{width:14px;height:14px}
+.speaking{background:var(--primary-soft)!important;border-radius:8px}
+
+/* furigana + vn toggles */
+html[data-furi="off"] rt{visibility:hidden}
+html[data-vn="off"] .vn{display:none}
+
+/* tables */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--text-3);font-weight:700}
+td.k{font-weight:600;white-space:nowrap}
+td.kana{color:var(--text-3);font-size:13px;white-space:nowrap}
+.tbl-scroll{overflow-x:auto;margin:0 -4px}
+
+/* fix list */
+.fix{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;margin-top:10px}
+.fix+.fix{margin-top:10px}
+.fix .bad,.fix .good{font-size:15px;line-height:1.9;display:flex;gap:8px;align-items:flex-start}
+.fix .bad{color:var(--bad)}
+.fix .good{color:var(--ok);margin-top:4px}
+.fix .m{flex:none;font-weight:800;font-size:13px;width:16px}
+.fix .why{font-size:13px;color:var(--text-2);margin-top:7px;padding-top:7px;border-top:1px dashed var(--border)}
+
+.topic{display:none}
+.topic.on{display:block}
+.hint{font-size:13px;color:var(--text-3);margin-top:12px}
+@media(max-width:520px){.qbox .q{font-size:17px}.line .ja{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo jp">話</div>
+      <div>
+        <h1>Kaiwa N3 · Luyện hội thoại</h1>
+        <p>Chủ đề + câu trả lời mẫu</p>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <a class="icon-btn" href="index.html" title="Về trang từ vựng" aria-label="Về trang từ vựng">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M9 4v16"/></svg>
+    </a>
+    <button class="icon-btn" id="theme" title="Đổi giao diện" aria-label="Đổi giao diện">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Tuỳ chọn</div>
+    <div class="chips">
+      <button class="chip" id="tFuri" aria-pressed="true">Furigana</button>
+      <button class="chip" id="tVn" aria-pressed="true">Nghĩa tiếng Việt</button>
+      <button class="chip" id="tSlow" aria-pressed="false">Đọc chậm</button>
+    </div>
+    <div class="hint">Bấm ▶ để nghe từng câu. Chế độ shadowing: tắt furigana + tắt tiếng Việt, nghe rồi đọc lại theo.</div>
+  </div>
+
+  <div class="card" id="tabsCard">
+    <div class="card-title">Chủ đề</div>
+    <div class="chips" id="tabs"></div>
+  </div>
+
+  <div id="list"></div>
+
+</div>
+
+<script>
+/* ==================== DỮ LIỆU CHỦ ĐỀ ====================
+   Thêm chủ đề mới = thêm 1 object vào mảng KAIWA.
+   jp: dùng <ruby>漢字<rt>かな</rt></ruby> cho furigana.
+======================================================== */
+const KAIWA = [
+  {
+    cat: "面接 · Phỏng vấn",
+    title: "価値観 · Giá trị coi trọng",
+    q: {
+      jp: '<ruby>仕事<rt>しごと</rt></ruby>をする<ruby>上<rt>うえ</rt></ruby>で、<ruby>一番<rt>いちばん</rt></ruby><ruby>大切<rt>たいせつ</rt></ruby>にしている<ruby>価値観<rt>かちかん</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか。',
+      vn: 'Giá trị bạn coi trọng nhất khi làm việc là gì?'
+    },
+    lines: [
+      {
+        jp: '<ruby>仕事<rt>しごと</rt></ruby>をする<ruby>上<rt>うえ</rt></ruby>で、<ruby>一番<rt>いちばん</rt></ruby><ruby>大切<rt>たいせつ</rt></ruby>にしている<ruby>価値観<rt>かちかん</rt></ruby>は「<ruby>責任感<rt>せきにんかん</rt></ruby>」です。',
+        vn: 'Giá trị tôi coi trọng nhất khi làm việc là "tinh thần trách nhiệm".'
+      },
+      {
+        jp: '<ruby>例<rt>たと</rt></ruby>えば、<ruby>仕事中<rt>しごとちゅう</rt></ruby>にバグが<ruby>発生<rt>はっせい</rt></ruby>したり、お<ruby>客様<rt>きゃくさま</rt></ruby>に<ruby>確認<rt>かくにん</rt></ruby>をお<ruby>願<rt>ねが</rt></ruby>いしたりすることがあります。',
+        vn: 'Ví dụ, trong lúc làm việc có khi phát sinh bug, hoặc phải nhờ khách hàng xác nhận.'
+      },
+      {
+        jp: 'そんな<ruby>時<rt>とき</rt></ruby>は、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>担当<rt>たんとう</rt></ruby><ruby>範囲外<rt>はんいがい</rt></ruby>でも、<ruby>最後<rt>さいご</rt></ruby>まで<ruby>全力<rt>ぜんりょく</rt></ruby>を<ruby>尽<rt>つ</rt></ruby>くします。',
+        vn: 'Những lúc như vậy, dù ngoài phạm vi phụ trách của mình, tôi vẫn dốc hết sức đến cùng.'
+      },
+      {
+        jp: 'そうすることで、チームやお<ruby>客様<rt>きゃくさま</rt></ruby>との<ruby>信頼関係<rt>しんらいかんけい</rt></ruby>が<ruby>生<rt>う</rt></ruby>まれると<ruby>考<rt>かんが</rt></ruby>えています。',
+        vn: 'Tôi nghĩ làm như vậy sẽ tạo ra quan hệ tin cậy với team và với khách hàng.'
+      }
+    ],
+    vocab: [
+      ["価値観","かちかん","giá trị quan, quan niệm về giá trị"],
+      ["責任感","せきにんかん","tinh thần trách nhiệm"],
+      ["発生する","はっせいする","phát sinh, xảy ra (sự cố, bug)"],
+      ["担当","たんとう","phụ trách"],
+      ["範囲外","はんいがい","ngoài phạm vi"],
+      ["全力を尽くす","ぜんりょくをつくす","dốc hết sức"],
+      ["対応する","たいおうする","xử lý, ứng phó"],
+      ["信頼関係","しんらいかんけい","quan hệ tin cậy"]
+    ],
+    grammar: [
+      ["～上(うえ)で","Khi/trong quá trình làm ~ (dùng cho việc trang trọng). VD: 仕事をする上で = trong công việc."],
+      ["～を大切にしている","Coi trọng ~. Dạng ている = thói quen/quan điểm lâu dài."],
+      ["～たり～たりする","Liệt kê ví dụ: nào là ~, nào là ~."],
+      ["～でも","Dù là ~ (nhượng bộ). VD: 範囲外でも = dù ngoài phạm vi."],
+      ["～ことで","Bằng việc ~, nhờ việc ~ (nêu phương tiện/nguyên nhân)."],
+      ["～と考えています","Tôi cho rằng ~ (lịch sự hơn ～と思います, hay dùng khi phỏng vấn)."]
+    ],
+    fix: [
+      {
+        bad: '一番大切に<b>してる</b>価値観は責任感<b>あること</b>です。',
+        good: '一番大切に<b>している</b>価値観は<b>責任感</b>です。',
+        why: '① してる là dạng nói tắt, phỏng vấn nên dùng している. ② 責任感 đã là danh từ nên nói 「責任感です」 là đủ; nếu muốn dùng こと thì phải là 「責任感を<b>持つ</b>ことです」.'
+      },
+      {
+        bad: '<b>仕事する時に</b>よくバグが発生したり、お客さんに<b>お願いしたり</b>することがあります。',
+        good: '<b>仕事中に</b>バグが発生したり、お客様に確認を<b>お願いしたり</b>することがあります。',
+        why: '仕事中に tự nhiên hơn 仕事する時に. Trong phỏng vấn dùng お客様 thay cho お客さん. 「お願いする」 nên có tân ngữ (確認・対応...) cho rõ nghĩa. Bỏ よく vì đang nói ví dụ, không phải tần suất.'
+      },
+      {
+        bad: '自分の範囲外でも<b>全力で尽くします</b>。',
+        good: '自分の担当範囲外でも、最後まで<b>全力を尽くします</b>。',
+        why: '尽くす đi với trợ từ <b>を</b>: 全力<b>を</b>尽くす. Nếu muốn dùng で thì phải là 「全力<b>で</b>対応します」. Thêm 担当 để rõ "phạm vi phụ trách".'
+      }
+    ]
+  },
+  {
+    cat: "面接 · Phỏng vấn",
+    title: "失敗・壁 · Vượt qua thất bại",
+    q: {
+      jp: '<ruby>仕事<rt>しごと</rt></ruby>で<ruby>大<rt>おお</rt></ruby>きな<ruby>失敗<rt>しっぱい</rt></ruby>や<ruby>壁<rt>かべ</rt></ruby>にぶつかった<ruby>時<rt>とき</rt></ruby>、どのように<ruby>気持<rt>きも</rt></ruby>ちを<ruby>切<rt>き</rt></ruby>り<ruby>替<rt>か</rt></ruby>えて<ruby>乗<rt>の</rt></ruby>り<ruby>越<rt>こ</rt></ruby>えていますか。',
+      vn: 'Khi gặp thất bại lớn hay gặp bức tường trong công việc, bạn chuyển đổi tâm trạng và vượt qua như thế nào?'
+    },
+    lines: [
+      {
+        jp: '<ruby>大<rt>おお</rt></ruby>きな<ruby>失敗<rt>しっぱい</rt></ruby>をした<ruby>時<rt>とき</rt></ruby>は、まず<ruby>落<rt>お</rt></ruby>ち<ruby>込<rt>こ</rt></ruby>みすぎないようにして、<ruby>原因<rt>げんいん</rt></ruby>を<ruby>冷静<rt>れいせい</rt></ruby>に<ruby>分析<rt>ぶんせき</rt></ruby>します。',
+        vn: 'Khi mắc lỗi lớn, trước tiên tôi cố không quá suy sụp, rồi bình tĩnh phân tích nguyên nhân.'
+      },
+      {
+        jp: 'そして、<ruby>一人<rt>ひとり</rt></ruby>で<ruby>悩<rt>なや</rt></ruby>まずに、<ruby>先輩<rt>せんぱい</rt></ruby>やチームに<ruby>相談<rt>そうだん</rt></ruby>して、アドバイスをもらいます。',
+        vn: 'Sau đó, thay vì một mình lo lắng, tôi hỏi senpai hoặc team để nhận lời khuyên.'
+      },
+      {
+        jp: '<ruby>原因<rt>げんいん</rt></ruby>が<ruby>分<rt>わ</rt></ruby>かったら、<ruby>同<rt>おな</rt></ruby>じ<ruby>失敗<rt>しっぱい</rt></ruby>を<ruby>繰<rt>く</rt></ruby>り<ruby>返<rt>かえ</rt></ruby>さないように、チェックリストや<ruby>手順書<rt>てじゅんしょ</rt></ruby>を<ruby>作<rt>つく</rt></ruby>って<ruby>改善<rt>かいぜん</rt></ruby>します。',
+        vn: 'Khi đã biết nguyên nhân, để không lặp lại lỗi tương tự, tôi làm checklist hoặc tài liệu quy trình để cải thiện.'
+      },
+      {
+        jp: '<ruby>気持<rt>きも</rt></ruby>ちを<ruby>切<rt>き</rt></ruby>り<ruby>替<rt>か</rt></ruby>えるために、<ruby>仕事<rt>しごと</rt></ruby>が<ruby>終<rt>お</rt></ruby>わったら<ruby>運動<rt>うんどう</rt></ruby>したり、<ruby>好<rt>す</rt></ruby>きな<ruby>音楽<rt>おんがく</rt></ruby>を<ruby>聞<rt>き</rt></ruby>いたりして、しっかりリフレッシュします。',
+        vn: 'Để chuyển đổi tâm trạng, sau khi hết việc tôi tập thể dục hoặc nghe nhạc mình thích để nạp lại năng lượng.'
+      },
+      {
+        jp: '<ruby>失敗<rt>しっぱい</rt></ruby>は<ruby>成長<rt>せいちょう</rt></ruby>のチャンスだと<ruby>考<rt>かんが</rt></ruby>えているので、いつまでも<ruby>引<rt>ひ</rt></ruby>きずらないようにしています。',
+        vn: 'Vì tôi coi thất bại là cơ hội trưởng thành, nên tôi cố không để nó đeo đẳng mãi.'
+      }
+    ],
+    vocab: [
+      ["失敗","しっぱい","thất bại, sai sót"],
+      ["壁にぶつかる","かべにぶつかる","gặp bức tường, bế tắc"],
+      ["気持ちを切り替える","きもちをきりかえる","chuyển đổi tâm trạng"],
+      ["乗り越える","のりこえる","vượt qua"],
+      ["落ち込む","おちこむ","suy sụp, tụt mood"],
+      ["原因","げんいん","nguyên nhân"],
+      ["冷静に","れいせいに","một cách bình tĩnh"],
+      ["分析する","ぶんせきする","phân tích"],
+      ["悩む","なやむ","lo lắng, băn khoăn"],
+      ["相談する","そうだんする","hỏi ý kiến, trao đổi"],
+      ["繰り返す","くりかえす","lặp lại"],
+      ["改善する","かいぜんする","cải thiện"],
+      ["手順書","てじゅんしょ","tài liệu quy trình"],
+      ["成長","せいちょう","sự trưởng thành"],
+      ["引きずる","ひきずる","kéo dài, đeo đẳng (tâm trạng)"]
+    ],
+    grammar: [
+      ["～にぶつかる","Gặp phải ~ (khó khăn, bức tường). VD: 壁にぶつかる."],
+      ["まず～、そして～","Trước tiên ~, sau đó ~ (kể trình tự, rất hay dùng khi phỏng vấn)."],
+      ["～ないように","Để không ~. VD: 同じ失敗を繰り返さないように."],
+      ["～ずに","Không ~ mà… (văn viết, lịch sự hơn ～ないで). VD: 一人で悩まずに相談します."],
+      ["～たら","Khi/nếu ~ thì. VD: 原因が分かったら改善します."],
+      ["～ようにしています","Tôi luôn cố gắng ~ (thói quen ý thức). Rất hay dùng để trả lời câu どのように～."],
+      ["～と考えているので","Vì tôi cho rằng ~ nên…"]
+    ],
+    fix: [
+      {
+        bad: '<b>最初は</b>原因<b>について考えて</b>、',
+        good: '<b>まず</b>原因<b>を冷静に分析します。そして</b>、',
+        why: '① 「最初は」 mang nghĩa đối lập "lúc đầu thì… (nhưng sau thì khác)". Kể trình tự nên dùng <b>まず</b> hoặc 最初<b>に</b>. ② 「原因について考える」 hơi mờ; phỏng vấn nên dùng 「原因を分析する／原因を突き止める」 cho chuyên nghiệp. ③ Câu quá dài thì cắt ra, nối bằng そして／それから.'
+      },
+      {
+        bad: '<b>同じようなことをしない</b>ように<b>頑張ります</b>。',
+        good: '<b>同じ失敗を繰り返さない</b>ように、<b>チェックリストを作って改善します</b>。',
+        why: '① 「同じようなことをしない」 → 「同じ失敗を<b>繰り返さない</b>」 là cách nói cố định, tự nhiên hơn. ② 「頑張ります」 quá chung chung, nghe như chưa có kế hoạch. Nên nói <b>hành động cụ thể</b>: 対策を考えます／チェックリストを作ります／気をつけています.'
+      },
+      {
+        bad: '(Thiếu) — câu hỏi có 2 phần: <b>気持ちを切り替えて</b> + <b>乗り越えて</b>。',
+        good: '…<b>気持ちを切り替えるために</b>、運動したり音楽を聞いたりしてリフレッシュします。',
+        why: 'Câu trả lời của bạn chỉ nói phần "phân tích nguyên nhân + không tái phạm" (= 乗り越える). Còn thiếu phần <b>気持ちの切り替え</b> (cách reset tâm trạng: 運動・睡眠・音楽・相談…) và một câu kết thể hiện thái độ (失敗は成長のチャンスだと考えています). Trả lời đủ 2 phần mới trọn ý.'
+      }
+    ]
+  },
+  {
+    cat: "面接 · Phỏng vấn",
+    title: "5年後 · Mục tiêu 5 năm",
+    q: {
+      jp: '<ruby>5年後<rt>ごねんご</rt></ruby>、<ruby>自分<rt>じぶん</rt></ruby>がどのような<ruby>社会人<rt>しゃかいじん</rt></ruby>になっていたいと<ruby>想像<rt>そうぞう</rt></ruby>しますか。',
+      vn: 'Bạn hình dung 5 năm sau mình sẽ trở thành một người đi làm như thế nào?'
+    },
+    lines: [
+      {
+        jp: '<ruby>5年後<rt>ごねんご</rt></ruby>には、<ruby>日本語<rt>にほんご</rt></ruby>と<ruby>技術<rt>ぎじゅつ</rt></ruby>の<ruby>両方<rt>りょうほう</rt></ruby>を<ruby>活<rt>い</rt></ruby>かせるブリッジSE（BrSE）になっていたいです。',
+        vn: '5 năm sau, tôi muốn trở thành một BrSE có thể phát huy được cả tiếng Nhật và kỹ thuật.'
+      },
+      {
+        jp: '<ruby>今<rt>いま</rt></ruby>はまだ<ruby>日本語<rt>にほんご</rt></ruby>が<ruby>十分<rt>じゅうぶん</rt></ruby>ではありませんが、<ruby>毎日<rt>まいにち</rt></ruby><ruby>少<rt>すこ</rt></ruby>しずつ<ruby>勉強<rt>べんきょう</rt></ruby>を<ruby>続<rt>つづ</rt></ruby>けています。',
+        vn: 'Hiện tại tiếng Nhật của tôi vẫn chưa đủ, nhưng mỗi ngày tôi vẫn đang học dần dần.'
+      },
+      {
+        jp: 'まずは<ruby>3年後<rt>さんねんご</rt></ruby>までにN2に<ruby>合格<rt>ごうかく</rt></ruby>して、お<ruby>客様<rt>きゃくさま</rt></ruby>との<ruby>会議<rt>かいぎ</rt></ruby>を<ruby>通訳<rt>つうやく</rt></ruby>なしで<ruby>進<rt>すす</rt></ruby>められるようになりたいです。',
+        vn: 'Trước tiên, trong 3 năm tới tôi muốn đỗ N2 và có thể tự chủ trì cuộc họp với khách hàng mà không cần phiên dịch.'
+      },
+      {
+        jp: '<ruby>技術面<rt>ぎじゅつめん</rt></ruby>でも<ruby>設計<rt>せっけい</rt></ruby>やチームのマネジメントができるようになって、<ruby>後輩<rt>こうはい</rt></ruby>を<ruby>育<rt>そだ</rt></ruby>てられる<ruby>存在<rt>そんざい</rt></ruby>になりたいと<ruby>考<rt>かんが</rt></ruby>えています。',
+        vn: 'Về mặt kỹ thuật, tôi cũng muốn làm được thiết kế và quản lý team, trở thành người có thể dìu dắt các bạn đi sau.'
+      },
+      {
+        jp: '<ruby>最終的<rt>さいしゅうてき</rt></ruby>には、<ruby>日本<rt>にほん</rt></ruby>とベトナムのチームをつなぐ<ruby>橋<rt>はし</rt></ruby>のような<ruby>社会人<rt>しゃかいじん</rt></ruby>になりたいです。',
+        vn: 'Cuối cùng, tôi muốn trở thành người đi làm giống như cây cầu nối team Nhật và team Việt Nam.'
+      }
+    ],
+    vocab: [
+      ["社会人","しゃかいじん","người đã đi làm, thành viên của xã hội"],
+      ["想像する","そうぞうする","hình dung, tưởng tượng"],
+      ["活かす","いかす","phát huy, tận dụng (năng lực)"],
+      ["両方","りょうほう","cả hai (phía)"],
+      ["十分","じゅうぶん","đủ, đầy đủ"],
+      ["合格する","ごうかくする","đỗ, thi đạt"],
+      ["通訳","つうやく","phiên dịch (nói)"],
+      ["流暢に","りゅうちょうに","một cách lưu loát"],
+      ["設計","せっけい","thiết kế (hệ thống)"],
+      ["後輩","こうはい","người vào sau, đàn em"],
+      ["育てる","そだてる","đào tạo, dìu dắt"],
+      ["存在","そんざい","sự tồn tại → \"người/vai trò\" (～な存在)"],
+      ["最終的に","さいしゅうてきに","cuối cùng, về lâu dài"],
+      ["橋渡し","はしわたし","người làm cầu nối"]
+    ],
+    grammar: [
+      ["～ていたい","Muốn đang ở trạng thái ~ (vào thời điểm tương lai). VD: BrSEになっていたいです ＝ đúng mẫu câu hỏi 「なっていたい」."],
+      ["～ようになりたい","Muốn đạt tới mức có thể ~. VD: 会話できるようになりたいです."],
+      ["～を活かして","Phát huy ~ (kỹ năng) để làm gì. VD: 技術と日本語を活かして働きたいです."],
+      ["～までに","Trước mốc thời gian ~. VD: 3年後までにN2に合格する."],
+      ["～なしで","Không cần ~ mà vẫn…. VD: 通訳なしで進められる."],
+      ["～続けています","Đang tiếp tục ~ (đến hiện tại). VD: 勉強を続けています."],
+      ["～ていきます","Sẽ tiếp tục ~ từ giờ về sau. VD: これから勉強していきます."],
+      ["少しずつ","Từng chút một, dần dần."]
+    ],
+    fix: [
+      {
+        bad: 'これから<ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby><b>しています</b>。',
+        good: 'これから<ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby><b>していきます</b>。／<ruby>今<rt>いま</rt></ruby>も<ruby>毎日<rt>まいにち</rt></ruby><ruby>勉強<rt>べんきょう</rt></ruby>を<b>続けています</b>。',
+        why: 'Lỗi thời/thể: 「これから」 chỉ <b>tương lai</b> nên không đi với 「～ています」 (trạng thái hiện tại). Tương lai → <b>～ていきます</b>; nói việc đang duy trì → <b>今も～を続けています</b>. Chọn 1 trong 2, đừng trộn.'
+      },
+      {
+        bad: '<b>5年後には</b>お客様との会議で流暢に会話できるようになりたいです。…<b>5年後には</b>、BrSEになりたいです。',
+        good: '<b>5年後には</b>、日本語と技術の両方を活かせるBrSEになっていたいです。<b>まずは3年後までに</b>N2に合格して、会議を通訳なしで進められるようになりたいです。',
+        why: '① Lặp 「5年後には」 2 lần. Nên nói <b>kết luận trước</b> (＝BrSE), rồi chia mốc nhỏ: まずは3年後までに… → そして5年後には…. ② Câu hỏi dùng 「なっていたい」 nên trả lời bằng <b>なっていたいです</b> sẽ khớp hơn 「なりたいです」.'
+      },
+      {
+        bad: 'フリーランスとして<ruby>働<rt>はたら</rt></ruby>きたいです。',
+        good: '<ruby>会社<rt>かいしゃ</rt></ruby>の<ruby>中<rt>なか</rt></ruby>で<ruby>後輩<rt>こうはい</rt></ruby>を<ruby>育<rt>そだ</rt></ruby>てられる<ruby>存在<rt>そんざい</rt></ruby>になりたいです。',
+        why: '⚠️ Đây là <b>rủi ro lớn khi phỏng vấn xin việc</b>: nói muốn làm freelance = người tuyển hiểu là "5 năm nữa sẽ nghỉ". Nên nói mục tiêu <b>gắn với công ty/team</b> (設計・マネジメント・後輩育成). Nếu là 雑談 (nói chuyện thường) thì hoàn toàn OK.'
+      },
+      {
+        bad: '<ruby>日本語<rt>にほんご</rt></ruby>が<b>あまり上手ではありません</b>が',
+        good: '<ruby>日本語<rt>にほんご</rt></ruby>が<b>まだ十分ではありません</b>が',
+        why: '「あまり上手ではありません」 nghe thiên về phủ định bản thân. Phỏng vấn nên dùng 「<b>まだ十分ではありませんが</b>」／「<b>まだ勉強中ですが</b>」 — khiêm tốn nhưng hướng tới cải thiện. Thêm mức độ cụ thể (今はN3レベルです) sẽ thuyết phục hơn.'
+      }
+    ]
+  }
+];
+
+/* ==================== RENDER ==================== */
+const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
+
+const list = document.getElementById('list');
+list.innerHTML = KAIWA.map((t, ti) => `
+  <section class="topic" data-topic="${ti}">
+  <div class="card">
+    <span class="tag">${t.cat}</span>
+    <div class="qbox">
+      <div class="q jp">${t.q.jp}</div>
+      <div class="vn">${t.q.vn}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Câu trả lời mẫu</div>
+    ${t.lines.map((l, i) => `
+      <div class="line">
+        <div class="n">${i + 1}</div>
+        <div class="body">
+          <div class="ja jp" data-say>${l.jp}</div>
+          <div class="vn">${l.vn}</div>
+        </div>
+        <button class="play" data-play="${ti}-${i}" title="Đọc câu này">${ICON_PLAY}</button>
+      </div>`).join('')}
+    <div class="chips" style="margin-top:16px">
+      <button class="chip" data-play-all="${ti}">▶ Đọc cả đoạn</button>
+      <button class="chip" data-stop>■ Dừng</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Từ vựng</div>
+    <div class="tbl-scroll"><table>
+      <tr><th>Từ</th><th>Cách đọc</th><th>Nghĩa</th></tr>
+      ${t.vocab.map(v => `<tr><td class="k jp">${v[0]}</td><td class="kana jp">${v[1]}</td><td>${v[2]}</td></tr>`).join('')}
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Mẫu ngữ pháp</div>
+    <div class="tbl-scroll"><table>
+      ${t.grammar.map(g => `<tr><td class="k jp">${g[0]}</td><td>${g[1]}</td></tr>`).join('')}
+    </table></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Sửa lỗi trong câu bạn viết</div>
+    ${t.fix.map(f => `
+      <div class="fix">
+        <div class="bad jp"><span class="m">✕</span><span>${f.bad}</span></div>
+        <div class="good jp"><span class="m">✓</span><span>${f.good}</span></div>
+        <div class="why">${f.why}</div>
+      </div>`).join('')}
+  </div>
+  </section>
+`).join('');
+
+/* ==================== TABS CHỦ ĐỀ ==================== */
+const tabs = document.getElementById('tabs');
+tabs.innerHTML = KAIWA.map((t, i) =>
+  `<button class="chip" data-tab="${i}" aria-pressed="${i === 0}">${i + 1}. ${t.title}</button>`).join('');
+function showTopic(i) {
+  document.querySelectorAll('.topic').forEach(s => s.classList.toggle('on', +s.dataset.topic === i));
+  tabs.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.tab === i));
+  window.speechSynthesis && window.speechSynthesis.cancel();
+}
+tabs.addEventListener('click', e => {
+  const b = e.target.closest('[data-tab]');
+  if (b) showTopic(+b.dataset.tab);
+});
+showTopic(0);
+
+/* ==================== TTS ==================== */
+const synth = window.speechSynthesis;
+let slow = false;
+
+// Lấy text thuần để đọc: bỏ hết <rt> (furigana) khỏi bản sao DOM
+function plainText(el) {
+  const c = el.cloneNode(true);
+  c.querySelectorAll('rt').forEach(rt => rt.remove());
+  return c.textContent.replace(/\s+/g, '');
+}
+
+function speak(els) {
+  if (!synth) return;
+  synth.cancel();
+  document.querySelectorAll('.speaking').forEach(e => e.classList.remove('speaking'));
+  els.forEach(el => {
+    const u = new SpeechSynthesisUtterance(plainText(el));
+    u.lang = 'ja-JP';
+    u.rate = slow ? 0.65 : 0.92;
+    u.onstart = () => el.classList.add('speaking');
+    u.onend = () => el.classList.remove('speaking');
+    synth.speak(u);
+  });
+}
+
+const sayEls = () => [...document.querySelectorAll('[data-say]')];
+
+document.addEventListener('click', e => {
+  const one = e.target.closest('[data-play]');
+  const all = e.target.closest('[data-play-all]');
+  const stop = e.target.closest('[data-stop]');
+  if (one) {
+    const line = one.closest('.line').querySelector('[data-say]');
+    speak([line]);
+  } else if (all) {
+    const card = all.closest('.card');
+    speak([...card.querySelectorAll('[data-say]')]);
+  } else if (stop) {
+    synth && synth.cancel();
+    document.querySelectorAll('.speaking').forEach(el => el.classList.remove('speaking'));
+  }
+});
+
+/* ==================== TOGGLES ==================== */
+const root = document.documentElement;
+function toggle(btn, fn) {
+  btn.addEventListener('click', () => {
+    const on = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', on);
+    fn(on);
+  });
+}
+toggle(document.getElementById('tFuri'), on => root.dataset.furi = on ? 'on' : 'off');
+toggle(document.getElementById('tVn'),   on => root.dataset.vn   = on ? 'on' : 'off');
+toggle(document.getElementById('tSlow'), on => slow = on);
+root.dataset.furi = 'on';
+root.dataset.vn = 'on';
+
+/* theme */
+const saved = localStorage.getItem('kaiwa-theme');
+if (saved) root.dataset.theme = saved;
+document.getElementById('theme').addEventListener('click', () => {
+  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  root.dataset.theme = next;
+  try { localStorage.setItem('kaiwa-theme', next); } catch (_) {}
+});
+</script>
+</body>
+</html>
