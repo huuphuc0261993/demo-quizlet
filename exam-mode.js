@@ -246,6 +246,11 @@ function renderQ(){
     b.onclick = () => { R.idx = i; renderQ(); };
     pal.appendChild(b);
   });
+  // trên điện thoại bảng số câu cuộn ngang -> kéo ô đang làm vào giữa tầm nhìn
+  if(pal.scrollWidth > pal.clientWidth + 4){
+    const cur = pal.querySelector('.pal.cur');
+    if(cur) requestAnimationFrame(() => cur.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}));
+  }
 
   const pbox = $('exPassage'), pg = (q.p !== undefined && exam.passages[q.p]) ? exam.passages[q.p] : null;
   pbox.classList.toggle('hidden', !pg);

@@ -346,16 +346,201 @@ kbd{font-family:inherit;background:var(--surface-in);border:1px solid var(--bord
     padding-bottom:calc(11px + env(safe-area-inset-bottom,0px)); gap:8px}
   .sticky-actions .btn{flex:1 1 auto;padding:13px 12px;font-size:14.5px}
 }
+
+/* ===================================================================
+   V2 · gọn hơn, ưu tiên điện thoại
+   =================================================================== */
+/* --- thanh đầu trang dính + nút quay lại --- */
+.appbar{position:sticky;top:0;z-index:40;margin:-20px -16px 14px;padding:14px 16px 12px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);
+  -webkit-backdrop-filter:saturate(1.5) blur(14px);backdrop-filter:saturate(1.5) blur(14px)}
+.topbar{margin-bottom:0}
+#backBtn{display:none}
+body.sub #backBtn{display:grid}
+body.sub .brand p{display:none}
+body.sub .tabs{display:none}
+
+/* --- thanh tab chuyển mục --- */
+.tabs{display:flex;gap:5px;padding:5px;margin-top:12px;border-radius:16px;background:var(--surface);
+  border:1px solid var(--border);box-shadow:var(--shadow);overflow-x:auto;
+  scrollbar-width:none;-ms-overflow-style:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:1 0 auto;min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:7px;
+  padding:0 15px;border:none;border-radius:12px;background:none;cursor:pointer;white-space:nowrap;
+  font-family:inherit;font-size:14px;font-weight:700;color:var(--text-3);
+  transition:background .18s,color .18s}
+.tab svg{width:17px;height:17px;flex:none}
+.tab:hover{color:var(--text)}
+.tab[aria-selected="true"]{background:var(--primary);color:#fff}
+.tab[aria-selected="true"]:hover{color:#fff}
+html[data-theme="dark"] .tab[aria-selected="true"]{color:#0b1020}
+
+/* --- thẻ gập lại được --- */
+details.card{padding:11px 20px}
+details.card[open]{padding:18px 20px 22px}
+details.card>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;min-height:44px;
+  font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--text-3)}
+details.card>summary::-webkit-details-marker{display:none}
+details.card>summary .ic{width:15px;height:15px;flex:none}
+details.card>summary .val{margin-left:auto;text-transform:none;letter-spacing:0;font-size:13.5px;
+  font-weight:700;color:var(--primary);text-align:right;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;max-width:52%}
+details.card>summary .car{flex:none;width:16px;height:16px;color:var(--text-3);transition:transform .2s}
+details.card[open]>summary .car{transform:rotate(180deg)}
+details.card[open]>summary{margin-bottom:14px}
+
+/* --- khối ghi chú gập lại (giải thích dài) --- */
+details.note{border:1px solid var(--border);border-radius:12px;background:var(--surface-2);
+  padding:0 13px;margin:-2px 0 14px}
+details.note>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;min-height:44px;
+  font-size:13px;font-weight:700;color:var(--primary)}
+details.note>summary::-webkit-details-marker{display:none}
+details.note>summary::after{content:"";width:8px;height:8px;border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;transform:rotate(45deg) translate(-2px,-2px);transition:transform .2s}
+details.note[open]>summary::after{transform:rotate(-135deg) translate(-2px,-2px)}
+details.note p{font-size:13.5px;color:var(--text-2);font-weight:500;line-height:1.66;padding:0 0 13px}
+details.note p b{color:var(--text);font-weight:700}
+details.note .chips{padding-bottom:12px}
+details.note .chips+.chips{margin-top:-4px}
+
+/* --- thẻ điều hướng (Kaiwa) --- */
+.navcard{display:flex;align-items:center;gap:14px;padding:15px 18px;text-decoration:none;color:inherit}
+.navcard .nic{flex:none;width:44px;height:44px;border-radius:13px;display:grid;place-items:center;
+  background:var(--primary-soft);color:var(--primary)}
+.navcard .nic svg{width:22px;height:22px}
+.navcard .tx{min-width:0;flex:1}
+.navcard .tx b{display:block;font-size:15.5px;font-weight:800;letter-spacing:-.01em}
+.navcard .tx small{display:block;font-size:12.5px;color:var(--text-3);font-weight:500;line-height:1.5;margin-top:2px}
+.navcard .chev{flex:none;width:20px;height:20px;color:var(--text-3)}
+.navcard:hover{border-color:var(--border-2)}
+.navcard:hover .chev{color:var(--primary)}
+
+/* --- vùng chạm tối thiểu 44px --- */
+.chip{min-height:44px;display:inline-flex;align-items:center}
+.chip.sm{min-height:40px}
+.icon-btn{width:44px;height:44px}
+.opt{min-height:56px}
+.footer-actions{display:flex;justify-content:center;margin-top:22px}
+.footer-actions .btn{font-size:13.5px;padding:11px 18px}
+
+/* trên máy tính không cần thanh dính -> tránh dải nền lạ giữa trang */
+@media (min-width:621px){
+  .appbar{position:static;margin:0 0 14px;padding:0;background:none;
+    -webkit-backdrop-filter:none;backdrop-filter:none}
+}
+
+/* ===================== ĐIỆN THOẠI ===================== */
+@media (max-width:620px){
+  .wrap{padding:16px 14px 40px}
+  .appbar{margin:-16px -14px 12px;padding:12px 14px 10px;
+    border-bottom:1px solid color-mix(in srgb,var(--border) 55%,transparent)}
+  .topbar{gap:9px}
+  .logo{width:38px;height:38px;border-radius:11px;font-size:15px}
+  .brand h1{font-size:15.5px}
+  .brand h1 .bn{display:none}
+  .brand p{font-size:11.5px}
+  .tab{font-size:13px;padding:0 12px;gap:6px}
+
+  /* 6 ô thống kê → lưới 3 cột gọn */
+  .stats{grid-template-columns:repeat(3,1fr);gap:8px}
+  .stat{padding:10px;border-radius:12px}
+  .stat .v{font-size:17px}
+  .stat .l{font-size:10.5px;line-height:1.3;margin-top:2px}
+
+  .card{padding:17px 15px}
+  details.card{padding:9px 15px}
+  details.card[open]{padding:15px 15px 18px}
+  .card-title{font-size:11.5px}
+  .learn-btns .btn{flex:1 1 100%}
+  .btn-row.cta .btn{flex:1 1 100%}
+  .navcard{padding:14px 15px;gap:12px}
+
+  /* iOS không tự phóng to khi focus (cần ≥16px) */
+  input[type=number],.search input,.keybox textarea{font-size:16px}
+  input[type=number]{width:100%}
+  .row{gap:10px}
+  .row .field{flex:1 1 calc(50% - 5px)}
+
+  /* bỏ cuộn lồng nhau — để cuộn cả trang cho dễ thao tác */
+  .blist,.rev,.wlist{max-height:none;overflow:visible}
+
+  /* bảng số câu trong đề: cuộn ngang 1 hàng thay vì tràn nhiều dòng */
+  .palette{flex-wrap:nowrap;overflow-x:auto;margin:11px -2px 2px;padding:2px 2px 7px;
+    scrollbar-width:none;-ms-overflow-style:none}
+  .palette::-webkit-scrollbar{display:none}
+  .pal{flex:none;width:40px;height:40px;font-size:13px}
+
+  .exam-top{gap:9px}
+  .exam-top .grow{flex:1 1 100%}
+  .timer{flex:1 1 auto;font-size:17px;padding:11px 12px}
+  #exSubmit{flex:2 1 auto;padding:12px 16px}
+
+  .qbar{gap:9px;font-size:12.5px;flex-wrap:wrap}
+  /* nút đánh dấu neo góc phải, không đẩy ô giải thích xuống dòng thừa */
+  .reveal{position:relative;padding-right:46px}
+  .reveal .star{position:absolute;top:9px;right:7px;margin:0}
+  .prompt{padding:8px 0 4px}
+  .prompt .word{line-height:1.2}
+  .opt{font-size:15.5px;padding:14px}
+  .qtext{font-size:17px;line-height:1.85}
+  .passage .ptext{font-size:15px;line-height:1.9}
+
+  /* kết quả: vòng tròn điểm nằm trên, chữ + nút chiếm trọn chiều ngang */
+  .result-top{flex-direction:column;align-items:center;text-align:center;gap:14px}
+  .result-top>div:not(.ring){min-width:0!important;width:100%}
+  .result-top .btn-row{justify-content:center}
+  .result-top .btn-row .btn{flex:1 1 calc(50% - 5px)}
+  .ring{width:104px;height:104px}
+  .ring>div{width:82px;height:82px;font-size:23px}
+  .result-top h2{font-size:21px}
+
+  /* điểm từng 大問: tên xuống dòng trong ô, điểm luôn nằm góc phải */
+  .score-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .mres .top{align-items:flex-start;gap:6px}
+  .mres .nm{flex:1;min-width:0;font-size:12.5px;line-height:1.4}
+  .mres .sc{flex:none;font-size:12.5px}
+
+  .brow .mini{width:38px;height:38px}
+  .brow .mini svg{width:17px;height:17px}
+  .ritem summary{padding:12px}
+
+  /* gợi ý phím tắt trên nút -> vô nghĩa khi dùng cảm ứng */
+  .btn kbd{display:none}
+
+  /* bộ lọc / sắp xếp: 1 hàng cuộn ngang thay vì tràn 3 hàng */
+  #bFilters,#bSorts,#timerChips{flex-wrap:nowrap;overflow-x:auto;padding:1px 2px 5px;
+    margin-left:-2px;scrollbar-width:none;-ms-overflow-style:none}
+  #bFilters::-webkit-scrollbar,#bSorts::-webkit-scrollbar,#timerChips::-webkit-scrollbar{display:none}
+  #bFilters .chip,#bSorts .chip,#timerChips .chip{flex:none}
+
+  /* danh sách đề: lưới 2 cột cho thấy hết đề không cần cuộn dài */
+  #examList{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  #examList .chip{justify-content:center;text-align:center;font-size:12.5px;padding:10px 8px;min-height:48px}
+
+  /* chip 問題 trong đề: nhãn và số câu cách nhau cho dễ đọc */
+  .chip.sm{gap:7px}
+  .chip.sm small{display:inline}
+}
+@media (max-width:359px){
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .tab{padding:0 9px;font-size:12.5px;gap:5px}
+  .tab svg{width:16px;height:16px}
+}
+
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="appbar">
   <div class="topbar">
+    <button class="icon-btn" id="backBtn" title="Quay lại" aria-label="Quay lại">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
     <div class="brand">
       <div class="logo jp">N3</div>
       <div>
-        <h1>Mimikara N3 · Luyện từ vựng</h1>
+        <h1>Mimikara N3<span class="bn"> · Luyện từ vựng</span></h1>
         <p id="brandSub">880 từ · trắc nghiệm &amp; thẻ ghi nhớ</p>
       </div>
     </div>
@@ -368,138 +553,169 @@ kbd{font-family:inherit;background:var(--surface-in);border:1px solid var(--bord
       <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
     </button>
   </div>
+  <nav class="tabs" id="homeTabs" role="tablist" aria-label="Khu vực chính">
+    <button class="tab" type="button" role="tab" data-tab="hoc" aria-selected="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 14l10 5 10-5"/></svg><span>Học từ</span>
+    </button>
+    <button class="tab" type="button" role="tab" data-tab="de" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg><span>Giải đề</span>
+    </button>
+    <button class="tab" type="button" role="tab" data-tab="quiz" aria-selected="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Trắc nghiệm</span>
+    </button>
+  </nav>
+  </div>
 
   <!-- ============ SETUP ============ -->
   <section id="setup">
-    <div class="stats">
-      <div class="stat"><div class="v" id="stTotal">0</div><div class="l">Câu đã làm</div></div>
-      <div class="stat"><div class="v" id="stAcc">0%</div><div class="l">Độ chính xác</div></div>
-      <div class="stat"><div class="v" id="stStar">0</div><div class="l">Từ đánh dấu</div></div>
-      <div class="stat"><div class="v" id="stWeak">0</div><div class="l">Từ hay sai</div></div>
-      <div class="stat"><div class="v" id="stLearned">0</div><div class="l">Đã học</div></div>
-      <div class="stat"><div class="v" id="stDue">0</div><div class="l">Cần ôn hôm nay</div></div>
-    </div>
 
-    <div class="card hero">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 14l10 5 10-5"/></svg>
-        Học nhanh · lặp lại giãn cách
+    <!-- ---------- TAB: HỌC TỪ VỰNG ---------- -->
+    <div class="tabpanel" id="tabHoc">
+      <div class="stats">
+        <div class="stat"><div class="v" id="stTotal">0</div><div class="l">Câu đã làm</div></div>
+        <div class="stat"><div class="v" id="stAcc">0%</div><div class="l">Độ chính xác</div></div>
+        <div class="stat"><div class="v" id="stStar">0</div><div class="l">Từ đánh dấu</div></div>
+        <div class="stat"><div class="v" id="stWeak">0</div><div class="l">Từ hay sai</div></div>
+        <div class="stat"><div class="v" id="stLearned">0</div><div class="l">Đã học</div></div>
+        <div class="stat"><div class="v" id="stDue">0</div><div class="l">Ôn hôm nay</div></div>
       </div>
-      <p class="hero-note">Học <b>từng nhóm nhỏ</b>: xem nghĩa 1 lần, rồi mỗi từ phải vượt <b>3 vòng kiểm tra</b>
-        (nhận nghĩa → chọn chữ → cách đọc) mới coi là thuộc. Sai thì từ đó quay lại ngay sau vài câu.
-        Hết nhóm, app <b>hẹn ngày ôn lại</b> (1 → 3 → 7 → 16 → 35 ngày) để không quên.</p>
-      <div class="learn-btns">
-        <button class="btn btn-primary" id="btnLearnNew">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
-          Học từ mới <span class="pill" id="lnNew">0</span>
-        </button>
-        <button class="btn btn-ghost" id="btnLearnDue">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
-          Ôn từ đến hạn <span class="pill" id="lnDue">0</span>
-        </button>
-        <button class="btn btn-ghost" id="btnBrowse">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="19" cy="19" r="2.5"/></svg>
-          Xem lại từ đã học <span class="pill" id="lnLearned">0</span>
-        </button>
-      </div>
-      <div class="chips" id="batchChips" style="margin-top:14px"></div>
-      <div class="chips" id="goalChips" style="margin-top:9px"></div>
-    </div>
 
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.9-.4L3 21l1.6-4.6A8.2 8.2 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>
-        Kaiwa · luyện hội thoại
-      </div>
-      <p class="hero-note">Bộ câu hỏi <b>phỏng vấn</b> kèm câu trả lời mẫu, có <b>furigana</b>, nghĩa tiếng Việt
-        và nút nghe từng câu. Tắt furigana + tiếng Việt để luyện <b>shadowing</b>.</p>
-      <div class="learn-btns">
-        <a class="btn btn-primary" href="kaiwa.html">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.9-.4L3 21l1.6-4.6A8.2 8.2 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>
-          Mở trang Kaiwa
-        </a>
-      </div>
-    </div>
-
-    <div class="card" id="examCard">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
-        Giải đề JLPT
-      </div>
-      <div id="examBody">
-        <div class="chips" id="examList"></div>
-        <div class="sum" id="examMeta" style="margin-top:12px"></div>
-        <div class="mtable" id="mondaiList"></div>
-        <div class="chips" id="timerChips"></div>
-        <div class="btn-row">
-          <button class="btn btn-primary" id="examStart">Làm bài</button>
-          <button class="btn btn-ghost" id="examAll">Làm toàn bộ đề</button>
-          <button class="btn btn-ghost" id="examResume">Tiếp tục bài đang làm</button>
-          <button class="btn btn-ghost" id="examKeyBtn">Nhập đáp án</button>
+      <div class="card hero">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M2 14l10 5 10-5"/></svg>
+          Học nhanh · lặp lại giãn cách
         </div>
-        <div class="keybox hidden" id="keyBox">
-          <div class="hint">Dán bảng đáp án cho <b id="keySecName">phần</b> — nhận cả 2 kiểu:
-            <br>· dãy liền: <code>3 4 1 2 4 …</code> (theo thứ tự câu trong phần đó)
-            <br>· từng cặp: <code>1:3</code> <code>2.4</code> <code>3-1</code> (theo số câu in trên đề)</div>
-          <div class="chips" id="keySecChips" style="margin-top:11px"></div>
-          <textarea id="keyText" placeholder="3 4 1 2 4 3 ..." spellcheck="false"></textarea>
-          <div class="hint" id="keyPreview"></div>
-          <div class="btn-row" style="margin-top:11px">
-            <button class="btn btn-primary" id="keySave">Lưu đáp án</button>
-            <button class="btn btn-ghost" id="keyClear">Xoá đáp án phần này</button>
-            <button class="btn btn-ghost" id="keyClose">Đóng</button>
+        <div class="learn-btns">
+          <button class="btn btn-primary" id="btnLearnNew">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+            Học từ mới <span class="pill" id="lnNew">0</span>
+          </button>
+          <button class="btn btn-ghost" id="btnLearnDue">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg>
+            Ôn từ đến hạn <span class="pill" id="lnDue">0</span>
+          </button>
+          <button class="btn btn-ghost" id="btnBrowse">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16M4 12h16M4 19h10"/><circle cx="19" cy="19" r="2.5"/></svg>
+            Sổ từ đã học <span class="pill" id="lnLearned">0</span>
+          </button>
+        </div>
+        <details class="note" style="margin:15px 0 0">
+          <summary>Tuỳ chỉnh nhóm &amp; mục tiêu mỗi ngày</summary>
+          <div class="chips" id="batchChips"></div>
+          <div class="chips" id="goalChips"></div>
+        </details>
+        <details class="note" style="margin:10px 0 0">
+          <summary>Cách học này hoạt động thế nào?</summary>
+          <p>Học <b>từng nhóm nhỏ</b>: xem nghĩa 1 lần, rồi mỗi từ phải vượt <b>3 vòng kiểm tra</b>
+            (nhận nghĩa → chọn chữ → cách đọc) mới coi là thuộc. Sai thì từ đó quay lại ngay sau vài câu.
+            Hết nhóm, app <b>hẹn ngày ôn lại</b> (1 → 3 → 7 → 16 → 35 ngày) để không quên.</p>
+        </details>
+      </div>
+
+      <a class="card navcard" href="kaiwa.html">
+        <span class="nic">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 9.5 9.5 0 0 1-2.9-.4L3 21l1.6-4.6A8.2 8.2 0 0 1 3 11.5 8.4 8.4 0 0 1 12 3a8.4 8.4 0 0 1 9 8.5z"/></svg>
+        </span>
+        <span class="tx">
+          <b>Kaiwa · luyện hội thoại</b>
+          <small>Câu hỏi phỏng vấn + trả lời mẫu, có furigana, nghĩa tiếng Việt và nút nghe từng câu</small>
+        </span>
+        <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+      </a>
+    </div>
+
+    <!-- ---------- TAB: GIẢI ĐỀ JLPT ---------- -->
+    <div class="tabpanel hidden" id="tabDe">
+      <div class="card" id="examCard">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"/></svg>
+          Giải đề JLPT
+        </div>
+        <div id="examBody">
+          <div class="chips" id="examList"></div>
+          <div class="sum" id="examMeta" style="margin-top:12px"></div>
+          <div class="mtable" id="mondaiList"></div>
+          <div class="chips" id="timerChips"></div>
+          <div class="btn-row cta">
+            <button class="btn btn-primary" id="examStart">Làm bài</button>
+            <button class="btn btn-ghost" id="examAll">Làm toàn bộ đề</button>
+            <button class="btn btn-ghost" id="examResume">Tiếp tục bài đang làm</button>
+            <button class="btn btn-ghost" id="examKeyBtn">Nhập đáp án</button>
+          </div>
+          <div class="keybox hidden" id="keyBox">
+            <div class="hint">Dán bảng đáp án cho <b id="keySecName">phần</b> — nhận cả 2 kiểu:
+              <br>· dãy liền: <code>3 4 1 2 4 …</code> (theo thứ tự câu trong phần đó)
+              <br>· từng cặp: <code>1:3</code> <code>2.4</code> <code>3-1</code> (theo số câu in trên đề)</div>
+            <div class="chips" id="keySecChips" style="margin-top:11px"></div>
+            <textarea id="keyText" placeholder="3 4 1 2 4 3 ..." spellcheck="false"></textarea>
+            <div class="hint" id="keyPreview"></div>
+            <div class="btn-row" style="margin-top:11px">
+              <button class="btn btn-primary" id="keySave">Lưu đáp án</button>
+              <button class="btn btn-ghost" id="keyClear">Xoá đáp án phần này</button>
+              <button class="btn btn-ghost" id="keyClose">Đóng</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="empty hidden" id="examEmpty">
-        Chưa thấy dữ liệu đề. Đặt file <code>*_de_thi.xlsx</code> cạnh file này rồi chạy:
-        <br><code>python3 import-exam-xlsx-to-js.py</code>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
-        Phạm vi từ vựng
-      </div>
-      <div class="chips" id="rangeChips"></div>
-      <div class="row" style="margin-top:14px">
-        <div class="field"><label for="fromN">Từ số</label><input type="number" id="fromN" min="1" max="880" value="1"></div>
-        <div class="field"><label for="toN">Đến số</label><input type="number" id="toN" min="1" max="880" value="880"></div>
-        <div class="field" style="justify-content:center"><span id="rangeInfo" style="font-size:13px;color:var(--text-3);font-weight:600"></span></div>
+        <div class="empty hidden" id="examEmpty">
+          Chưa thấy dữ liệu đề. Đặt file <code>*_de_thi.xlsx</code> cạnh file này rồi chạy:
+          <br><code>python3 import-exam-xlsx-to-js.py</code>
+        </div>
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M3 20h4l11-11a2.8 2.8 0 0 0-4-4L3 16v4z"/></svg>
-        Kiểu câu hỏi
+    <!-- ---------- TAB: TRẮC NGHIỆM ---------- -->
+    <div class="tabpanel hidden" id="tabQuiz">
+      <details class="card" id="cardRange">
+        <summary>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+          Phạm vi từ vựng
+          <span class="val" id="rangeVal"></span>
+          <svg class="car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="chips" id="rangeChips"></div>
+        <div class="row" style="margin-top:14px">
+          <div class="field"><label for="fromN">Từ số</label><input type="number" id="fromN" min="1" max="880" value="1" inputmode="numeric"></div>
+          <div class="field"><label for="toN">Đến số</label><input type="number" id="toN" min="1" max="880" value="880" inputmode="numeric"></div>
+          <div class="field" style="justify-content:center"><span id="rangeInfo" style="font-size:13px;color:var(--text-3);font-weight:600"></span></div>
+        </div>
+      </details>
+
+      <details class="card" id="cardMode">
+        <summary>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9M3 20h4l11-11a2.8 2.8 0 0 0-4-4L3 16v4z"/></svg>
+          Kiểu câu hỏi
+          <span class="val" id="modeVal"></span>
+          <svg class="car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <div class="sublabel">Câu hỏi hiện bằng</div>
+        <div class="chips" id="qSideChips"></div>
+        <div class="sublabel" style="margin-top:14px">Đáp án chọn bằng</div>
+        <div class="chips" id="aSideChips"></div>
+        <div id="modeHint" style="margin-top:11px;font-size:12.5px;color:var(--text-3);font-weight:600"></div>
+      </details>
+
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          Số câu &amp; nguồn từ
+        </div>
+        <div class="chips" id="countChips"></div>
+        <div class="chips" id="poolChips" style="margin-top:12px"></div>
+        <div class="btn-row cta">
+          <button class="btn btn-primary" id="startQuiz">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Bắt đầu trắc nghiệm
+          </button>
+          <button class="btn btn-ghost" id="startFlash">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M12 5v14"/></svg> Thẻ ghi nhớ
+          </button>
+        </div>
       </div>
-      <div class="sublabel">Câu hỏi hiện bằng</div>
-      <div class="chips" id="qSideChips"></div>
-      <div class="sublabel" style="margin-top:14px">Đáp án chọn bằng</div>
-      <div class="chips" id="aSideChips"></div>
-      <div id="modeHint" style="margin-top:11px;font-size:12.5px;color:var(--text-3);font-weight:600"></div>
     </div>
 
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-        Số câu &amp; nguồn từ
-      </div>
-      <div class="chips" id="countChips"></div>
-      <div class="chips" id="poolChips" style="margin-top:12px"></div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="startQuiz">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Bắt đầu trắc nghiệm
-        </button>
-        <button class="btn btn-ghost" id="startFlash">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M12 5v14"/></svg> Thẻ ghi nhớ
-        </button>
-        <button class="btn btn-ghost" id="resetStats">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg> Xoá tiến độ
-        </button>
-      </div>
+    <div class="footer-actions">
+      <button class="btn btn-ghost" id="resetStats">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5"/></svg> Xoá tiến độ
+      </button>
     </div>
   </section>
 
@@ -742,7 +958,7 @@ const WORDS = [{"no":1,"kanji":"女性","kana":"じょせい","mean":"phụ nữ
 /* ================= state & storage ================= */
 const KEY = 'mimikara-n3-v1';
 const DEF = { total:0, correct:0, starred:[], weak:{}, srs:{}, theme:'light',
-              prefs:{ mode:'k2m', count:20, from:1, to:WORDS.length, pool:'all', batch:5, goal:20 } };
+              prefs:{ mode:'k2m', count:20, from:1, to:WORDS.length, pool:'all', batch:5, goal:20, tab:'hoc' } };
 let S = load();
 function load(){
   try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r&&typeof r==='object')
@@ -844,6 +1060,10 @@ function renderSetup(){
   $('lnLearned').textContent = Object.keys(S.srs).length;
   $('stDue').textContent = nDue;
 
+  // giá trị tóm tắt hiện ngay trên tiêu đề thẻ gập
+  $('rangeVal').textContent = `từ ${P.from} → ${P.to}`;
+  $('modeVal').textContent  = `${SIDE_LABEL[sideOf(P.mode,0)]} → ${SIDE_LABEL[sideOf(P.mode,1)]}`;
+
   $('fromN').value = P.from; $('toN').value = P.to;
   const n = poolWords().length;
   $('rangeInfo').textContent = `${n} từ khả dụng`;
@@ -876,10 +1096,32 @@ function show(name){
   if(curScreen === 'setup') setupScroll = window.scrollY;   // rời trang chủ -> ghi lại vị trí
   curScreen = name;
   SCREENS.forEach(s => $(s).classList.toggle('hidden', s!==name));
+  document.body.classList.toggle('sub', name !== 'setup');   // ẩn tab + hiện nút quay lại
   // về trang chủ: nhảy lại đúng chỗ vừa đứng (không animation). Màn khác: lên đầu như cũ.
   name === 'setup' ? window.scrollTo({top:setupScroll, behavior:'auto'})
                    : window.scrollTo({top:0, behavior:'smooth'});
 }
+
+/* ================= tab trang chủ ================= */
+const TABS = { hoc:'tabHoc', de:'tabDe', quiz:'tabQuiz' };
+function showTab(t, scroll){
+  if(!TABS[t]) t = 'hoc';
+  S.prefs.tab = t; save();
+  for(const k in TABS) $(TABS[k]).classList.toggle('hidden', k !== t);
+  document.querySelectorAll('#homeTabs .tab')
+          .forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t ? 'true' : 'false'));
+  if(scroll !== false){ setupScroll = 0; window.scrollTo({top:0, behavior:'auto'}); }
+}
+document.querySelectorAll('#homeTabs .tab')
+        .forEach(b => b.onclick = () => showTab(b.dataset.tab));
+
+/* nút quay lại trên thanh đầu trang: dùng đúng nút thoát của từng màn hình */
+const BACK_BTN = { quiz:'quitBtn', flash:'fQuit', learn:'lQuit', browse:'bHome',
+                   result:'rHome', exam:'exQuit', examResult:'erHome' };
+$('backBtn').onclick = () => {
+  const b = BACK_BTN[curScreen];
+  b && $(b) ? $(b).click() : show('setup');
+};
 
 /* ================= helpers ================= */
 function toggleStar(no){
@@ -1349,6 +1591,7 @@ document.addEventListener('keydown', e => {
 /* ================= boot ================= */
 $('brandSub').textContent = `${WORDS.length} từ · trắc nghiệm & thẻ ghi nhớ`;
 renderSetup();
+showTab(S.prefs.tab, false);
 if('speechSynthesis' in window) speechSynthesis.getVoices();
 
 /* cầu nối cho exam-mode.js (chức năng giải đề) */
