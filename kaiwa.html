@@ -86,6 +86,10 @@ html[data-theme="dark"] .chip[aria-pressed="true"]{color:#0b1020}
 .line .body{flex:1;min-width:0}
 .line .ja{font-size:17.5px;line-height:2.15;font-weight:500}
 .line .vn{font-size:13.5px;color:var(--text-2);margin-top:4px}
+/* hội thoại 2 người: A = người hỏi, B = người trả lời */
+.line.say-b .n{background:var(--accent-soft);color:var(--accent)}
+.qbox.note{border-left-color:var(--accent)}
+.qbox.note .vn{font-style:normal;font-size:14px;color:var(--text-2);margin-top:0}
 .play{width:30px;height:30px;flex:none;border-radius:9px;border:1px solid var(--border);background:var(--surface-2);
   color:var(--text-2);cursor:pointer;display:grid;place-items:center;transition:all .18s}
 .play:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
@@ -376,6 +380,291 @@ const KAIWA = [
         why: '「あまり上手ではありません」 nghe thiên về phủ định bản thân. Phỏng vấn nên dùng 「<b>まだ十分ではありませんが</b>」／「<b>まだ勉強中ですが</b>」 — khiêm tốn nhưng hướng tới cải thiện. Thêm mức độ cụ thể (今はN3レベルです) sẽ thuyết phục hơn.'
       }
     ]
+  }  ,
+  {
+    cat: "職場 · Hội thoại nơi làm việc",
+    title: "進捗確認 · Báo cáo tiến độ",
+    // Hội thoại 2 người: A = 上司 (cấp trên), B = 部下 (nhân viên).
+    // Nội dung tiếng Nhật giữ NGUYÊN VĂN như bản gốc, chỉ thêm furigana.
+    note: 'Bối cảnh: cấp trên (A) hỏi nhân viên (B) về tiến độ bản kế hoạch sắp đến hạn nộp tuần sau.',
+    lines: [
+      {
+        who: 'A',
+        jp: '<ruby>田中<rt>たなか</rt></ruby>さん、<ruby>来週<rt>らいしゅう</rt></ruby><ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>りの<ruby>企画書<rt>きかくしょ</rt></ruby>ですが、<ruby>現在<rt>げんざい</rt></ruby>の<ruby>進捗<rt>しんちょく</rt></ruby><ruby>状況<rt>じょうきょう</rt></ruby>はいかがですか。',
+        vn: 'Anh Tanaka, về bản kế hoạch hạn nộp tuần sau, tình hình tiến độ hiện tại thế nào rồi?'
+      },
+      {
+        who: 'B',
+        jp: 'はい、<ruby>大枠<rt>おおわく</rt></ruby>の<ruby>構成<rt>こうせい</rt></ruby>は<ruby>完成<rt>かんせい</rt></ruby>しましたが、データ<ruby>分析<rt>ぶんせき</rt></ruby>の<ruby>部分<rt>ぶぶん</rt></ruby>で<ruby>少<rt>すこ</rt></ruby>し<ruby>手間取<rt>てまど</rt></ruby>っています。',
+        vn: 'Vâng, phần bố cục khung lớn thì đã xong rồi, nhưng ở phần phân tích dữ liệu thì em đang hơi mất thời gian ạ.'
+      },
+      {
+        who: 'A',
+        jp: 'そうですか。<ruby>一人<rt>ひとり</rt></ruby>で<ruby>抱<rt>かか</rt></ruby>え<ruby>込<rt>こ</rt></ruby>まず、<ruby>必要<rt>ひつよう</rt></ruby>であればチームのメンバーに<ruby>分担<rt>ぶんたん</rt></ruby>を<ruby>頼<rt>たの</rt></ruby>んでください。',
+        vn: 'Vậy à. Đừng ôm một mình, nếu cần thì hãy nhờ các thành viên trong team chia việc nhé.'
+      },
+      {
+        who: 'B',
+        jp: 'ありがとうございます。<ruby>午後<rt>ごご</rt></ruby>から<ruby>一度<rt>いちど</rt></ruby>ミーティングを<ruby>開<rt>ひら</rt></ruby>いて、<ruby>相談<rt>そうだん</rt></ruby>させてもらい<ruby>高評価<rt>こうひょうか</rt></ruby>をいただきます。',
+        vn: 'Cảm ơn anh. Từ chiều em sẽ mở một buổi họp để xin được trao đổi, và sẽ nhận được đánh giá cao ạ.'
+      }
+    ],
+    vocab: [
+      ["締め切り","しめきり","hạn chót, deadline"],
+      ["企画書","きかくしょ","bản kế hoạch, đề án"],
+      ["進捗状況","しんちょくじょうきょう","tình hình tiến độ"],
+      ["大枠","おおわく","khung lớn, khung tổng thể"],
+      ["構成","こうせい","bố cục, cấu trúc"],
+      ["データ分析","データぶんせき","phân tích dữ liệu"],
+      ["手間取る","てまどる","mất thời gian, loay hoay"],
+      ["抱え込む","かかえこむ","ôm đồm, tự ôm hết vào mình"],
+      ["分担","ぶんたん","chia việc, phân công"],
+      ["相談する","そうだんする","trao đổi, bàn bạc, xin ý kiến"],
+      ["高評価","こうひょうか","đánh giá cao"]
+    ],
+    grammar: [
+      ["～ですが、～","Mở đề rồi mới hỏi: 「企画書ですが、進捗はいかがですか」 = 'về bản kế hoạch ấy, tiến độ sao rồi?'. Rất hay dùng khi bắt chuyện công việc."],
+      ["いかがですか","Dạng lịch sự của どうですか. Cấp trên hỏi cấp dưới, hoặc hỏi khách."],
+      ["～ましたが、～ています","Đối lập việc đã xong với việc đang vướng: 「完成しましたが、手間取っています」."],
+      ["～ず（に）","Dạng văn viết/trang trọng của ～ないで. 「抱え込まず」 = đừng ôm một mình mà…"],
+      ["必要であれば","Nếu cần thì ~ (trang trọng hơn 必要なら). Cùng nhóm: ～であれば = nếu là ~."],
+      ["～てください","Yêu cầu lịch sự. Cấp trên nói với cấp dưới: 「頼んでください」."],
+      ["～させてもらう","Xin phép được làm ~ (khiêm nhường). 「相談させてもらいます」 = xin phép được trao đổi. Lịch sự hơn nữa: させていただきます。"],
+      ["～ていただきます","Nhận được (ai đó làm cho mình) — khiêm nhường. 「高評価をいただきます」 = nhận được đánh giá cao."]
+    ]
+  }  ,
+  {
+    cat: "職場 · Hội thoại nơi làm việc",
+    title: "トラブル発生時の対応 · Xử lý sự cố",
+    // Hội thoại 2 người: B = 部下 (nhân viên) báo sự cố, A = 上司 (cấp trên) xử lý.
+    // Nội dung tiếng Nhật giữ NGUYÊN VĂN như bản gốc, chỉ thêm furigana.
+    note: 'Bối cảnh: nhân viên (B) báo cáo khách hàng phát hiện lỗi lớn trong tài liệu đã nộp; cấp trên (A) hỏi rõ nguyên nhân rồi đưa ra hướng xử lý.',
+    lines: [
+      {
+        who: 'B',
+        jp: '<ruby>大変<rt>たいへん</rt></ruby>です！クライアントから「<ruby>提出<rt>ていしゅつ</rt></ruby>した<ruby>資料<rt>しりょう</rt></ruby>に<ruby>大<rt>おお</rt></ruby>きな<ruby>間違<rt>まちが</rt></ruby>いがある」と<ruby>連絡<rt>れんらく</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りました。',
+        vn: 'Nguy rồi ạ! Bên khách hàng vừa liên lạc báo rằng "tài liệu đã nộp có sai sót lớn".'
+      },
+      {
+        who: 'A',
+        jp: 'え、<ruby>本当<rt>ほんとう</rt></ruby>ですか。どこの<ruby>部分<rt>ぶぶん</rt></ruby>にどのような<ruby>誤<rt>あやま</rt></ruby>りがあったのですか。',
+        vn: 'Ơ, thật sao? Là sai ở phần nào và sai như thế nào vậy?'
+      },
+      {
+        who: 'B',
+        jp: '<ruby>数値<rt>すうち</rt></ruby>の<ruby>集計<rt>しゅうけい</rt></ruby>データが<ruby>最新<rt>さいしん</rt></ruby>のものになっていなかったようです。',
+        vn: 'Có vẻ như dữ liệu tổng hợp số liệu đã không phải là bản mới nhất ạ.'
+      },
+      {
+        who: 'A',
+        jp: 'すぐに<ruby>正<rt>ただ</rt></ruby>しいデータに<ruby>修正<rt>しゅうせい</rt></ruby>し、<ruby>私<rt>わたし</rt></ruby>から<ruby>先方<rt>せんぽう</rt></ruby>に<ruby>直接<rt>ちょくせつ</rt></ruby>お<ruby>詫<rt>わ</rt></ruby>びの<ruby>電話<rt>でんわ</rt></ruby>を<ruby>入<rt>い</rt></ruby>れます。<ruby>今後<rt>こんご</rt></ruby>の<ruby>再発<rt>さいはつ</rt></ruby><ruby>防止策<rt>ぼうしさく</rt></ruby>も<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>考<rt>かんが</rt></ruby>えましょう。',
+        vn: 'Sẽ sửa lại ngay sang dữ liệu đúng, và tôi sẽ đích thân gọi điện xin lỗi phía đối tác. Chúng ta cùng nghĩ cả biện pháp phòng ngừa tái diễn sau này nữa nhé.'
+      }
+    ],
+    vocab: [
+      ["提出する","ていしゅつする","nộp, đệ trình"],
+      ["資料","しりょう","tài liệu"],
+      ["間違い","まちがい","chỗ sai, lỗi (nói thường)"],
+      ["誤り","あやまり","sai sót, lỗi (trang trọng hơn 間違い)"],
+      ["連絡が入る","れんらくがはいる","có liên lạc báo tới"],
+      ["数値","すうち","số liệu, giá trị số"],
+      ["集計","しゅうけい","tổng hợp, cộng dồn số liệu"],
+      ["最新","さいしん","mới nhất"],
+      ["修正する","しゅうせいする","sửa, chỉnh sửa lại"],
+      ["先方","せんぽう","phía đối tác, bên kia (trang trọng)"],
+      ["直接","ちょくせつ","trực tiếp, đích thân"],
+      ["お詫び","おわび","lời xin lỗi (khiêm nhường)"],
+      ["電話を入れる","でんわをいれる","gọi điện (liên lạc) cho ai"],
+      ["今後","こんご","từ nay về sau"],
+      ["再発防止策","さいはつぼうしさく","biện pháp phòng ngừa tái diễn"]
+    ],
+    grammar: [
+      ["「～」と連絡が入る","Có liên lạc báo rằng '~'. 入る (はいる) là tự động từ: tin tự 'đến'. Cùng nhóm: 「～と<b>報告</b>が入る」「～と<b>クレーム</b>が入る」."],
+      ["どのような～","Dạng lịch sự của どんな～. Phỏng vấn / báo cáo nên dùng どのような. VD: どのような誤り = sai sót như thế nào."],
+      ["～のですか","Hỏi để tìm hiểu chi tiết / xác nhận tình huống (dạng trang trọng của ～んですか). Khác 「ありましたか」 ở chỗ nhấn 'cụ thể là sao'."],
+      ["～ようです","Có vẻ như ~ (suy đoán từ chứng cứ, chưa khẳng định chắc). Khi báo cáo lỗi mà chưa xác minh xong thì rất hay dùng."],
+      ["～ていない／～ていなかった","Trạng thái <b>chưa</b> ở tình trạng đó. 「最新のものになっていなかった」 = đã không ở trạng thái mới nhất (chứ không phải 'không trở thành')."],
+      ["動詞ます形 → ～し、～","Nối câu kiểu văn viết/báo cáo: 「修正<b>し</b>、～入れます」 = sửa rồi ~. Trang trọng hơn ～て."],
+      ["私から～に…を入れます","Nêu rõ <b>ai đứng ra</b> làm: 私から先方に電話を入れます = để tôi gọi cho phía đối tác."],
+      ["～ましょう","Cùng làm ~ (rủ / dẫn dắt). Cấp trên dùng để kéo cả team vào: 一緒に考えましょう."]
+    ]
+  }  ,
+  {
+    cat: "会議 · Họp & thảo luận",
+    title: "ターゲット層 · Bàn nhóm khách hàng mục tiêu",
+    // Hội thoại 2 người ngang hàng trong cuộc họp: A đề xuất, B phản biện mềm, cả hai chốt hướng chung.
+    // Nội dung tiếng Nhật giữ NGUYÊN VĂN như bản gốc, chỉ thêm furigana.
+    note: 'Bối cảnh: hai đồng nghiệp họp bàn chiến dịch sản phẩm mới. A đề xuất chỉ nhắm giới trẻ, B phản biện mềm, cuối cùng cả hai chốt hướng dung hòa. Đây là mẫu "phản đối lịch sự" rất hay dùng trong 会議.',
+    lines: [
+      {
+        who: 'A',
+        jp: '<ruby>次回<rt>じかい</rt></ruby>の<ruby>新商品<rt>しんしょうひん</rt></ruby>キャンペーンですが、ターゲット<ruby>層<rt>そう</rt></ruby>を<ruby>若者<rt>わかもの</rt></ruby><ruby>向<rt>む</rt></ruby>けに<ruby>絞<rt>しぼ</rt></ruby>るべきだと<ruby>思<rt>おも</rt></ruby>います。',
+        vn: 'Về chiến dịch sản phẩm mới lần tới, tôi nghĩ nên thu hẹp nhóm khách hàng mục tiêu vào giới trẻ.'
+      },
+      {
+        who: 'B',
+        jp: '<ruby>確<rt>たし</rt></ruby>かに<ruby>若者<rt>わかもの</rt></ruby>のトレンドは<ruby>重要<rt>じゅうよう</rt></ruby>ですが、<ruby>安定<rt>あんてい</rt></ruby>した<ruby>購買力<rt>こうばいりょく</rt></ruby>を<ruby>持<rt>も</rt></ruby>つミドル<ruby>層<rt>そう</rt></ruby>を<ruby>無視<rt>むし</rt></ruby>するのはリスクが<ruby>大<rt>おお</rt></ruby>きいのではないでしょうか。',
+        vn: 'Đúng là xu hướng của giới trẻ rất quan trọng, nhưng bỏ qua nhóm trung niên có sức mua ổn định thì chẳng phải rủi ro sẽ lớn sao?'
+      },
+      {
+        who: 'A',
+        jp: 'なるほど、おっしゃる<ruby>通<rt>とお</rt></ruby>りですね。では、<ruby>両方<rt>りょうほう</rt></ruby>の<ruby>層<rt>そう</rt></ruby>にアプローチできるデザインの<ruby>方向性<rt>ほうこうせい</rt></ruby>を<ruby>探<rt>さぐ</rt></ruby>ってみましょうか。',
+        vn: 'Ra vậy, đúng như anh/chị nói. Vậy thì hay là ta thử tìm một hướng thiết kế tiếp cận được cả hai nhóm nhỉ?'
+      },
+      {
+        who: 'B',
+        jp: 'それが<ruby>良<rt>よ</rt></ruby>さそうですね。<ruby>両立<rt>りょうりつ</rt></ruby>できる<ruby>案<rt>あん</rt></ruby>をもう<ruby>一度<rt>いちど</rt></ruby><ruby>練<rt>ね</rt></ruby>り<ruby>直<rt>なお</rt></ruby>してみましょう。',
+        vn: 'Thế thì có vẻ ổn đấy. Chúng ta thử soạn lại một lần nữa phương án dung hòa được cả hai xem.'
+      }
+    ],
+    vocab: [
+      ["次回","じかい","lần tới, kỳ tới"],
+      ["新商品","しんしょうひん","sản phẩm mới"],
+      ["ターゲット層","ターゲットそう","nhóm khách hàng mục tiêu"],
+      ["若者向け","わかものむけ","dành cho giới trẻ"],
+      ["絞る","しぼる","thu hẹp, khoanh lại (phạm vi)"],
+      ["トレンド","トレンド","xu hướng, trend"],
+      ["安定した","あんていした","ổn định"],
+      ["購買力","こうばいりょく","sức mua"],
+      ["ミドル層","ミドルそう","nhóm tuổi trung niên"],
+      ["無視する","むしする","bỏ qua, phớt lờ"],
+      ["リスク","リスク","rủi ro"],
+      ["おっしゃる通り","おっしゃるとおり","đúng như anh/chị nói (kính ngữ)"],
+      ["アプローチする","アプローチする","tiếp cận"],
+      ["方向性","ほうこうせい","định hướng"],
+      ["探る","さぐる","dò tìm, tìm hướng"],
+      ["両立する","りょうりつする","dung hòa, làm được cả hai"],
+      ["案","あん","phương án, ý tưởng"],
+      ["練り直す","ねりなおす","soạn lại, xây dựng lại cho kỹ"]
+    ],
+    grammar: [
+      ["～べきだと思います","Tôi nghĩ <b>nên</b> ~ (ý kiến rõ ràng, hay dùng khi đề xuất trong họp). VD: 絞るべきだと思います."],
+      ["確かに～ですが、～","<b>Mẫu vàng khi phản đối</b>: công nhận ý đối phương trước (確かに…), rồi mới nêu ý ngược lại. Nghe không mất lòng."],
+      ["～のではないでしょうか","Chẳng phải là ~ sao? — phản biện <b>mềm</b>, giữ thể diện người nghe. Trực tiếp hơn: 「リスクが大きいです」 (dễ nghe gay gắt)."],
+      ["辞書形＋のは＋（形容詞）","Biến hành động thành chủ ngữ: 「無視する<b>のは</b>リスクが大きい」 = việc bỏ qua ~ thì rủi ro lớn."],
+      ["おっしゃる通りです","Đúng như anh/chị nói. 尊敬語 của 「言う通り」. Câu tiếp thu ý kiến rất tự nhiên trong họp."],
+      ["では、～ましょうか","Vậy thì ta ~ nhé? Có か nên nhẹ và mở hơn 「～ましょう」 (rủ dứt khoát)."],
+      ["～てみる","Thử làm ~ (chưa chắc kết quả). 探って<b>みる</b>／練り直して<b>みる</b>."],
+      ["い形容詞＋そう（様態）","Trông có vẻ ~. Chú ý bất quy tắc: 良い → <b>よさ</b>そう (thêm さ), ない → なさそう."],
+      ["ます形＋直す","Làm lại ~ cho đúng/kỹ hơn. 練り<b>直す</b> = soạn lại; 書き直す = viết lại; やり直す = làm lại."]
+    ]
+  }  ,
+  {
+    cat: "職場 · Hội thoại nơi làm việc",
+    title: "残業の相談 · Báo cáo xin làm thêm giờ",
+    // Hội thoại 2 người: B = 部下 (nhân viên) xin làm thêm, A = 部長 (cấp trên) duyệt & nhắc giữ sức khoẻ.
+    // Nội dung tiếng Nhật giữ NGUYÊN VĂN như bản gốc, chỉ thêm furigana.
+    note: 'Bối cảnh: nhân viên (B) báo với trưởng phòng (A) rằng hôm nay không kịp xong việc trong giờ hành chính và xin ở lại làm thêm. Mẫu 報告 → 相談 chuẩn nơi công sở.',
+    lines: [
+      {
+        who: 'B',
+        jp: '<ruby>部長<rt>ぶちょう</rt></ruby>、<ruby>今週<rt>こんしゅう</rt></ruby><ruby>金曜日<rt>きんようび</rt></ruby>までに<ruby>提出<rt>ていしゅつ</rt></ruby>しなければならない<ruby>資料<rt>しりょう</rt></ruby>があるのですが、ボリュームが<ruby>多<rt>おお</rt></ruby>くて<ruby>今日<rt>きょう</rt></ruby>の<ruby>定時内<rt>ていじない</rt></ruby>には<ruby>終<rt>お</rt></ruby>わりそうにありません。',
+        vn: 'Thưa trưởng phòng, em có tài liệu phải nộp trước thứ Sáu tuần này, nhưng khối lượng nhiều quá nên hôm nay xem chừng không xong nổi trong giờ làm chính thức ạ.'
+      },
+      {
+        who: 'A',
+        jp: 'そうですか。どれくらい<ruby>残業<rt>ざんぎょう</rt></ruby>が<ruby>必要<rt>ひつよう</rt></ruby>になりそうですか。',
+        vn: 'Vậy à. Có vẻ sẽ cần làm thêm khoảng bao lâu?'
+      },
+      {
+        who: 'B',
+        jp: '2<ruby>時間<rt>じかん</rt></ruby>ほど<ruby>残<rt>のこ</rt></ruby>れば<ruby>確実<rt>かくじつ</rt></ruby>に<ruby>終<rt>お</rt></ruby>わる<ruby>見込<rt>みこ</rt></ruby>みです。',
+        vn: 'Nếu ở lại khoảng 2 tiếng thì dự kiến chắc chắn sẽ xong ạ.'
+      },
+      {
+        who: 'A',
+        jp: 'わかりました。<ruby>無理<rt>むり</rt></ruby>をして<ruby>体調<rt>たいちょう</rt></ruby>を<ruby>崩<rt>くず</rt></ruby>さないように<ruby>気<rt>き</rt></ruby>をつけてください。<ruby>明日<rt>あした</rt></ruby><ruby>以降<rt>いこう</rt></ruby>に<ruby>回<rt>まわ</rt></ruby>せる<ruby>業務<rt>ぎょうむ</rt></ruby>があれば<ruby>教<rt>おし</rt></ruby>えてくれますか。',
+        vn: 'Tôi hiểu rồi. Chú ý đừng cố quá mà đổ bệnh nhé. Nếu có việc nào dời sang từ mai được thì cho tôi biết nhé?'
+      }
+    ],
+    vocab: [
+      ["部長","ぶちょう","trưởng phòng"],
+      ["ボリューム","ボリューム","khối lượng (công việc), dung lượng"],
+      ["定時","ていじ","giờ làm chính thức, giờ tan ca quy định"],
+      ["定時内","ていじない","trong giờ làm chính thức"],
+      ["残業","ざんぎょう","làm thêm giờ, tăng ca"],
+      ["残る","のこる","ở lại"],
+      ["確実に","かくじつに","chắc chắn"],
+      ["見込み","みこみ","dự kiến, ước tính, triển vọng"],
+      ["無理をする","むりをする","cố quá sức"],
+      ["体調を崩す","たいちょうをくずす","đổ bệnh, sức khoẻ suy sụp"],
+      ["気をつける","きをつける","chú ý, cẩn thận"],
+      ["以降","いこう","từ ~ trở đi"],
+      ["回す","まわす","chuyển / dời (việc) sang"],
+      ["業務","ぎょうむ","công việc, nghiệp vụ"]
+    ],
+    grammar: [
+      ["～までに","<b>Trước</b> mốc ~ (hạn chót). Khác 「～まで」 = liên tục cho đến ~. VD: 金曜日<b>までに</b>提出する = nộp trước thứ Sáu."],
+      ["～なければならない","Phải ~ (bắt buộc, không có lựa chọn). Nói tắt: ～なければなりません／～ないといけません."],
+      ["～のですが、～","Nêu tình huống trước rồi mới vào vấn đề. <b>Câu mở đầu chuẩn khi 報告・相談</b> với cấp trên: 「～があるのですが、…」."],
+      ["～そうにありません","Xem chừng <b>sẽ không</b> ~ (phủ định của ～そうです thể 様態). 終わり<b>そうにありません</b> = có vẻ không xong nổi. Mềm hơn 「終わりません」."],
+      ["～になりそうです","Có vẻ sẽ thành ~ / sẽ cần ~. VD: 残業が必要に<b>なりそう</b>です."],
+      ["～ほど","Khoảng ~ (trang trọng hơn ～くらい). VD: 2時間<b>ほど</b>残る."],
+      ["～ば、～","Nếu ~ thì ~ (điều kiện). 残れ<b>ば</b>終わる = ở lại thì sẽ xong."],
+      ["～見込みです","Dự kiến / ước tính là ~. Văn báo cáo, nhấn 'theo tính toán thì sẽ ~'. Gần nghĩa ～予定です nhưng ít chắc chắn hơn."],
+      ["～ないように気をつけてください","Chú ý để <b>không</b> ~. VD: 体調を崩さ<b>ないように気をつけて</b>ください."],
+      ["～てくれますか","Nhờ ai làm gì cho mình. Lịch sự hơn: ～ていただけますか／～ていただけませんか (dùng khi nói với cấp trên)."]
+    ]
+  }  ,
+  {
+    cat: "職場 · Hội thoại nơi làm việc",
+    title: "キャリア相談 · Bàn về định hướng nghề nghiệp",
+    // Hội thoại 2 người: B = 部下 (nhân viên bày tỏ nguyện vọng), A = 上司 (khen & gợi ý bước đi tiếp theo).
+    // Nội dung tiếng Nhật giữ NGUYÊN VĂN như bản gốc, chỉ thêm furigana.
+    note: 'Bối cảnh: nhân viên (B) ngỏ ý muốn thử sức ở dự án của bộ phận khác để nâng cao chuyên môn; cấp trên (A) ủng hộ và chỉ ra bước đi thực tế. Mẫu "bày tỏ nguyện vọng khéo" với sếp.',
+    lines: [
+      {
+        who: 'B',
+        jp: '<ruby>近頃<rt>ちかごろ</rt></ruby>、<ruby>自分<rt>じぶん</rt></ruby>の<ruby>専門性<rt>せんもんせい</rt></ruby>をさらに<ruby>高<rt>たか</rt></ruby>めるために、<ruby>別<rt>べつ</rt></ruby>の<ruby>部署<rt>ぶしょ</rt></ruby>のプロジェクトにも<ruby>挑戦<rt>ちょうせん</rt></ruby>してみたいと<ruby>考<rt>かんが</rt></ruby>えているんです。',
+        vn: 'Dạo gần đây, để nâng cao hơn nữa chuyên môn của bản thân, em đang nghĩ muốn thử sức cả ở dự án của bộ phận khác nữa ạ.'
+      },
+      {
+        who: 'A',
+        jp: 'それは<ruby>素晴<rt>すば</rt></ruby>らしい<ruby>向上心<rt>こうじょうしん</rt></ruby>ですね。<ruby>具体的<rt>ぐたいてき</rt></ruby>にどのような<ruby>分野<rt>ぶんや</rt></ruby>に<ruby>興味<rt>きょうみ</rt></ruby>があるのですか。',
+        vn: 'Đó là tinh thần cầu tiến rất đáng quý đấy. Cụ thể thì em hứng thú với lĩnh vực nào?'
+      },
+      {
+        who: 'B',
+        jp: '<ruby>海外<rt>かいがい</rt></ruby><ruby>向<rt>む</rt></ruby>けのマーケティングや、<ruby>新規<rt>しんき</rt></ruby><ruby>事業<rt>じぎょう</rt></ruby>の<ruby>立<rt>た</rt></ruby>ち<ruby>上<rt>あ</rt></ruby>げに<ruby>携<rt>たずさ</rt></ruby>わりたいです。',
+        vn: 'Em muốn được tham gia vào mảng marketing hướng ra nước ngoài, hay việc gây dựng mảng kinh doanh mới ạ.'
+      },
+      {
+        who: 'A',
+        jp: '<ruby>応援<rt>おうえん</rt></ruby>しますよ。まずは<ruby>現在<rt>げんざい</rt></ruby>の<ruby>業務<rt>ぎょうむ</rt></ruby>をしっかり<ruby>片付<rt>かたづ</rt></ruby>けてから、<ruby>人事<rt>じんじ</rt></ruby>の<ruby>担当者<rt>たんとうしゃ</rt></ruby>に<ruby>希望<rt>きぼう</rt></ruby>を<ruby>出<rt>だ</rt></ruby>してみるといいでしょう。',
+        vn: 'Tôi ủng hộ đấy. Trước hết hãy làm xong gọn công việc hiện tại đã, rồi thử nêu nguyện vọng với người phụ trách nhân sự thì tốt đấy.'
+      }
+    ],
+    vocab: [
+      ["近頃","ちかごろ","dạo gần đây"],
+      ["専門性","せんもんせい","tính chuyên môn, năng lực chuyên môn"],
+      ["高める","たかめる","nâng cao (tha động từ)"],
+      ["部署","ぶしょ","bộ phận, phòng ban"],
+      ["挑戦する","ちょうせんする","thử thách, thử sức"],
+      ["向上心","こうじょうしん","tinh thần cầu tiến"],
+      ["具体的に","ぐたいてきに","một cách cụ thể"],
+      ["分野","ぶんや","lĩnh vực"],
+      ["興味がある","きょうみがある","có hứng thú, quan tâm"],
+      ["海外向け","かいがいむけ","hướng ra nước ngoài, cho thị trường nước ngoài"],
+      ["新規事業","しんきじぎょう","mảng kinh doanh mới"],
+      ["立ち上げ","たちあげ","việc khởi động, gây dựng (dự án)"],
+      ["携わる","たずさわる","tham gia, dấn thân vào (công việc)"],
+      ["応援する","おうえんする","ủng hộ, cổ vũ"],
+      ["片付ける","かたづける","làm xong gọn, dọn dẹp xong"],
+      ["人事","じんじ","nhân sự"],
+      ["担当者","たんとうしゃ","người phụ trách"],
+      ["希望を出す","きぼうをだす","nêu / đệ trình nguyện vọng"]
+    ],
+    grammar: [
+      ["～ために","Để ~ (mục đích). Trước ために dùng <b>động từ thể từ điển</b>: 高める<b>ために</b> = để nâng cao. Khác 「～ように」 (dùng với động từ vô ý chí / khả năng)."],
+      ["～てみたい","Muốn <b>thử</b> ~ (chưa làm bao giờ, muốn trải nghiệm). 挑戦し<b>てみたい</b>."],
+      ["～と考えているんです","'Em đang nghĩ rằng ~'. Trang trọng hơn 「～と思っています」; đuôi <b>んです</b> để giãi bày hoàn cảnh, nghe mềm chứ không phải đòi hỏi."],
+      ["～にも","<b>Cả</b> ~ nữa (thêm vào cái đang có). プロジェクト<b>にも</b>挑戦したい = muốn thử cả dự án đó nữa."],
+      ["具体的に～","Cụ thể thì ~. Câu hỏi đào sâu quen thuộc của cấp trên: 「具体的にどのような～ですか」."],
+      ["～や～","Liệt kê <b>không đầy đủ</b> (nào là ~, nào là ~, …). Khác 「と」 = liệt kê hết."],
+      ["～に携わる","Tham gia / dấn thân vào công việc ~. Chú ý trợ từ là <b>に</b>, không phải を. VD: 立ち上げ<b>に</b>携わる."],
+      ["まずは～てから、～","<b>Trước hết</b> làm xong ~ rồi hãy ~. Nhấn thứ tự ưu tiên — sếp hay dùng để 'phanh' nhẹ."],
+      ["～といいでしょう","Làm ~ thì tốt đấy — <b>gợi ý nhẹ nhàng</b>, không ép. So sánh: ～たほうがいい (khuyên mạnh hơn), ～べきだ (mạnh nhất)."]
+    ]
   }
 ];
 
@@ -387,17 +676,18 @@ list.innerHTML = KAIWA.map((t, ti) => `
   <section class="topic" data-topic="${ti}">
   <div class="card">
     <span class="tag">${t.cat}</span>
-    <div class="qbox">
+    ${t.q ? `<div class="qbox">
       <div class="q jp">${t.q.jp}</div>
       <div class="vn">${t.q.vn}</div>
-    </div>
+    </div>` : ''}
+    ${t.note ? `<div class="qbox note"><div class="vn">${t.note}</div></div>` : ''}
   </div>
 
   <div class="card">
-    <div class="card-title">Câu trả lời mẫu</div>
+    <div class="card-title">${t.q ? 'Câu trả lời mẫu' : 'Hội thoại'}</div>
     ${t.lines.map((l, i) => `
-      <div class="line">
-        <div class="n">${i + 1}</div>
+      <div class="line${l.who ? ' say-' + l.who.toLowerCase() : ''}">
+        <div class="n">${l.who || (i + 1)}</div>
         <div class="body">
           <div class="ja jp" data-say>${l.jp}</div>
           <div class="vn">${l.vn}</div>
@@ -425,7 +715,7 @@ list.innerHTML = KAIWA.map((t, ti) => `
     </table></div>
   </div>
 
-  <div class="card">
+  ${!t.fix ? '' : `<div class="card">
     <div class="card-title">Sửa lỗi trong câu bạn viết</div>
     ${t.fix.map(f => `
       <div class="fix">
@@ -433,7 +723,7 @@ list.innerHTML = KAIWA.map((t, ti) => `
         <div class="good jp"><span class="m">✓</span><span>${f.good}</span></div>
         <div class="why">${f.why}</div>
       </div>`).join('')}
-  </div>
+  </div>`}
   </section>
 `).join('');
 
