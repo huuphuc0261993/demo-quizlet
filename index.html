@@ -959,12 +959,23 @@ const WORDS = [{"no":1,"kanji":"女性","kana":"じょせい","mean":"phụ nữ
 const KEY = 'mimikara-n3-v1';
 const DEF = { total:0, correct:0, starred:[], weak:{}, srs:{}, theme:'light',
               prefs:{ mode:'k2m', count:20, from:1, to:WORDS.length, pool:'all', batch:5, goal:20, tab:'hoc' } };
+// tập số thứ tự từ hiện có -> dùng để bỏ qua tiến độ của các từ đã bị xoá khỏi WORDS
+const WORD_NOS = new Set(WORDS.map(w => w.no));
+// tiến độ cũ (bản danh sách từ trước) làm lệch mọi con số thống kê -> dọn ngay khi load
+function pruneOrphans(s){
+  const keep = o => Object.fromEntries(Object.entries(o || {}).filter(([no]) => WORD_NOS.has(+no)));
+  s.srs = keep(s.srs); s.weak = keep(s.weak);
+  s.starred = (s.starred || []).filter(no => WORD_NOS.has(+no));
+  return s;
+}
 let S = load();
 function load(){
   try{ const r = JSON.parse(localStorage.getItem(KEY)); if(r&&typeof r==='object')
-        return {...DEF, ...r, srs:r.srs||{}, prefs:{...DEF.prefs, ...(r.prefs||{})}}; }catch(e){}
+        return pruneOrphans({...DEF, ...r, srs:r.srs||{}, prefs:{...DEF.prefs, ...(r.prefs||{})}}); }catch(e){}
   return structuredClone(DEF);
 }
+// mọi thống kê đều đếm trên đúng tập từ đang hiển thị được
+const srsRecs = () => Object.entries(S.srs).filter(([no]) => WORD_NOS.has(+no)).map(([, r]) => r);
 const save = () => { try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} };
 const $ = id => document.getElementById(id);
 const starred = () => new Set(S.starred);
@@ -1056,8 +1067,9 @@ function renderSetup(){
   $('lnDue').textContent = nDue;
   $('btnLearnNew').disabled = !nNew;
   $('btnLearnDue').disabled = !nDue;
-  $('stLearned').textContent = Object.keys(S.srs).length;
-  $('lnLearned').textContent = Object.keys(S.srs).length;
+  const nLearned = srsRecs().length;
+  $('stLearned').textContent = nLearned;
+  $('lnLearned').textContent = nLearned;
   $('stDue').textContent = nDue;
 
   // giá trị tóm tắt hiện ngay trên tiêu đề thẻ gập
@@ -1509,9 +1521,10 @@ function lvlBadge(w){
 }
 function renderBrowse(){
   const list = browseList(), st = starred(), t = Date.now();
-  const learned = Object.keys(S.srs).length;
-  const strong = Object.values(S.srs).filter(r => r.lv >= 3).length;
-  const due = Object.values(S.srs).filter(r => r.due <= t).length;
+  const recs = srsRecs();
+  const learned = recs.length;
+  const strong = recs.filter(r => r.lv >= 3).length;
+  const due = recs.filter(r => r.due <= t).length;
   $('bSum').innerHTML = `Đã học <b>${learned}</b>/${WORDS.length} từ · thuộc chắc (bậc ≥3) <b>${strong}</b> ·
     đến hạn ôn <b>${due}</b> · đánh dấu <b>${S.starred.length}</b> · hay sai <b>${Object.keys(S.weak).length}</b>`;
   chipGroup($('bFilters'), B_FILTERS.map(f => ({ label:f.label, val:f.val })),
@@ -1555,7 +1568,7 @@ $('bSearch').oninput = e => { B.q = e.target.value; B.limit = 120; renderBrowse(
 $('bMore').onclick = () => { B.limit += 240; renderBrowse(); };
 $('bHome').onclick = () => { renderSetup(); show('setup'); };
 $('bQuiz').onclick = () => { const l = browseList(); const keep = S.prefs.count;
-  S.prefs.count = Math.min(keep || l.length, l.length); startQuiz(l, S.prefs.mode); S.prefs.count = keep; };
+  S.prefs.count = 0; startQuiz(l, S.prefs.mode); S.prefs.count = keep; };
 $('bFlash').onclick = () => startFlash(browseList());
 $('btnBrowse').onclick = () => { show('browse'); renderBrowse(); };
 
