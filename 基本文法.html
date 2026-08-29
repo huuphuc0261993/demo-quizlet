@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>基本文法 · Ngữ pháp N4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f4f6fb; --bg-grad-1:#e0e7ff; --bg-grad-2:#fce7f3;
+  --surface:#ffffff; --surface-2:#f8fafc; --surface-in:#eef2f7;
+  --text:#111827; --text-2:#475569; --text-3:#94a3b8;
+  --border:#e2e8f0; --border-2:#cbd5e1;
+  --primary:#4f46e5; --primary-2:#6366f1; --primary-soft:#eef2ff;
+  --accent:#f97316; --accent-soft:#fff7ed;
+  --ok:#16a34a; --ok-soft:#f0fdf4; --bad:#e11d48; --bad-soft:#fff1f2;
+  --shadow:0 1px 2px rgba(15,23,42,.06),0 8px 24px -8px rgba(15,23,42,.12);
+  --radius:20px; --radius-sm:14px;
+}
+html[data-theme="dark"]{
+  --bg:#0b1020; --bg-grad-1:#1e1b4b; --bg-grad-2:#3b0764;
+  --surface:#151a2d; --surface-2:#1b2138; --surface-in:#212942;
+  --text:#f1f5f9; --text-2:#a5b0c5; --text-3:#6b7794;
+  --border:#2a3350; --border-2:#3b4668;
+  --primary:#818cf8; --primary-2:#a5b4fc; --primary-soft:#1e2445;
+  --accent:#fb923c; --accent-soft:#2a1c10;
+  --ok:#4ade80; --ok-soft:#10231a; --bad:#fb7185; --bad-soft:#2a1220;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -8px rgba(0,0,0,.6);
+}
+body{font-family:"Be Vietnam Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  background:var(--bg);color:var(--text);min-height:100vh;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(60rem 40rem at 12% -10%,var(--bg-grad-1) 0%,transparent 60%),
+             radial-gradient(50rem 36rem at 92% 8%,var(--bg-grad-2) 0%,transparent 55%);opacity:.75}
+.jp{font-family:"Noto Sans JP","Hiragino Sans","Yu Gothic",sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:20px 16px 72px}
+.hidden{display:none!important}
+.spacer{flex:1}
+
+/* ---------- topbar ---------- */
+.topbar{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:11px;min-width:0}
+.logo{width:42px;height:42px;border-radius:13px;flex:none;display:grid;place-items:center;
+  background:linear-gradient(145deg,var(--primary),#8b5cf6);color:#fff;font-weight:800;font-size:19px}
+.brand h1{font-size:16.5px;font-weight:800;letter-spacing:-.02em}
+.brand p{font-size:12.5px;color:var(--text-3);font-weight:500}
+.icon-btn{width:40px;height:40px;flex:none;border-radius:12px;border:1px solid var(--border);
+  background:var(--surface);color:var(--text-2);display:grid;place-items:center;cursor:pointer;
+  text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+.icon-btn:hover{background:var(--surface-in);color:var(--text);border-color:var(--border-2)}
+.icon-btn svg{width:20px;height:20px}
+html[data-theme="dark"] .sun{display:none}
+html:not([data-theme="dark"]) .moon{display:none}
+
+/* ---------- cards ---------- */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:22px}
+.card+.card{margin-top:14px}
+.card-title{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card-title svg{width:15px;height:15px}
+.hint{font-size:12.5px;color:var(--text-3);margin-top:10px;line-height:1.6}
+
+/* ---------- công cụ ---------- */
+.search{width:100%;padding:12px 14px;border-radius:var(--radius-sm);border:1.5px solid var(--border);
+  background:var(--surface-2);color:var(--text);font-family:inherit;font-size:14.5px;outline:none}
+.search:focus{border-color:var(--primary-2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface-2);
+  color:var(--text-2);font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;
+  transition:border-color .18s,background .18s,color .18s}
+.chip:hover{border-color:var(--primary-2);color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
+html[data-theme="dark"] .chip[aria-pressed="true"]{color:#0b1020}
+
+/* ---------- mục ngữ pháp ---------- */
+.g{scroll-margin-top:14px}
+.g-head{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.g-no{width:30px;height:30px;flex:none;border-radius:10px;display:grid;place-items:center;
+  background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:800}
+.g-pat{font-size:23px;font-weight:800;letter-spacing:-.01em;line-height:1.35;flex:1;min-width:0}
+.g-tag{padding:4px 11px;border-radius:99px;font-size:11.5px;font-weight:700;
+  background:var(--surface-in);color:var(--text-3);white-space:nowrap;align-self:center}
+.g-form{margin-top:12px;padding:11px 14px;border-radius:var(--radius-sm);background:var(--surface-2);
+  border:1px solid var(--border);border-left:4px solid var(--primary);font-size:16px;font-weight:600}
+.g-form .lb{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text-3);margin-bottom:3px}
+.g-mean{margin-top:11px;font-size:15px;color:var(--text-2)}
+.g-mean b{color:var(--text);font-weight:700}
+
+/* ví dụ */
+.ex{display:flex;gap:11px;padding:13px 0;border-top:1px dashed var(--border)}
+.ex:first-of-type{margin-top:6px}
+.ex .body{flex:1;min-width:0}
+.ex .ja{font-size:18px;font-weight:600;line-height:1.85}
+.ex .kana{font-size:13.5px;color:var(--text-3);margin-top:2px;line-height:1.7}
+.ex .vn{font-size:14px;color:var(--text-2);margin-top:4px}
+.play{width:32px;height:32px;flex:none;border-radius:10px;border:1px solid var(--border);background:var(--surface-2);
+  color:var(--text-3);cursor:pointer;display:grid;place-items:center;transition:.18s;align-self:flex-start}
+.play:hover{background:var(--primary);color:#fff;border-color:var(--primary)}
+.play svg{width:14px;height:14px}
+.speaking{background:var(--primary-soft);border-radius:10px}
+
+/* ghi chú / so sánh */
+.nt{margin-top:12px;padding:12px 14px;border-radius:var(--radius-sm);background:var(--accent-soft);
+  border:1px solid color-mix(in srgb,var(--accent) 28%,transparent)}
+.nt .lb{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:4px}
+.nt p{font-size:14px;color:var(--text-2);line-height:1.7}
+.nt ul{margin:6px 0 0 2px;list-style:none}
+.nt li{font-size:14.5px;color:var(--text-2);padding:4px 0 4px 16px;position:relative;line-height:1.6}
+.nt li::before{content:"·";position:absolute;left:4px;font-weight:800;color:var(--accent)}
+.nt b{color:var(--text);font-weight:700}
+
+/* ---------- bảng tổng hợp ---------- */
+.sum-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--border);
+  cursor:pointer;width:100%;text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;
+  font-family:inherit;color:var(--text)}
+.sum-row:first-child{border-top:none}
+.sum-row:hover{color:var(--primary)}
+.sum-row .n{width:26px;flex:none;font-size:12px;color:var(--text-3);font-weight:700}
+.sum-row .p{font-size:16px;font-weight:700;flex:none;min-width:150px}
+.sum-row .m{font-size:13.5px;color:var(--text-2);flex:1;min-width:0}
+.empty{padding:26px 0;text-align:center;color:var(--text-3);font-size:14px}
+
+/* nút lên đầu trang */
+.totop{position:fixed;right:18px;bottom:18px;z-index:40;width:44px;height:44px;border-radius:14px;
+  border:1px solid var(--border);background:var(--surface);color:var(--text-2);cursor:pointer;
+  display:grid;place-items:center;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .25s}
+.totop.show{opacity:1;pointer-events:auto}
+.totop:hover{color:var(--primary);border-color:var(--primary)}
+.totop svg{width:20px;height:20px}
+
+/* bật/tắt kana + nghĩa */
+html[data-kana="off"] .ex .kana{display:none}
+html[data-vn="off"] .ex .vn{display:none}
+
+@media (max-width:620px){
+  .wrap{padding:16px 12px 64px}
+  .card{padding:18px 16px}
+  .g-pat{font-size:20px}
+  .brand h1{font-size:15px}
+  .sum-row{flex-wrap:wrap;gap:4px 10px}
+  .sum-row .p{min-width:0}
+  .sum-row .m{flex:1 0 100%;padding-left:38px}
+}
+</style>
+</head>
+
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="logo jp">文</div>
+      <div>
+        <h1>基本文法 · Ngữ pháp N4</h1>
+        <p id="brandSub">30 mẫu câu cơ bản</p>
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <a class="icon-btn" href="index.html" title="Về trang từ vựng N3" aria-label="Về trang từ vựng N3">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M9 4v16"/></svg>
+    </a>
+    <button class="icon-btn" id="themeBtn" title="Đổi giao diện" aria-label="Đổi giao diện">
+      <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
+      <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+  </div>
+
+  <div class="card">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      Tra cứu
+    </div>
+    <input class="search" id="search" type="search" placeholder="Tìm mẫu câu, ý nghĩa hoặc ví dụ… (てから, nên, dự định…)" autocomplete="off">
+    <div class="chips" id="groupChips" style="margin-top:12px"></div>
+    <div class="chips" style="margin-top:9px">
+      <button class="chip" id="tKana" aria-pressed="true">Hiện hiragana</button>
+      <button class="chip" id="tVn" aria-pressed="true">Hiện nghĩa tiếng Việt</button>
+    </div>
+    <div class="hint" id="sum"></div>
+  </div>
+
+  <div id="list"></div>
+  <div class="empty hidden" id="empty">Không tìm thấy mẫu ngữ pháp nào.</div>
+
+  <div class="card" id="tableCard">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 5h16M4 12h16M4 19h16"/></svg>
+      Bảng tổng hợp nhanh
+    </div>
+    <div id="sumTable"></div>
+  </div>
+
+</div>
+
+<button class="totop" id="toTop" title="Lên đầu trang" aria-label="Lên đầu trang">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<script>
+/* ==================== DỮ LIỆU: 30 mẫu ngữ pháp N4 ====================
+   pat  = mẫu câu · form = cấu trúc · mean = ý nghĩa
+   ex   = ví dụ  { ja: câu kanji, kana: cách đọc, vn: nghĩa }
+   nt   = ghi chú/so sánh { lb: nhãn, p: đoạn văn, ul: danh sách }
+==================================================================== */
+const G = [
+{ no:1, g:'te', pat:'～てから', form:'Vて + から', mean:'Sau khi làm gì đó thì…',
+  ex:[{ja:'ご飯を食べてから、勉強します。',kana:'ごはんを たべてから、べんきょうします。',vn:'Sau khi ăn cơm, tôi học bài.'}] },
+
+{ no:2, g:'te', pat:'～ている', form:'Vて + いる', mean:'Đang làm; trạng thái đang tiếp diễn; thói quen.',
+  ex:[{ja:'今、日本語を勉強しています。',kana:'いま、にほんごを べんきょうしています。',vn:'Bây giờ tôi đang học tiếng Nhật.'}] },
+
+{ no:3, g:'te', pat:'～てください', form:'Vて + ください', mean:'Hãy / vui lòng làm…',
+  ex:[{ja:'ここに名前を書いてください。',kana:'ここに なまえを かいてください。',vn:'Hãy viết tên vào đây.'}] },
+
+{ no:4, g:'te', pat:'～てもらう', form:'Aは Bに Vて + もらう', mean:'A được / nhờ B làm gì đó cho.',
+  ex:[{ja:'私は先生に日本語を教えてもらいました。',kana:'わたしは せんせいに にほんごを おしえてもらいました。',vn:'Tôi được giáo viên dạy tiếng Nhật cho.'}],
+  nt:[{lb:'Điểm cần nhớ',p:'Nhấn mạnh <b>người nhận</b> được sự giúp đỡ.'}] },
+
+{ no:5, g:'te', pat:'～てくれる', form:'Bが Aに Vて + くれる', mean:'Ai đó làm gì đó cho mình / người phía mình.',
+  ex:[{ja:'友達が宿題を手伝ってくれました。',kana:'ともだちが しゅくだいを てつだってくれました。',vn:'Bạn tôi đã giúp tôi làm bài tập.'}] },
+
+{ no:6, g:'te', pat:'～てあげる', form:'Aは Bに Vて + あげる', mean:'Làm gì đó cho người khác.',
+  ex:[{ja:'私は友達に日本語を教えてあげました。',kana:'わたしは ともだちに にほんごを おしえてあげました。',vn:'Tôi đã dạy tiếng Nhật cho bạn.'}],
+  nt:[{lb:'Lưu ý',p:'Với người trên như giáo viên / sếp, nên cẩn thận khi dùng <b>～てあげる</b>.'}] },
+
+{ no:7, g:'te', pat:'～てはいけない', form:'Vて + はいけない', mean:'Không được…',
+  ex:[{ja:'ここで写真を撮ってはいけません。',kana:'ここで しゃしんを とってはいけません。',vn:'Không được chụp ảnh ở đây.'}] },
+
+{ no:8, g:'ta', pat:'～たり、～たりする', form:'Vた + り、Vた + りします',
+  mean:'Làm những việc như A, B…; liệt kê một vài hành động tiêu biểu.',
+  ex:[{ja:'休みの日は、映画を見たり、ゲームをしたりします。',kana:'やすみのひは、えいがを みたり、ゲームを したりします。',vn:'Ngày nghỉ tôi làm những việc như xem phim, chơi game.'}] },
+
+{ no:9, g:'ta', pat:'～た方がいい', form:'Vた + 方がいい', mean:'Nên làm…',
+  ex:[{ja:'早く寝た方がいいです。',kana:'はやく ねたほうが いいです。',vn:'Bạn nên ngủ sớm.'}] },
+
+{ no:10, g:'ta', pat:'～たことがある', form:'Vた + ことがある', mean:'Đã từng làm…',
+  ex:[{ja:'日本へ行ったことがあります。',kana:'にほんへ いったことが あります。',vn:'Tôi đã từng đi Nhật.'}] },
+
+{ no:11, g:'if', pat:'～たら', form:'Vた + ら', mean:'Nếu / khi…',
+  ex:[{ja:'雨が降ったら、家に帰ります。',kana:'あめが ふったら、いえに かえります。',vn:'Nếu trời mưa thì tôi sẽ về nhà.'}],
+  nt:[{lb:'Cách nhớ',p:'<b>Aたら、B</b> = Nếu / khi A xảy ra thì B.'}] },
+
+{ no:12, g:'if', pat:'～ば', form:'Dạng điều kiện ～ば', mean:'Nếu…',
+  ex:[{ja:'時間があれば、映画を見ます。',kana:'じかんが あれば、えいがを みます。',vn:'Nếu có thời gian, tôi sẽ xem phim.'}],
+  nt:[{lb:'Một số cách chia',ul:['行く → 行けば','食べる → 食べれば','する → すれば','来る → 来れば','高い → 高ければ','安い → 安ければ']}] },
+
+{ no:13, g:'nai', pat:'～ないといけない', form:'Vない + といけない', mean:'Phải…',
+  ex:[{ja:'明日、会社へ行かないといけません。',kana:'あした、かいしゃへ いかないと いけません。',vn:'Ngày mai tôi phải đi công ty.'}],
+  nt:[{lb:'Cách hiểu',p:'Không làm A thì không được → <b>phải làm A</b>.'}] },
+
+{ no:14, g:'nai', pat:'～ない方がいい', form:'Vない + 方がいい', mean:'Không nên…',
+  ex:[{ja:'お酒を飲みすぎない方がいいです。',kana:'おさけを のみすぎないほうが いいです。',vn:'Bạn không nên uống quá nhiều rượu.'}] },
+
+{ no:15, g:'nai', pat:'～なくてもいい', form:'Vなくても + いい', mean:'Không cần phải…',
+  ex:[{ja:'明日は会社へ行かなくてもいいです。',kana:'あしたは かいしゃへ いかなくても いいです。',vn:'Ngày mai không cần phải đi công ty.'}] },
+
+{ no:16, g:'nai', pat:'～ないでください', form:'Vないで + ください', mean:'Xin đừng / không được…',
+  ex:[{ja:'ここでタバコを吸わないでください。',kana:'ここで たばこを すわないでください。',vn:'Xin đừng hút thuốc ở đây.'}] },
+
+{ no:17, g:'time', pat:'Vる時', form:'Vる + 時', mean:'Khi làm…',
+  ex:[{ja:'寝る時、電気を消します。',kana:'ねるとき、でんきを けします。',vn:'Khi đi ngủ, tôi tắt điện.'}],
+  nt:[{lb:'Lưu ý',p:'<b>Vる時</b> thường diễn tả việc phía trước <b>chưa xảy ra</b> tại thời điểm nói.'}] },
+
+{ no:18, g:'time', pat:'Vる前に', form:'Vる + 前に', mean:'Trước khi làm…',
+  ex:[{ja:'寝る前に、歯を磨きます。',kana:'ねるまえに、はを みがきます。',vn:'Trước khi ngủ, tôi đánh răng.'}] },
+
+{ no:19, g:'time', pat:'Vた後', form:'Vた + 後（あと）', mean:'Sau khi làm…',
+  ex:[{ja:'仕事が終わった後、友達とご飯を食べます。',kana:'しごとが おわったあと、ともだちと ごはんを たべます。',vn:'Sau khi tan làm, tôi ăn cơm với bạn.'}],
+  nt:[{lb:'So sánh',ul:['<b>Vる前に</b> → trước khi','<b>Vてから</b> → sau khi','<b>Vた後</b> → sau khi']}] },
+
+{ no:20, g:'time', pat:'「普通形」＋名詞', form:'Mệnh đề 普通形 + Danh từ',
+  mean:'Dùng một mệnh đề để bổ nghĩa / mô tả cho danh từ phía sau.',
+  ex:[
+    {ja:'これは私が作った料理です。',kana:'これは わたしが つくった りょうりです。',vn:'Đây là món ăn mà tôi đã nấu.'},
+    {ja:'これは昨日買ったかばんです。',kana:'これは きのう かった かばんです。',vn:'Đây là cái túi mà tôi đã mua hôm qua.'},
+    {ja:'あそこにいる人は私の友達です。',kana:'あそこに いる ひとは わたしの ともだちです。',vn:'Người đang ở đằng kia là bạn của tôi.'},
+    {ja:'日本で働いている人です。',kana:'にほんで はたらいている ひとです。',vn:'Là người đang làm việc ở Nhật.'},
+    {ja:'昨日食べたケーキはおいしかったです。',kana:'きのう たべた ケーキは おいしかったです。',vn:'Cái bánh mà tôi đã ăn hôm qua rất ngon.'}],
+  nt:[
+    {lb:'Cách hiểu',p:'Tiếng Việt: “Quyển sách <b>mà tôi mua hôm qua</b>.” → Tiếng Nhật: <b class="jp">私が昨日買った本</b>. Tiếng Nhật đặt phần mô tả <b>trước danh từ</b>.'},
+    {lb:'Công thức dễ nhớ · [Ai + làm gì + khi nào] + DANH TỪ',
+     ul:['私が昨日買った + 本 → Quyển sách tôi mua hôm qua','母が作った + ケーキ → Cái bánh mẹ làm',
+         '友達がくれた + プレゼント → Món quà bạn tặng','日本で撮った + 写真 → Bức ảnh đã chụp ở Nhật']}] },
+
+{ no:21, g:'use', pat:'～ていただけませんか', form:'Vて + いただけませんか',
+  mean:'Có thể vui lòng làm… được không? — cách nhờ vả rất lịch sự.',
+  ex:[{ja:'もう一度説明していただけませんか。',kana:'もういちど せつめいして いただけませんか。',vn:'Anh/chị có thể vui lòng giải thích lại một lần nữa được không?'}],
+  nt:[{lb:'Mức độ lịch sự',ul:['<b class="jp">Vてください</b> → Hãy làm…',
+      '<b class="jp">Vてもらえませんか</b> → Có thể làm giúp tôi không?',
+      '<b class="jp">Vていただけませんか</b> → Có thể vui lòng làm giúp tôi được không? (lịch sự hơn)']}] },
+
+{ no:22, g:'use', pat:'～ましょう', form:'Vます → bỏ ます + ましょう', mean:'Hãy cùng…',
+  ex:[{ja:'一緒に勉強しましょう。',kana:'いっしょに べんきょうしましょう。',vn:'Chúng ta cùng học nhé.'}] },
+
+{ no:23, g:'use', pat:'～ために', form:'Vる + ために', mean:'Để / nhằm mục đích…',
+  ex:[{ja:'日本で働くために、日本語を勉強しています。',kana:'にほんで はたらくために、にほんごを べんきょうしています。',vn:'Tôi đang học tiếng Nhật để làm việc ở Nhật.'}],
+  nt:[{lb:'Cách nhớ',p:'<b>Mục đích + ために + hành động</b>.'}] },
+
+{ no:24, g:'use', pat:'～し、～し', form:'Aし、Bし',
+  mean:'Vừa… vừa… / nào là… nào là…; liệt kê nhiều lý do hoặc đặc điểm.',
+  ex:[{ja:'この店は安いし、おいしいし、人気があります。',kana:'このみせは やすいし、おいしいし、にんきが あります。',vn:'Cửa hàng này vừa rẻ, vừa ngon nên rất được yêu thích.'}] },
+
+{ no:25, g:'use', pat:'～ても', form:'Vて + も', mean:'Dù / cho dù…',
+  ex:[{ja:'雨が降っても、行きます。',kana:'あめが ふっても、いきます。',vn:'Dù trời mưa tôi vẫn đi.'}],
+  nt:[{lb:'Cách nhớ',p:'<b>Aても、B</b> = Dù A thì vẫn B.'}] },
+
+{ no:26, g:'plan', pat:'～つもりだ', form:'Vる + つもりだ  ·  Vない + つもりだ',
+  mean:'Dự định sẽ làm / dự định không làm.',
+  ex:[{ja:'来年、日本へ行くつもりです。',kana:'らいねん、にほんへ いくつもりです。',vn:'Năm sau tôi dự định đi Nhật.'},
+      {ja:'お酒を飲まないつもりです。',kana:'おさけを のまないつもりです。',vn:'Tôi dự định không uống rượu.'}] },
+
+{ no:27, g:'plan', pat:'Vる + 予定だ', form:'Vる + 予定だ', mean:'Dự kiến / có kế hoạch sẽ…',
+  ex:[{ja:'来週、日本へ行く予定です。',kana:'らいしゅう、にほんへ いく よていです。',vn:'Tuần sau tôi dự kiến sẽ đi Nhật.'}],
+  nt:[{lb:'So sánh ～つもり và ～予定',
+    ul:['<b class="jp">つもり</b> → ý định cá nhân · 日本へ行くつもりです。= Tôi có ý định đi Nhật.',
+        '<b class="jp">予定</b> → kế hoạch / lịch trình đã dự kiến · 日本へ行く予定です。= Tôi có kế hoạch đi Nhật.']}] },
+
+{ no:28, g:'plan', pat:'Vようと思う', form:'Vよう + と思う', mean:'Tôi định sẽ…',
+  ex:[{ja:'日本語をもっと勉強しようと思います。',kana:'にほんごを もっと べんきょうしようと おもいます。',vn:'Tôi định sẽ học tiếng Nhật nhiều hơn.'}],
+  nt:[{lb:'Cách chia Vる → Vよう',ul:['行く → 行こう','食べる → 食べよう','勉強する → 勉強しよう','来る → 来よう']},
+      {lb:'Lưu ý',p:'Đây là mẫu thể hiện ý định, thường <b>mềm hơn</b> ～つもりです.'}] },
+
+{ no:29, g:'plan', pat:'Vる / Vない + ようにする', form:'Vる + ようにする  ·  Vない + ようにする',
+  mean:'Cố gắng làm… / cố gắng không làm…',
+  ex:[{ja:'毎日、日本語を勉強するようにしています。',kana:'まいにち、にほんごを べんきょうするように しています。',vn:'Tôi cố gắng học tiếng Nhật mỗi ngày.'},
+      {ja:'夜、遅く寝ないようにしています。',kana:'よる、おそく ねないように しています。',vn:'Tôi cố gắng không ngủ muộn vào ban đêm.'}],
+  nt:[{lb:'Cách nhớ',p:'<b>～ようにする</b> = cố gắng có ý thức để biến một việc thành <b>thói quen</b>.'}] },
+
+{ no:30, g:'plan', pat:'Vる / Vない + ように言われる', form:'Vる + ように言われる  ·  Vない + ように言われる',
+  mean:'Được bảo / yêu cầu làm… / không làm…',
+  ex:[{ja:'先生に毎日勉強するように言われました。',kana:'せんせいに まいにち べんきょうするように いわれました。',vn:'Tôi được giáo viên bảo là phải học mỗi ngày.'},
+      {ja:'医者にお酒を飲まないように言われました。',kana:'いしゃに おさけを のまないように いわれました。',vn:'Tôi được bác sĩ bảo không được uống rượu.'}],
+  nt:[{lb:'Cách nhớ',p:'<b>～ように言われる</b> = người khác nói / yêu cầu mình làm hoặc không làm một việc gì đó.'}] },
+];
+
+const GROUPS = [
+  { val:'all',  label:'Tất cả' },
+  { val:'te',   label:'Thể て' },
+  { val:'ta',   label:'Thể た' },
+  { val:'if',   label:'Điều kiện' },
+  { val:'nai',  label:'Thể ない' },
+  { val:'time', label:'Thời gian & bổ nghĩa' },
+  { val:'use',  label:'Mẫu thường dùng' },
+  { val:'plan', label:'Ý định & kế hoạch' },
+];
+const GROUP_LABEL = Object.fromEntries(GROUPS.map(g => [g.val, g.label]));
+
+/* ==================== TIỆN ÍCH ==================== */
+const $ = id => document.getElementById(id);
+const root = document.documentElement;
+const LS = 'kihon-bunpou';
+const norm = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd');
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+let F = { q: '', group: 'all' };
+
+/* ==================== PHÁT ÂM ==================== */
+const synth = window.speechSynthesis;
+function speak(text, el) {
+  if (!synth || !text) return;
+  synth.cancel();
+  document.querySelectorAll('.speaking').forEach(e => e.classList.remove('speaking'));
+  const u = new SpeechSynthesisUtterance(String(text).replace(/\s+/g, ''));
+  u.lang = 'ja-JP'; u.rate = .9;
+  const v = synth.getVoices().find(x => x.lang && x.lang.startsWith('ja'));
+  if (v) u.voice = v;
+  if (el) { u.onstart = () => el.classList.add('speaking'); u.onend = () => el.classList.remove('speaking'); }
+  synth.speak(u);
+}
+
+/* ==================== RENDER ==================== */
+const PLAY_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M16.5 8.5a5 5 0 0 1 0 7"/></svg>';
+
+function exHtml(e, gi, ei) {
+  return '<div class="ex" id="ex-' + gi + '-' + ei + '">'
+    + '<button class="play" data-say="' + esc(e.kana || e.ja) + '" data-ex="' + gi + '-' + ei + '" title="Nghe câu này" aria-label="Nghe câu này">' + PLAY_SVG + '</button>'
+    + '<div class="body">'
+    + '<div class="ja jp">' + e.ja + '</div>'
+    + '<div class="kana jp">' + (e.kana || '') + '</div>'
+    + '<div class="vn">' + e.vn + '</div>'
+    + '</div></div>';
+}
+function ntHtml(n) {
+  return '<div class="nt"><div class="lb">' + n.lb + '</div>'
+    + (n.p ? '<p>' + n.p + '</p>' : '')
+    + (n.ul ? '<ul>' + n.ul.map(x => '<li class="jp">' + x + '</li>').join('') + '</ul>' : '')
+    + '</div>';
+}
+function cardHtml(g, i) {
+  return '<div class="card g" id="g' + g.no + '">'
+    + '<div class="g-head"><span class="g-no">' + g.no + '</span>'
+    + '<span class="g-pat jp">' + g.pat + '</span>'
+    + '<span class="g-tag">' + GROUP_LABEL[g.g] + '</span></div>'
+    + '<div class="g-form jp"><span class="lb">Cấu trúc</span>' + g.form + '</div>'
+    + '<div class="g-mean"><b>Ý nghĩa:</b> ' + g.mean + '</div>'
+    + g.ex.map((e, ei) => exHtml(e, i, ei)).join('')
+    + (g.nt || []).map(ntHtml).join('')
+    + '</div>';
+}
+function render() {
+  const q = norm(F.q), raw = F.q.trim();
+  const list = G.filter(g => {
+    if (F.group !== 'all' && g.g !== F.group) return false;
+    if (!raw) return true;
+    if (g.pat.includes(raw) || g.form.includes(raw)) return true;
+    if (norm(g.mean).includes(q)) return true;
+    return g.ex.some(e => e.ja.includes(raw) || (e.kana || '').includes(raw) || norm(e.vn).includes(q));
+  });
+  $('list').innerHTML = list.map(cardHtml).join('');
+  $('empty').classList.toggle('hidden', list.length > 0);
+  $('tableCard').classList.toggle('hidden', list.length === 0);
+  $('sum').textContent = 'Hiện ' + list.length + '/' + G.length + ' mẫu'
+    + (F.group === 'all' ? '' : ' · nhóm ' + GROUP_LABEL[F.group]);
+  $('sumTable').innerHTML = list.map(g =>
+    '<button class="sum-row" data-go="' + g.no + '"><span class="n">' + g.no + '</span>'
+    + '<span class="p jp">' + g.pat + '</span><span class="m">' + g.mean + '</span></button>').join('');
+}
+
+/* ==================== SỰ KIỆN ==================== */
+function chipGroup(host, items, isOn, onPick) {
+  host.innerHTML = '';
+  items.forEach(it => {
+    const b = document.createElement('button');
+    b.className = 'chip'; b.type = 'button'; b.textContent = it.label;
+    b.setAttribute('aria-pressed', isOn(it.val) ? 'true' : 'false');
+    b.onclick = () => { onPick(it.val); chipGroup(host, items, isOn, onPick); };
+    host.appendChild(b);
+  });
+}
+chipGroup($('groupChips'), GROUPS, v => v === F.group, v => { F.group = v; render(); });
+$('search').addEventListener('input', e => { F.q = e.target.value; render(); });
+
+/* nghe từng câu · nhảy tới mẫu từ bảng tổng hợp */
+document.addEventListener('click', e => {
+  const play = e.target.closest('[data-say]');
+  if (play) { speak(play.dataset.say, $('ex-' + play.dataset.ex)); return; }
+  const go = e.target.closest('[data-go]');
+  if (go) {
+    const t = $('g' + go.dataset.go);
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+});
+
+/* bật/tắt hiragana & nghĩa tiếng Việt */
+function toggleChip(btn, key) {
+  btn.addEventListener('click', () => {
+    const on = btn.getAttribute('aria-pressed') !== 'true';
+    btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    root.dataset[key] = on ? 'on' : 'off';
+    saveUI();
+  });
+}
+toggleChip($('tKana'), 'kana');
+toggleChip($('tVn'), 'vn');
+
+/* nút lên đầu trang */
+const toTop = $('toTop');
+toTop.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+window.addEventListener('scroll', () => toTop.classList.toggle('show', window.scrollY > 500), { passive: true });
+
+/* ==================== GIAO DIỆN & LƯU TUỲ CHỌN ==================== */
+function saveUI() {
+  try { localStorage.setItem(LS, JSON.stringify({ theme: root.dataset.theme, kana: root.dataset.kana, vn: root.dataset.vn })); } catch (_) {}
+}
+$('themeBtn').onclick = () => {
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  saveUI();
+};
+(function init() {
+  let ui = {};
+  try { ui = JSON.parse(localStorage.getItem(LS) || '{}') || {}; } catch (_) {}
+  root.dataset.theme = ui.theme || 'light';
+  root.dataset.kana = ui.kana || 'on';
+  root.dataset.vn = ui.vn || 'on';
+  $('tKana').setAttribute('aria-pressed', root.dataset.kana === 'on' ? 'true' : 'false');
+  $('tVn').setAttribute('aria-pressed', root.dataset.vn === 'on' ? 'true' : 'false');
+  render();
+  if (synth) synth.getVoices();
+})();
+</script>
+</body>
+</html>
