@@ -430,33 +430,50 @@ const KAIWA = [
       ["必要であれば","Nếu cần thì ~ (trang trọng hơn 必要なら). Cùng nhóm: ～であれば = nếu là ~."],
       ["～てください","Yêu cầu lịch sự. Cấp trên nói với cấp dưới: 「頼んでください」."],
       ["～させてもらう","Xin phép được làm ~ (khiêm nhường). 「相談させてもらいます」 = xin phép được trao đổi. Lịch sự hơn nữa: させていただきます。"],
-      ["～ていただきます","Nhận được (ai đó làm cho mình) — khiêm nhường. 「高評価をいただきます」 = nhận được đánh giá cao."]
+      ["～ていただきます／～させていただきます","Khiêm nhường ngữ. 「相談させていただきます」 = xin phép được trao đổi (lịch sự nhất). Lưu ý: 「高評価をいただきます」 trong bản gốc là cách nói KHÔNG tự nhiên — xem mục sửa lỗi bên dưới."]
+    ],
+    fix: [
+      {
+        bad: '…<ruby>相談<rt>そうだん</rt></ruby>させてもらい<b><ruby>高評価<rt>こうひょうか</rt></ruby>をいただきます</b>。',
+        good: '…<b><ruby>相談<rt>そうだん</rt></ruby>させていただきます</b>。',
+        why: '「高評価をいただきます」 = "tôi sẽ nhận được đánh giá cao" → tự khen mình, hoàn toàn không dùng khi báo cáo với cấp trên. Câu này chỉ cần chốt bằng hành động: 相談させていただきます. Ngoài ra 「相談させてもらい」 là dạng nối 連用形 nhưng phía sau không có vế tiếp → câu bị cụt.'
+      },
+      {
+        bad: 'ありがとうございます。<ruby>午後<rt>ごご</rt></ruby>から<ruby>一度<rt>いちど</rt></ruby>ミーティングを<b>開いて、相談させてもらい</b>…',
+        good: 'ありがとうございます。<b>それでは</b>、<ruby>午後<rt>ごご</rt></ruby>から<ruby>一度<rt>いちど</rt></ruby>ミーティングを<b><ruby>開<rt>ひら</rt></ruby>いて、メンバーに<ruby>相談<rt>そうだん</rt></ruby>してみます</b>。',
+        why: 'Cách đáp lời sếp chuẩn: cảm ơn → nêu hành động cụ thể mình sẽ làm. Thêm それでは để nối mượt. 「相談してみます」 nhẹ nhàng, thể hiện chủ động; 「相談させていただきます」 trang trọng hơn — chọn 1 trong 2, không ghép cả hai.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> câu chốt cam kết thời hạn.',
+        good: '<ruby>今週中<rt>こんしゅうちゅう</rt></ruby>には<ruby>形<rt>かたち</rt></ruby>にできるよう<ruby>進<rt>すす</rt></ruby>めます。<ruby>進捗<rt>しんちょく</rt></ruby>はまたご<ruby>報告<rt>ほうこく</rt></ruby>します。',
+        why: 'Trong 報連相 (báo cáo・liên lạc・trao đổi), sau khi nhận chỉ thị nên chốt lại MỐC THỜI GIAN + hứa báo cáo tiếp. Đây là phần ghi điểm nhất khi thi kaiwa hoặc phỏng vấn.'
+      }
     ]
   }  ,
   {
     cat: "職場 · Hội thoại nơi làm việc",
     title: "トラブル発生時の対応 · Xử lý sự cố",
-    // Hội thoại 2 người: B = 部下 (nhân viên) báo sự cố, A = 上司 (cấp trên) xử lý.
+    // Hội thoại 2 người: A = 部下 (nhân viên) báo sự cố, B = 上司 (cấp trên) xử lý.
     // Nội dung tiếng Nhật giữ NGUYÊN VĂN như bản gốc, chỉ thêm furigana.
-    note: 'Bối cảnh: nhân viên (B) báo cáo khách hàng phát hiện lỗi lớn trong tài liệu đã nộp; cấp trên (A) hỏi rõ nguyên nhân rồi đưa ra hướng xử lý.',
+    note: 'Bối cảnh: nhân viên (A) báo cáo khách hàng phát hiện lỗi lớn trong tài liệu đã nộp; cấp trên (B) hỏi rõ nguyên nhân rồi đưa ra hướng xử lý.',
     lines: [
       {
-        who: 'B',
+        who: 'A',
         jp: '<ruby>大変<rt>たいへん</rt></ruby>です！クライアントから「<ruby>提出<rt>ていしゅつ</rt></ruby>した<ruby>資料<rt>しりょう</rt></ruby>に<ruby>大<rt>おお</rt></ruby>きな<ruby>間違<rt>まちが</rt></ruby>いがある」と<ruby>連絡<rt>れんらく</rt></ruby>が<ruby>入<rt>はい</rt></ruby>りました。',
         vn: 'Nguy rồi ạ! Bên khách hàng vừa liên lạc báo rằng "tài liệu đã nộp có sai sót lớn".'
       },
       {
-        who: 'A',
+        who: 'B',
         jp: 'え、<ruby>本当<rt>ほんとう</rt></ruby>ですか。どこの<ruby>部分<rt>ぶぶん</rt></ruby>にどのような<ruby>誤<rt>あやま</rt></ruby>りがあったのですか。',
         vn: 'Ơ, thật sao? Là sai ở phần nào và sai như thế nào vậy?'
       },
       {
-        who: 'B',
+        who: 'A',
         jp: '<ruby>数値<rt>すうち</rt></ruby>の<ruby>集計<rt>しゅうけい</rt></ruby>データが<ruby>最新<rt>さいしん</rt></ruby>のものになっていなかったようです。',
         vn: 'Có vẻ như dữ liệu tổng hợp số liệu đã không phải là bản mới nhất ạ.'
       },
       {
-        who: 'A',
+        who: 'B',
         jp: 'すぐに<ruby>正<rt>ただ</rt></ruby>しいデータに<ruby>修正<rt>しゅうせい</rt></ruby>し、<ruby>私<rt>わたし</rt></ruby>から<ruby>先方<rt>せんぽう</rt></ruby>に<ruby>直接<rt>ちょくせつ</rt></ruby>お<ruby>詫<rt>わ</rt></ruby>びの<ruby>電話<rt>でんわ</rt></ruby>を<ruby>入<rt>い</rt></ruby>れます。<ruby>今後<rt>こんご</rt></ruby>の<ruby>再発<rt>さいはつ</rt></ruby><ruby>防止策<rt>ぼうしさく</rt></ruby>も<ruby>一緒<rt>いっしょ</rt></ruby>に<ruby>考<rt>かんが</rt></ruby>えましょう。',
         vn: 'Sẽ sửa lại ngay sang dữ liệu đúng, và tôi sẽ đích thân gọi điện xin lỗi phía đối tác. Chúng ta cùng nghĩ cả biện pháp phòng ngừa tái diễn sau này nữa nhé.'
       }
@@ -664,6 +681,262 @@ const KAIWA = [
       ["～に携わる","Tham gia / dấn thân vào công việc ~. Chú ý trợ từ là <b>に</b>, không phải を. VD: 立ち上げ<b>に</b>携わる."],
       ["まずは～てから、～","<b>Trước hết</b> làm xong ~ rồi hãy ~. Nhấn thứ tự ưu tiên — sếp hay dùng để 'phanh' nhẹ."],
       ["～といいでしょう","Làm ~ thì tốt đấy — <b>gợi ý nhẹ nhàng</b>, không ép. So sánh: ～たほうがいい (khuyên mạnh hơn), ～べきだ (mạnh nhất)."]
+    ]
+  }  ,
+  {
+    cat: "職場 · Hội thoại nơi làm việc",
+    title: "遅延の報告 · Báo cáo chậm tiến độ",
+    // Hội thoại 2 người: A = 部下 (nhân viên chủ động báo chậm), B = 上司 (cấp trên).
+    note: 'Bối cảnh: nhân viên (A) biết không kịp deadline nên chủ động báo sếp (B) TRƯỚC hạn, theo khung 報連相: tình hình → nguyên nhân → ĐƯA 2 PHƯƠNG ÁN (① tăng người hỗ trợ ② xin khách dời hạn) → sếp chọn. Điểm ăn điểm: báo sớm + kèm phương án, không chỉ báo lỗi rồi để sếp tự nghĩ.',
+    lines: [
+      {
+        who: 'A',
+        jp: '<ruby>課長<rt>かちょう</rt></ruby>、<ruby>今<rt>いま</rt></ruby>お<ruby>時間<rt>じかん</rt></ruby>よろしいでしょうか。<ruby>来週<rt>らいしゅう</rt></ruby><ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>りの<ruby>企画書<rt>きかくしょ</rt></ruby>の<ruby>件<rt>けん</rt></ruby>で、ご<ruby>報告<rt>ほうこく</rt></ruby>があります。',
+        vn: 'Trưởng phòng, giờ anh có chút thời gian không ạ? Em có việc muốn báo cáo về bản kế hoạch hạn nộp tuần sau ạ.'
+      },
+      {
+        who: 'B',
+        jp: 'はい、どうしましたか。',
+        vn: 'Ừ, có chuyện gì vậy?'
+      },
+      {
+        who: 'A',
+        jp: '<ruby>申<rt>もう</rt></ruby>し<ruby>訳<rt>わけ</rt></ruby>ありません。<ruby>今<rt>いま</rt></ruby>の<ruby>進<rt>すす</rt></ruby>み<ruby>具合<rt>ぐあい</rt></ruby>ですと、<ruby>期限<rt>きげん</rt></ruby>に<ruby>間<rt>ま</rt></ruby>に<ruby>合<rt>あ</rt></ruby>わない<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。',
+        vn: 'Em xin lỗi ạ. Với tiến độ hiện tại thì khả năng cao là sẽ không kịp hạn ạ.'
+      },
+      {
+        who: 'B',
+        jp: 'そうですか。<ruby>原因<rt>げんいん</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか。',
+        vn: 'Vậy à. Nguyên nhân là gì?'
+      },
+      {
+        who: 'A',
+        jp: '<ruby>先方<rt>せんぽう</rt></ruby>からのデータの<ruby>提供<rt>ていきょう</rt></ruby>が<ruby>予定<rt>よてい</rt></ruby>より<ruby>三日<rt>みっか</rt></ruby><ruby>遅<rt>おく</rt></ruby>れてしまいまして、その<ruby>分<rt>ぶん</rt></ruby>、<ruby>作業<rt>さぎょう</rt></ruby><ruby>全体<rt>ぜんたい</rt></ruby>が<ruby>後<rt>うし</rt></ruby>ろにずれています。<ruby>残<rt>のこ</rt></ruby>りは<ruby>分析<rt>ぶんせき</rt></ruby>とレビューで、あと<ruby>二日<rt>ふつか</rt></ruby>ほど<ruby>必要<rt>ひつよう</rt></ruby>です。',
+        vn: 'Việc bên đối tác cung cấp dữ liệu bị chậm 3 ngày so với dự kiến, nên toàn bộ công việc bị lùi lại tương ứng ạ. Phần còn lại là phân tích và review, cần thêm khoảng 2 ngày nữa ạ.'
+      },
+      {
+        who: 'B',
+        jp: 'なるほど。それで、<ruby>対応案<rt>たいおうあん</rt></ruby>はありますか。',
+        vn: 'Ra vậy. Thế em đã có phương án xử lý chưa?'
+      },
+      {
+        who: 'A',
+        jp: 'はい、<ruby>案<rt>あん</rt></ruby>が<ruby>二<rt>ふた</rt></ruby>つあります。<ruby>一<rt>ひと</rt></ruby>つ<ruby>目<rt>め</rt></ruby>は、チームからもう<ruby>一人<rt>ひとり</rt></ruby><ruby>応援<rt>おうえん</rt></ruby>に<ruby>入<rt>はい</rt></ruby>っていただき、<ruby>分析<rt>ぶんせき</rt></ruby>を<ruby>分担<rt>ぶんたん</rt></ruby>して<ruby>期限<rt>きげん</rt></ruby>どおりに<ruby>仕上<rt>しあ</rt></ruby>げる<ruby>方法<rt>ほうほう</rt></ruby>です。',
+        vn: 'Vâng, em có 2 phương án ạ. Phương án 1 là nhờ thêm một người trong team vào hỗ trợ, chia nhau phần phân tích để hoàn thành đúng hạn ạ.'
+      },
+      {
+        who: 'A',
+        jp: '<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>は、<ruby>先方<rt>せんぽう</rt></ruby>にご<ruby>相談<rt>そうだん</rt></ruby>して、<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>りを<ruby>二日<rt>ふつか</rt></ruby>ほど<ruby>延<rt>の</rt></ruby>ばしていただく<ruby>方法<rt>ほうほう</rt></ruby>です。<ruby>品質<rt>ひんしつ</rt></ruby>を<ruby>優先<rt>ゆうせん</rt></ruby>するのであれば、こちらのほうが<ruby>確実<rt>かくじつ</rt></ruby>だと<ruby>思<rt>おも</rt></ruby>います。',
+        vn: 'Phương án 2 là trao đổi với phía khách hàng để xin dời hạn thêm khoảng 2 ngày ạ. Nếu ưu tiên chất lượng thì em nghĩ cách này chắc chắn hơn ạ.'
+      },
+      {
+        who: 'B',
+        jp: '<ruby>分<rt>わ</rt></ruby>かりました。では、まず<ruby>私<rt>わたし</rt></ruby>から<ruby>先方<rt>せんぽう</rt></ruby>に<ruby>確認<rt>かくにん</rt></ruby>してみます。もし<ruby>延<rt>の</rt></ruby>ばせないようであれば、<ruby>増員<rt>ぞういん</rt></ruby>で<ruby>対応<rt>たいおう</rt></ruby>しましょう。',
+        vn: 'Tôi hiểu rồi. Vậy trước hết để tôi hỏi phía khách hàng. Nếu không dời được thì mình xử lý bằng cách tăng người nhé.'
+      },
+      {
+        who: 'A',
+        jp: 'はい、<ruby>承知<rt>しょうち</rt></ruby>しました。ご<ruby>迷惑<rt>めいわく</rt></ruby>をおかけして<ruby>申<rt>もう</rt></ruby>し<ruby>訳<rt>わけ</rt></ruby>ありません。それまでに<ruby>分析<rt>ぶんせき</rt></ruby>を<ruby>進<rt>すす</rt></ruby>めておきます。<ruby>今後<rt>こんご</rt></ruby>は<ruby>早<rt>はや</rt></ruby>めに<ruby>共有<rt>きょうゆう</rt></ruby>いたします。',
+        vn: 'Vâng, em đã rõ ạ. Xin lỗi vì đã làm phiền anh. Từ giờ đến lúc đó em sẽ làm tiếp phần phân tích. Từ nay em sẽ chia sẻ sớm hơn ạ.'
+      }
+    ],
+    vocab: [
+      ["お時間よろしいでしょうか","おじかんよろしいでしょうか","anh/chị có chút thời gian không ạ (mở lời với cấp trên)"],
+      ["～の件で","～のけんで","về việc ~, liên quan tới vụ ~"],
+      ["進み具合","すすみぐあい","tình hình tiến triển (khẩu ngữ của 進捗)"],
+      ["期限","きげん","kỳ hạn, deadline"],
+      ["間に合う","まにあう","kịp (giờ, hạn)"],
+      ["提供","ていきょう","sự cung cấp"],
+      ["ずれる","ずれる","bị lệch, bị xê dịch (lịch trình)"],
+      ["対応案","たいおうあん","phương án xử lý"],
+      ["応援に入る","おうえんにはいる","vào hỗ trợ, tiếp sức (cho dự án)"],
+      ["分担する","ぶんたんする","chia việc, phân công"],
+      ["期限どおりに","きげんどおりに","đúng như kỳ hạn"],
+      ["仕上げる","しあげる","hoàn thiện, làm xong"],
+      ["延ばす","のばす","kéo dài, gia hạn"],
+      ["品質","ひんしつ","chất lượng"],
+      ["優先する","ゆうせんする","ưu tiên"],
+      ["確実","かくじつ","chắc chắn, chắc ăn"],
+      ["増員","ぞういん","tăng nhân sự"],
+      ["承知しました","しょうちしました","tôi đã rõ (khiêm nhường, đáp lời cấp trên)"],
+      ["迷惑をかける","めいわくをかける","làm phiền, gây phiền hà"],
+      ["共有する","きょうゆうする","chia sẻ (thông tin) với mọi người"]
+    ],
+    grammar: [
+      ["お時間よろしいでしょうか","Mở lời xin nói chuyện với cấp trên. Lịch sự hơn 「ちょっといいですか」. Cùng nhóm: 「<b>少々</b>よろしいでしょうか」."],
+      ["～の件で、ご報告があります","Nêu CHỦ ĐỀ trước rồi mới nói nội dung: 「〇〇の<b>件で</b>、ご報告／ご相談があります」."],
+      ["～ですと、～","Nếu xét theo ~ thì… (nêu điều kiện hiện tại một cách mềm). VD: 「今の進み具合<b>ですと</b>、間に合いません」."],
+      ["～可能性が高い／低い","Nói giảm thay vì khẳng định 「間に合いません」. Báo tin xấu nên dùng: 「間に合わない<b>可能性が高い</b>です」."],
+      ["～てしまいまして、～","Dạng lịch sự nối câu của ～てしまって: tiếc nuối + nêu nguyên nhân."],
+      ["<b>案が二つあります</b>。一つ目は～、二つ目は～","Khung TRÌNH BÀY PHƯƠNG ÁN. Nói số lượng trước → sếp biết phải nghe mấy ý. Cùng nhóm: 「<b>方法としては</b>二つございます」."],
+      ["～ていただき、～","Nhờ ai đó làm ~ rồi… (khiêm nhường, nối câu). VD: 「<b>応援に入っていただき</b>、分担します」. Trang trọng hơn ～てもらって."],
+      ["～どおりに","Đúng như ~. VD: 期限<b>どおりに</b>／<ruby>予定<rt>よてい</rt></ruby><b>どおりに</b>／<ruby>説明<rt>せつめい</rt></ruby>した<b>とおりに</b>."],
+      ["～<b>方法です</b>／～<b>案です</b>","Chốt mỗi phương án bằng danh từ hoá: 「…<ruby>仕上<rt>しあ</rt></ruby>げる<b>方法です</b>」 = cách làm là ~. Nghe gọn và chuyên nghiệp hơn kể lể."],
+      ["～のであれば、～","Nếu (trường hợp) ~ thì… (trang trọng hơn ～なら). VD: 「品質を優先する<b>のであれば</b>、こちらが確実です」."],
+      ["～ようであれば、～","Nếu có vẻ ~ thì… (suy đoán + điều kiện). VD: 「延ばせない<b>ようであれば</b>、増員で対応しましょう」."],
+      ["こちらのほうが～と思います","So sánh 2 lựa chọn rồi nêu ĐỀ XUẤT của mình: 「<b>こちらのほうが</b>確実だ<b>と思います</b>」. Vẫn để sếp quyết."],
+      ["～ておきます","Làm sẵn ~ để chuẩn bị. VD: 「それまでに<ruby>分析<rt>ぶんせき</rt></ruby>を<ruby>進<rt>すす</rt></ruby>め<b>ておきます</b>」."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>課長<rt>かちょう</rt></ruby>、<b><ruby>間<rt>ま</rt></ruby>に<ruby>合<rt>あ</rt></ruby>いません</b>。',
+        good: '<ruby>課長<rt>かちょう</rt></ruby>、<ruby>今<rt>いま</rt></ruby>お<ruby>時間<rt>じかん</rt></ruby>よろしいでしょうか。…<b><ruby>間<rt>ま</rt></ruby>に<ruby>合<rt>あ</rt></ruby>わない<ruby>可能性<rt>かのうせい</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです</b>。',
+        why: 'Vào thẳng tin xấu là thất lễ. Trình tự chuẩn: xin phép nói → nêu chủ đề (～の件で) → báo tình hình. 「間に合いません」 quá dứt khoát, nên nói giảm 「間に合わない可能性が高いです」.'
+      },
+      {
+        bad: '<b><ruby>先方<rt>せんぽう</rt></ruby>がデータを<ruby>送<rt>おく</rt></ruby>らなかったから</b><ruby>遅<rt>おく</rt></ruby>れました。',
+        good: '<ruby>先方<rt>せんぽう</rt></ruby>からのデータの<ruby>提供<rt>ていきょう</rt></ruby>が<ruby>予定<rt>よてい</rt></ruby>より<ruby>三日<rt>みっか</rt></ruby><ruby>遅<rt>おく</rt></ruby>れて<b>しまいまして</b>、その<ruby>分<rt>ぶん</rt></ruby><ruby>作業<rt>さぎょう</rt></ruby>が<ruby>後<rt>うし</rt></ruby>ろにずれています。',
+        why: '「～から」 nghe như đổ lỗi cho người khác. Nên nêu SỰ VIỆC + CON SỐ cụ thể (三日) một cách trung tính, dùng ～てしまいまして để giữ sắc thái tiếc nuối, khiêm tốn.'
+      },
+      {
+        bad: '<b><ruby>頑張<rt>がんば</rt></ruby>りますので、もう<ruby>少<rt>すこ</rt></ruby>しお<ruby>待<rt>ま</rt></ruby>ちください</b>。',
+        good: '<b><ruby>案<rt>あん</rt></ruby>が<ruby>二<rt>ふた</rt></ruby>つあります</b>。<ruby>一<rt>ひと</rt></ruby>つ<ruby>目<rt>め</rt></ruby>は<ruby>増員<rt>ぞういん</rt></ruby>で<ruby>期限<rt>きげん</rt></ruby>どおりに<ruby>仕上<rt>しあ</rt></ruby>げる<ruby>方法<rt>ほうほう</rt></ruby>、<ruby>二<rt>ふた</rt></ruby>つ<ruby>目<rt>め</rt></ruby>は<ruby>先方<rt>せんぽう</rt></ruby>に<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>りを<ruby>延<rt>の</rt></ruby>ばしていただく<ruby>方法<rt>ほうほう</rt></ruby>です。',
+        why: 'Báo chậm mà không kèm phương án thì sếp phải tự nghĩ hộ → mất điểm nặng. Luôn đi kèm: cần thêm bao lâu + <b>ít nhất 2 phương án</b> + ý kiến của mình nên chọn cái nào. 「頑張ります」 là lời hứa suông.'
+      },
+      {
+        bad: '<b><ruby>私<rt>わたし</rt></ruby>が<ruby>先方<rt>せんぽう</rt></ruby>に<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>りを<ruby>延<rt>の</rt></ruby>ばしてもらいます</b>。',
+        good: '<ruby>先方<rt>せんぽう</rt></ruby>に<b>ご<ruby>相談<rt>そうだん</rt></ruby>して</b>、<ruby>締<rt>し</rt></ruby>め<ruby>切<rt>き</rt></ruby>りを<ruby>二日<rt>ふつか</rt></ruby>ほど<b><ruby>延<rt>の</rt></ruby>ばしていただく<ruby>方法<rt>ほうほう</rt></ruby>です</b>。',
+        why: 'Việc dời deadline với khách là quyết định của <b>cấp trên</b>, nhân viên chỉ ĐỀ XUẤT chứ không tự quyết → dùng dạng danh từ hoá 「～方法です」. Với khách phải là 「ご相談して」「延ばして<b>いただく</b>」 (khiêm nhường), không dùng 「もらいます」.'
+      }
+    ]
+  }  ,
+  {
+    cat: "会議 · Họp & thảo luận",
+    title: "予算配分の議論 · Tranh luận phân bổ ngân sách",
+    // Hội thoại 2 người tranh luận: A = 新規開拓派, B = 既存顧客派. Kết thúc bằng 妥協案 (phương án dung hoà).
+    note: 'Đề bài (お題): 「来期のプロジェクト予算配分について、Aは『新規開拓への投資』を主張し、Bは『既存顧客の維持・サポートの強化』を主張している。お互いの意見をぶつけ合いながら、現実的で納得できる着地点を導き出す。」 → Về phân bổ ngân sách dự án kỳ tới, A chủ trương đầu tư khai thác khách hàng mới, B chủ trương tăng cường giữ chân và hỗ trợ khách hàng hiện có. Hai bên tranh luận rồi tìm ra điểm dung hoà thực tế mà cả hai chấp nhận được. Khung 4 bước: ①主張 → ②反論 → ③譲歩・データ → ④妥協案・合意.',
+    lines: [
+      {
+        who: 'A',
+        jp: '<ruby>来期<rt>らいき</rt></ruby>のプロジェクト<ruby>予算<rt>よさん</rt></ruby>の<ruby>件<rt>けん</rt></ruby>ですが、<ruby>私<rt>わたし</rt></ruby>は<ruby>新規開拓<rt>しんきかいたく</rt></ruby>への<ruby>投資<rt>とうし</rt></ruby>を<ruby>増<rt>ふ</rt></ruby>やすべきだと<ruby>考<rt>かんが</rt></ruby>えています。',
+        vn: 'Về ngân sách dự án kỳ tới, tôi cho rằng nên tăng đầu tư vào việc khai thác khách hàng mới.'
+      },
+      {
+        who: 'B',
+        jp: 'なるほど。ただ、<ruby>私<rt>わたし</rt></ruby>は<ruby>既存顧客<rt>きぞんこきゃく</rt></ruby>の<ruby>維持<rt>いじ</rt></ruby>とサポートの<ruby>強化<rt>きょうか</rt></ruby>に、もっと<ruby>配分<rt>はいぶん</rt></ruby>したほうがいいと<ruby>思<rt>おも</rt></ruby>います。',
+        vn: 'Tôi hiểu. Nhưng tôi thì nghĩ nên phân bổ nhiều hơn cho việc giữ chân và tăng cường hỗ trợ khách hàng hiện có.'
+      },
+      {
+        who: 'A',
+        jp: 'もちろん<ruby>既存<rt>きぞん</rt></ruby>のお<ruby>客様<rt>きゃくさま</rt></ruby>も<ruby>大切<rt>たいせつ</rt></ruby>です。ただ、<ruby>市場<rt>しじょう</rt></ruby>が<ruby>縮小<rt>しゅくしょう</rt></ruby>している<ruby>中<rt>なか</rt></ruby>で、<ruby>新<rt>あたら</rt></ruby>しい<ruby>顧客<rt>こきゃく</rt></ruby>を<ruby>増<rt>ふ</rt></ruby>やさなければ、<ruby>来期<rt>らいき</rt></ruby><ruby>以降<rt>いこう</rt></ruby>の<ruby>売上<rt>うりあげ</rt></ruby>が<ruby>伸<rt>の</rt></ruby>びないのではないでしょうか。',
+        vn: 'Tất nhiên khách hàng hiện có cũng quan trọng. Nhưng trong bối cảnh thị trường đang thu hẹp, nếu không tăng khách mới thì doanh thu từ kỳ tới trở đi sẽ không tăng, phải không ạ?'
+      },
+      {
+        who: 'B',
+        jp: 'おっしゃることは<ruby>分<rt>わ</rt></ruby>かります。しかし、<ruby>新規開拓<rt>しんきかいたく</rt></ruby>はコストが<ruby>高<rt>たか</rt></ruby>い<ruby>割<rt>わり</rt></ruby>に、<ruby>成果<rt>せいか</rt></ruby>が<ruby>出<rt>で</rt></ruby>るまで<ruby>時間<rt>じかん</rt></ruby>がかかります。<ruby>解約<rt>かいやく</rt></ruby>を<ruby>防<rt>ふせ</rt></ruby>ぐほうが、<ruby>費用対効果<rt>ひようたいこうか</rt></ruby>は<ruby>高<rt>たか</rt></ruby>いと<ruby>思<rt>おも</rt></ruby>います。',
+        vn: 'Điều anh nói tôi hiểu. Tuy nhiên, khai thác khách mới thì chi phí cao mà lại mất thời gian mới ra kết quả. Tôi nghĩ ngăn khách hủy hợp đồng thì hiệu quả trên chi phí cao hơn.'
+      },
+      {
+        who: 'A',
+        jp: '<ruby>確<rt>たし</rt></ruby>かに…。データを<ruby>見<rt>み</rt></ruby>ると、<ruby>解約率<rt>かいやくりつ</rt></ruby>がここ<ruby>半年<rt>はんとし</rt></ruby>で<ruby>上<rt>あ</rt></ruby>がっていますね。',
+        vn: 'Đúng là… Nhìn số liệu thì tỉ lệ hủy nửa năm nay đang tăng thật.'
+      },
+      {
+        who: 'B',
+        jp: 'はい。まずはサポート<ruby>体制<rt>たいせい</rt></ruby>を<ruby>整<rt>ととの</rt></ruby>えて、<ruby>解約率<rt>かいやくりつ</rt></ruby>を<ruby>下<rt>さ</rt></ruby>げることが<ruby>先<rt>さき</rt></ruby>だと<ruby>考<rt>かんが</rt></ruby>えています。',
+        vn: 'Vâng. Tôi cho rằng trước hết phải kiện toàn hệ thống hỗ trợ, hạ tỉ lệ hủy xuống đã.'
+      },
+      {
+        who: 'A',
+        jp: 'では、こういうのはいかがでしょうか。<ruby>予算<rt>よさん</rt></ruby>の<ruby>七割<rt>ななわり</rt></ruby>を<ruby>既存顧客<rt>きぞんこきゃく</rt></ruby>のサポート<ruby>強化<rt>きょうか</rt></ruby>に、<ruby>残<rt>のこ</rt></ruby>りの<ruby>三割<rt>さんわり</rt></ruby>を<ruby>新規開拓<rt>しんきかいたく</rt></ruby>のテストマーケティングに<ruby>使<rt>つか</rt></ruby>う、という<ruby>配分<rt>はいぶん</rt></ruby>です。',
+        vn: 'Vậy cách này thì sao ạ? Phân bổ 70% ngân sách cho tăng cường hỗ trợ khách hiện có, 30% còn lại dùng cho test marketing khai thác khách mới.'
+      },
+      {
+        who: 'B',
+        jp: 'それなら<ruby>現実的<rt>げんじつてき</rt></ruby>ですね。<ruby>三割<rt>さんわり</rt></ruby>の<ruby>範囲<rt>はんい</rt></ruby>で<ruby>小<rt>ちい</rt></ruby>さく<ruby>試<rt>ため</rt></ruby>して、<ruby>効果<rt>こうか</rt></ruby>が<ruby>出<rt>で</rt></ruby>た<ruby>施策<rt>しさく</rt></ruby>だけ<ruby>広<rt>ひろ</rt></ruby>げる、ということですね。',
+        vn: 'Như vậy thì thực tế đấy. Ý anh là thử nhỏ trong phạm vi 30%, rồi chỉ mở rộng những biện pháp nào có hiệu quả, đúng không?'
+      },
+      {
+        who: 'A',
+        jp: 'はい。そして<ruby>半年後<rt>はんとしご</rt></ruby>に<ruby>数字<rt>すうじ</rt></ruby>を<ruby>見<rt>み</rt></ruby>て、もう<ruby>一度<rt>いちど</rt></ruby><ruby>配分<rt>はいぶん</rt></ruby>を<ruby>見直<rt>みなお</rt></ruby>しましょう。',
+        vn: 'Vâng. Rồi sau nửa năm nhìn vào con số, chúng ta xem xét lại tỉ lệ phân bổ một lần nữa.'
+      },
+      {
+        who: 'B',
+        jp: '<ruby>賛成<rt>さんせい</rt></ruby>です。では、その<ruby>方向<rt>ほうこう</rt></ruby>で<ruby>企画書<rt>きかくしょ</rt></ruby>をまとめましょう。',
+        vn: 'Tôi đồng ý. Vậy mình tổng hợp bản kế hoạch theo hướng đó nhé.'
+      }
+    ],
+    vocab: [
+      ["来期","らいき","kỳ tới, quý/niên độ tới"],
+      ["予算配分","よさんはいぶん","phân bổ ngân sách"],
+      ["新規開拓","しんきかいたく","khai thác khách hàng mới"],
+      ["投資","とうし","đầu tư"],
+      ["主張する","しゅちょうする","chủ trương, khẳng định quan điểm"],
+      ["既存顧客","きぞんこきゃく","khách hàng hiện có"],
+      ["維持","いじ","duy trì, giữ chân"],
+      ["強化","きょうか","tăng cường"],
+      ["市場","しじょう","thị trường"],
+      ["縮小する","しゅくしょうする","thu hẹp lại"],
+      ["売上","うりあげ","doanh thu"],
+      ["成果","せいか","thành quả, kết quả"],
+      ["解約","かいやく","hủy hợp đồng"],
+      ["解約率","かいやくりつ","tỉ lệ hủy"],
+      ["防ぐ","ふせぐ","ngăn chặn"],
+      ["費用対効果","ひようたいこうか","hiệu quả trên chi phí (cost performance)"],
+      ["体制を整える","たいせいをととのえる","kiện toàn hệ thống/bộ máy"],
+      ["施策","しさく","biện pháp, chính sách triển khai"],
+      ["見直す","みなおす","xem xét lại, rà lại"],
+      ["着地点","ちゃくちてん","điểm dung hoà, điểm chốt (của cuộc tranh luận)"],
+      ["現実的","げんじつてき","thực tế, khả thi"],
+      ["賛成","さんせい","tán thành"]
+    ],
+    grammar: [
+      ["～べきだと<ruby>考<rt>かんが</rt></ruby>えています","Tôi cho rằng NÊN ~. Nêu chủ trương mạnh nhưng vẫn lịch sự. Nhẹ hơn: 「～したほうがいいと思います」."],
+      ["なるほど。<b>ただ</b>、～","Công thức PHẢN BIỆN MỀM: công nhận trước → mới phản bác. Cùng nhóm: ただ／しかし／とはいえ. Tránh mở đầu bằng 「でも」 (nghe trẻ con, thiếu trang trọng)."],
+      ["もちろん～も<ruby>大切<rt>たいせつ</rt></ruby>です。ただ、～","譲歩 (nhượng bộ) rồi mới nêu ý mình. Đây là cách giữ hoà khí chuẩn trong 会議."],
+      ["～<ruby>中<rt>なか</rt></ruby>で","Trong bối cảnh ~, giữa lúc ~. VD: 「<ruby>市場<rt>しじょう</rt></ruby>が<ruby>縮小<rt>しゅくしょう</rt></ruby>している<b>中で</b>」."],
+      ["～なければ、～ない","Nếu không ~ thì không ~. VD: 「<ruby>顧客<rt>こきゃく</rt></ruby>を<ruby>増<rt>ふ</rt></ruby>やさ<b>なければ</b>、<ruby>売上<rt>うりあげ</rt></ruby>が<ruby>伸<rt>の</rt></ruby>び<b>ない</b>」."],
+      ["～のではないでしょうか","Chẳng phải là ~ sao? Cách nêu ý kiến MỀM nhất — hỏi ngược thay vì khẳng định. Vũ khí số 1 khi phản biện cấp trên."],
+      ["おっしゃることは<ruby>分<rt>わ</rt></ruby>かります。しかし、～","Mẫu cố định: điều anh/chị nói tôi hiểu, tuy nhiên ~. おっしゃる = 言う (tôn kính ngữ)."],
+      ["～<ruby>割<rt>わり</rt></ruby>に(は)","Mặc dù ~ nhưng lại… (kết quả không tương xứng). VD: 「コストが<ruby>高<rt>たか</rt></ruby>い<b>割に</b>、<ruby>成果<rt>せいか</rt></ruby>が<ruby>出<rt>で</rt></ruby>ない」."],
+      ["～ほうが、～は<ruby>高<rt>たか</rt></ruby>い／<ruby>低<rt>ひく</rt></ruby>い","So sánh 2 lựa chọn: 「<ruby>解約<rt>かいやく</rt></ruby>を<ruby>防<rt>ふせ</rt></ruby>ぐ<b>ほうが</b>、<ruby>費用対効果<rt>ひようたいこうか</rt></ruby>は<ruby>高<rt>たか</rt></ruby>い」."],
+      ["～ことが<ruby>先<rt>さき</rt></ruby>だ","Việc ~ mới là ưu tiên trước. VD: 「<ruby>解約率<rt>かいやくりつ</rt></ruby>を<ruby>下<rt>さ</rt></ruby>げる<b>ことが先だ</b>」."],
+      ["こういうのはいかがでしょうか","Mở lời ĐỀ XUẤT PHƯƠNG ÁN DUNG HOÀ. Lịch sự hơn 「こうしたらどうですか」."],
+      ["～という<ruby>配分<rt>はいぶん</rt></ruby>です／～という<ruby>案<rt>あん</rt></ruby>です","Danh từ hoá để chốt gọn nội dung phương án vừa nói."],
+      ["～ということですね","Xác nhận lại ý đối phương: 'ý anh là ~ đúng không?'. Rất quan trọng để chốt thoả thuận trong họp."],
+      ["～ましょう","Rủ cùng làm → dùng để CHỐT: 「<ruby>見直<rt>みなお</rt></ruby>し<b>ましょう</b>」「まとめ<b>ましょう</b>」."],
+      ["<ruby>予算<rt>よさん</rt></ruby>を～に<b><ruby>充<rt>あ</rt></ruby>てる／<ruby>回<rt>まわ</rt></ruby>す／<ruby>配分<rt>はいぶん</rt></ruby>する</b>","Cách nói PHÂN BỔ tiền cho việc gì. Sai hay gặp: 「予算<b>に入る</b>」. Đúng: 「予算<b>を</b>サポート<b>に</b>充てる」."],
+      ["<ruby>上<rt>あ</rt></ruby>がる（<ruby>自<rt>じ</rt></ruby>）／<ruby>上<rt>あ</rt></ruby>げる（<ruby>他<rt>た</rt></ruby>）","<b>上がる</b> = tự nó tăng (解約率が上がる). <b>上げる</b> = mình chủ động tăng (<ruby>比率<rt>ひりつ</rt></ruby>を上げる). Cùng cặp: <ruby>下<rt>さ</rt></ruby>がる／<ruby>下<rt>さ</rt></ruby>げる、<ruby>増<rt>ふ</rt></ruby>える／<ruby>増<rt>ふ</rt></ruby>やす."],
+      ["～ていく","Làm ~ dần dần về sau. VD: 「<ruby>少<rt>すこ</rt></ruby>しずつ<ruby>上<rt>あ</rt></ruby>げ<b>ていく</b>」 = tăng dần lên."],
+      ["～<ruby>割<rt>わり</rt></ruby>（<ruby>八割<rt>はちわり</rt></ruby>・<ruby>二割<rt>にわり</rt></ruby>）","Đơn vị 10%. 八割 = 80%, 二割 = 20%. Trong họp tiếng Nhật đọc tỉ lệ bằng 割 tự nhiên hơn đọc パーセント."]
+    ],
+    fix: [
+      {
+        bad: '<b>いいえ、<ruby>違<rt>ちが</rt></ruby>います。</b><ruby>既存顧客<rt>きぞんこきゃく</rt></ruby>のほうが<ruby>大事<rt>だいじ</rt></ruby>です。',
+        good: '<b>なるほど。ただ、</b><ruby>私<rt>わたし</rt></ruby>は<ruby>既存顧客<rt>きぞんこきゃく</rt></ruby>の<ruby>維持<rt>いじ</rt></ruby>に<ruby>配分<rt>はいぶん</rt></ruby>したほうがいいと<ruby>思<rt>おも</rt></ruby>います。',
+        why: 'Trong 会議 không phủ định thẳng ý kiến đồng nghiệp. Luôn theo thứ tự: <b>công nhận (なるほど／おっしゃることは分かります) → ただ／しかし → ý mình</b>. Nói 「違います」 là đóng cửa cuộc thảo luận.'
+      },
+      {
+        bad: '<b>でも</b>、<ruby>新規開拓<rt>しんきかいたく</rt></ruby>はコストが<ruby>高<rt>たか</rt></ruby>い<b>です。そして</b><ruby>時間<rt>じかん</rt></ruby>もかかります。',
+        good: '<ruby>新規開拓<rt>しんきかいたく</rt></ruby>はコストが<ruby>高<rt>たか</rt></ruby>い<b><ruby>割<rt>わり</rt></ruby>に</b>、<ruby>成果<rt>せいか</rt></ruby>が<ruby>出<rt>で</rt></ruby>るまで<ruby>時間<rt>じかん</rt></ruby>がかかります。',
+        why: '① 「でも」 là khẩu ngữ thân mật → họp dùng <b>ただ／しかし／とはいえ</b>. ② Hai vế cùng ý tiêu cực nên gộp bằng <b>～割に</b> cho chặt, thay vì nối rời bằng そして.'
+      },
+      {
+        bad: '<ruby>売上<rt>うりあげ</rt></ruby>が<ruby>伸<rt>の</rt></ruby>び<b>ません</b>。<ruby>絶対<rt>ぜったい</rt></ruby><ruby>新規開拓<rt>しんきかいたく</rt></ruby>を<b>しなければなりません</b>。',
+        good: '<ruby>売上<rt>うりあげ</rt></ruby>が<ruby>伸<rt>の</rt></ruby>び<b>ないのではないでしょうか</b>。',
+        why: 'Khẳng định tuyệt đối (絶対・～なければなりません) khiến người nghe khó phản hồi. Dùng <b>～のではないでしょうか</b> để nêu ý dưới dạng câu hỏi — đối phương dễ tiếp nhận, mà lập luận vẫn rõ.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — tranh luận xong nhưng không ra kết luận.',
+        good: 'では、こういうのはいかがでしょうか。<ruby>予算<rt>よさん</rt></ruby>の<ruby>七割<rt>ななわり</rt></ruby>を…、<ruby>残<rt>のこ</rt></ruby>りの<ruby>三割<rt>さんわり</rt></ruby>を…、という<ruby>配分<rt>はいぶん</rt></ruby>です。→ <ruby>半年後<rt>はんとしご</rt></ruby>に<ruby>見直<rt>みなお</rt></ruby>しましょう。',
+        why: 'Đề bài yêu cầu 「<ruby>着地点<rt>ちゃくちてん</rt></ruby>を<ruby>導<rt>みちび</rt></ruby>き<ruby>出<rt>だ</rt></ruby>す」 = phải RA ĐƯỢC KẾT LUẬN. Công thức ăn điểm: <b>chia tỉ lệ cụ thể (7:3) + thử nhỏ trước + hẹn mốc rà lại (半年後)</b>. Chỉ cãi qua cãi lại mà không chốt là chưa đạt yêu cầu.'
+      },
+      {
+        bad: 'このようにしたらどうでしょうか？<b>もしあの</b>80%は80%は<ruby>既存顧客<rt>きぞんこきゃく</rt></ruby>の<b>イージーサポート</b>の<ruby>予算<rt>よさん</rt></ruby>に<b><ruby>入<rt>はい</rt></ruby>って</b>20%ぐらい<b>年してて</b>…',
+        good: 'では、こういうのはいかがでしょうか。<ruby>予算<rt>よさん</rt></ruby>の<b><ruby>八割<rt>はちわり</rt></ruby>を</b><ruby>既存顧客<rt>きぞんこきゃく</rt></ruby>のサポート<ruby>強化<rt>きょうか</rt></ruby>に<b><ruby>充<rt>あ</rt></ruby>てて</b>、<ruby>残<rt>のこ</rt></ruby>りの<b><ruby>二割<rt>にわり</rt></ruby>を</b><ruby>新規開拓<rt>しんきかいたく</rt></ruby>に<b><ruby>回<rt>まわ</rt></ruby>す</b>、という<ruby>配分<rt>はいぶん</rt></ruby>です。',
+        why: '① Nói số lần lượt: tiếng Nhật họp hành đọc tỉ lệ bằng <b>～割</b> (八割・二割) tự nhiên hơn đọc %. ② 「予算に入って」 sai hướng — tiền được PHÂN BỔ VÀO việc gì: 「予算を〜に<b>充てる</b>／<b>配分する</b>／<b>回す</b>」. ③ 「イージーサポート」 không phải tiếng Nhật, bỏ đi. ④ 「20%ぐらい年してて」 là câu vỡ — khi bí, dừng lại nói lại từ đầu còn hơn nói tiếp.'
+      },
+      {
+        bad: 'もしあの<b>お<ruby>客<rt>きゃく</rt></ruby>さんが<ruby>良<rt>よ</rt></ruby>ければ</b>もっと<b><ruby>上<rt>あ</rt></ruby>がる</b> <ruby>少<rt>すこ</rt></ruby>しずつ<ruby>上<rt>あ</rt></ruby>がればいい<b>でしょうかね？</b>',
+        good: '<b><ruby>効果<rt>こうか</rt></ruby>が<ruby>確認<rt>かくにん</rt></ruby>できれば</b>、<ruby>新規開拓<rt>しんきかいたく</rt></ruby>の<ruby>比率<rt>ひりつ</rt></ruby>を<ruby>少<rt>すこ</rt></ruby>しずつ<b><ruby>上<rt>あ</rt></ruby>げていく</b>、というのは<b>いかがでしょうか</b>。',
+        why: '① 「お客さんが良ければ」 mơ hồ (khách tốt? khách đồng ý?) → nêu ĐIỀU KIỆN ĐO ĐƯỢC: 「効果が確認できれば」「<ruby>数字<rt>すうじ</rt></ruby>が<ruby>良<rt>よ</rt></ruby>ければ」. ② <b>上がる = tự động từ</b> (tự nó tăng); mình chủ động tăng thì phải dùng <b>上げる</b> + ～ていく (tăng dần theo thời gian). ③ 「でしょうかね？」 thiếu trang trọng → 「いかがでしょうか」.'
+      },
+      {
+        bad: 'どんな<ruby>天気<rt>てんき</rt></ruby>が <b>だよね？</b> そうですね。<b>そうかな。</b>',
+        good: 'そうですね<b>。</b>／ <ruby>確<rt>たし</rt></ruby>かにそうですね<b>。</b>／ おっしゃるとおりです<b>。</b>',
+        why: '<b>だよね／そうかな</b> là thể thân mật (タメ口), tuyệt đối không dùng trong họp — kể cả khi đang lẩm bẩm suy nghĩ. Trong 会議 chỉ dùng dạng です・ます. Khi cần thời gian nghĩ, dùng 「そうですね…」「<ruby>少<rt>すこ</rt></ruby>々<rt>しょう</rt>お<ruby>待<rt>ま</rt></ruby>ちください」 thay vì filler tiếng mẹ đẻ hay あの liên tục.'
+      }
     ]
   }
 ];

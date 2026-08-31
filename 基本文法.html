@@ -147,6 +147,103 @@ html[data-vn="off"] .ex .vn{display:none}
   .sum-row .p{min-width:0}
   .sum-row .m{flex:1 0 100%;padding-left:38px}
 }
+
+/* ---------- chuyển chế độ Học / Luyện tập ---------- */
+.mode-sw{display:flex;gap:6px;padding:5px;border-radius:16px;background:var(--surface-in);
+  border:1px solid var(--border);margin-bottom:14px}
+.mode-sw button{flex:1;padding:10px 8px;border:0;border-radius:12px;background:none;color:var(--text-2);
+  font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;
+  justify-content:center;gap:7px;transition:background .2s,color .2s}
+.mode-sw button svg{width:16px;height:16px}
+.mode-sw button[aria-pressed="true"]{background:var(--surface);color:var(--primary);box-shadow:var(--shadow)}
+
+/* ---------- nút ---------- */
+.btn{padding:12px 20px;border-radius:var(--radius-sm);border:1.5px solid var(--primary);
+  background:var(--primary);color:#fff;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;
+  transition:filter .18s,background .18s,color .18s}
+.btn:hover:not(:disabled){filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.ghost{background:var(--surface-2);border-color:var(--border);color:var(--text-2)}
+.btn.ghost:hover{border-color:var(--primary-2);color:var(--text)}
+html[data-theme="dark"] .btn{color:#0b1020}
+html[data-theme="dark"] .btn.ghost{color:var(--text-2)}
+
+/* ---------- luyện đặt câu ---------- */
+.q-lb{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);
+  margin:16px 0 8px}
+.q-lb:first-of-type{margin-top:4px}
+.q-bar{height:7px;border-radius:99px;background:var(--surface-in);overflow:hidden;margin-bottom:12px}
+.q-bar i{display:block;height:100%;width:0;border-radius:99px;transition:width .3s;
+  background:linear-gradient(90deg,var(--primary),#8b5cf6)}
+.q-meta{display:flex;align-items:center;gap:10px;font-size:12.5px;font-weight:700;color:var(--text-3)}
+.q-meta .q-type{padding:4px 11px;border-radius:99px;background:var(--primary-soft);color:var(--primary);
+  font-size:11.5px}
+.q-meta .sc{margin-left:auto;color:var(--ok)}
+.q-sentence{font-size:20px;font-weight:700;line-height:1.9;margin-top:14px}
+.q-sentence .blank{display:inline-block;padding:0 4px;border-radius:8px;background:var(--accent-soft);
+  color:var(--accent);font-weight:800}
+.q-vn{font-size:16.5px;font-weight:600;margin-top:14px;line-height:1.6}
+.q-vn.sub{font-size:14px;font-weight:500;color:var(--text-2);margin-top:6px}
+.q-hint{font-size:13px;color:var(--text-3);margin-top:6px}
+.q-hint b{color:var(--text-2)}
+.q-slot{display:flex;flex-wrap:wrap;align-items:center;gap:8px;min-height:60px;padding:12px;margin-top:14px;
+  border-radius:var(--radius-sm);border:1.5px dashed var(--border-2);background:var(--surface-2)}
+.q-slot.ok{border-color:var(--ok);border-style:solid;background:var(--ok-soft)}
+.q-slot.bad{border-color:var(--bad);border-style:solid;background:var(--bad-soft)}
+.q-ph{font-size:13px;color:var(--text-3)}
+.q-pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tok{padding:9px 13px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface);
+  color:var(--text);font-size:16.5px;font-weight:600;cursor:pointer;transition:.18s}
+.tok:hover:not(:disabled){border-color:var(--primary);color:var(--primary)}
+.tok.in{background:var(--primary-soft);border-color:var(--primary);color:var(--primary)}
+.tok.used{opacity:.28;pointer-events:none}
+.tok:disabled{cursor:default}
+.q-opts{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;
+  border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface-2);
+  color:var(--text);font-family:inherit;font-size:15px;cursor:pointer;transition:.18s}
+.opt:hover:not(:disabled){border-color:var(--primary-2)}
+.opt .k{width:24px;height:24px;flex:none;border-radius:8px;display:grid;place-items:center;
+  background:var(--surface-in);color:var(--text-3);font-size:11.5px;font-weight:800}
+.opt .t{flex:1;min-width:0;font-weight:600}
+.opt.sel{border-color:var(--primary);background:var(--primary-soft)}
+.opt.sel .k{background:var(--primary);color:#fff}
+.opt.ok{border-color:var(--ok);background:var(--ok-soft)}
+.opt.ok .k{background:var(--ok);color:#fff}
+.opt.bad{border-color:var(--bad);background:var(--bad-soft)}
+.opt.bad .k{background:var(--bad);color:#fff}
+.opt:disabled{cursor:default}
+.q-fb{margin-top:16px;padding:14px;border-radius:var(--radius-sm);border:1px solid var(--border)}
+.q-fb.ok{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 35%,transparent)}
+.q-fb.bad{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 35%,transparent)}
+.q-fb .hd{font-size:14px;font-weight:800;margin-bottom:8px}
+.q-fb.ok .hd{color:var(--ok)}
+.q-fb.bad .hd{color:var(--bad)}
+.q-fb .ans{display:flex;gap:11px}
+.q-fb .ja{font-size:18px;font-weight:600;line-height:1.8}
+.q-fb .kana{font-size:13.5px;color:var(--text-3);margin-top:2px}
+.q-fb .vn{font-size:14px;color:var(--text-2);margin-top:3px}
+.q-fb .pat{margin-top:10px;padding-top:9px;border-top:1px dashed var(--border-2);font-size:13.5px;
+  color:var(--text-2)}
+.lnk{background:none;border:0;padding:0;margin-left:6px;color:var(--primary);font-family:inherit;
+  font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline}
+.q-act{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.res{display:flex;align-items:center;gap:18px;padding:6px 0 14px}
+.res .big{font-size:44px;font-weight:800;line-height:1;color:var(--primary)}
+.res .big span{font-size:20px;color:var(--text-3);font-weight:700}
+.res .pct{font-size:17px;font-weight:800}
+.res .msg{font-size:14px;color:var(--text-2);margin-top:2px}
+.res-wrong{margin-top:6px;padding-top:12px;border-top:1px solid var(--border)}
+.res-wrong .lb{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--bad);margin-bottom:4px}
+.g.flash{animation:flash 1.4s ease}
+@keyframes flash{0%,100%{box-shadow:var(--shadow)}25%{box-shadow:0 0 0 3px var(--primary)}}
+
+@media (max-width:620px){
+  .q-sentence{font-size:18px}
+  .q-act .btn{flex:1 0 auto}
+  .res .big{font-size:36px}
+}
 </style>
 </head>
 
@@ -171,6 +268,18 @@ html[data-vn="off"] .ex .vn{display:none}
     </button>
   </div>
 
+  <div class="mode-sw" id="modeSw">
+    <button type="button" data-mode="study" aria-pressed="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M9 4v16"/></svg>
+      Học ngữ pháp
+    </button>
+    <button type="button" data-mode="quiz" aria-pressed="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+      Luyện đặt câu
+    </button>
+  </div>
+
+  <div id="studyWrap">
   <div class="card">
     <div class="card-title">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
@@ -194,6 +303,34 @@ html[data-vn="off"] .ex .vn{display:none}
       Bảng tổng hợp nhanh
     </div>
     <div id="sumTable"></div>
+  </div>
+  </div><!-- /studyWrap -->
+
+  <div id="quizWrap" class="hidden">
+    <div class="card" id="quizSetup">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
+        Thiết lập bài luyện
+      </div>
+      <div class="q-lb">Nhóm ngữ pháp</div>
+      <div class="chips" id="qGroup"></div>
+      <div class="q-lb">Dạng bài</div>
+      <div class="chips" id="qTypes"></div>
+      <div class="q-lb">Số câu</div>
+      <div class="chips" id="qSize"></div>
+      <div class="hint" id="qCount"></div>
+      <div class="q-act"><button class="btn" id="qStart">Bắt đầu luyện tập</button></div>
+    </div>
+
+    <div class="card hidden" id="quizPlay">
+      <div class="q-bar"><i id="qBar"></i></div>
+      <div class="q-meta" id="qMeta"></div>
+      <div id="qBody"></div>
+      <div class="q-fb hidden" id="qFb"></div>
+      <div class="q-act" id="qAct"></div>
+    </div>
+
+    <div class="card hidden" id="quizDone"></div>
   </div>
 
 </div>
@@ -484,5 +621,6 @@ $('themeBtn').onclick = () => {
   if (synth) synth.getVoices();
 })();
 </script>
+<script src="grammar-practice.js"></script>
 </body>
 </html>
