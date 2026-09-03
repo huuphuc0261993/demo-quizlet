@@ -211,6 +211,24 @@
     .fc .big.long{font-size:clamp(24px,6.5vw,36px)}
     .qstem .big.long{font-size:clamp(22px,5.5vw,34px)}
     .opt.long{font-size:15px}
+    /* ===== HỌC TỪ (lặp lại giãn cách) ===== */
+    .learn-btns{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));margin-top:4px}
+    .chunk{display:flex;gap:4px;flex:none}
+    .chunk i{width:8px;height:8px;border-radius:99px;background:var(--surface-in);
+      border:1px solid var(--border-2);transition:background .2s,transform .2s}
+    .chunk i.cur{background:var(--primary);border-color:var(--primary);transform:scale(1.35)}
+    .chunk i.on{background:var(--ok);border-color:var(--ok)}
+    .qstem .mean{font-size:19px;font-weight:700;color:var(--text);margin-top:10px}
+    .qstem .kicker{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+    .kbd-hint{margin-top:14px;text-align:center;font-size:12px;color:var(--text-3);font-weight:600}
+    kbd{font-family:inherit;font-size:11px;font-weight:700;padding:1px 6px;border-radius:6px;
+      background:var(--surface-in);border:1px solid var(--border-2)}
+    /* nhãn bậc ghi nhớ trong sổ từ */
+    .tag.lv{background:var(--primary-soft);color:var(--primary)}
+    .tag.lv-hi{background:var(--ok-soft);color:var(--ok)}
+    .tag.lv-due{background:var(--accent-soft);color:var(--accent)}
+    .sum{font-size:13px;color:var(--text-2);font-weight:600;margin-bottom:12px;line-height:1.7}
+    .sum b{color:var(--text);font-weight:800}
     @media(max-width:520px){
       .card{padding:18px 16px}
       .brand .bn{display:none}
@@ -261,7 +279,14 @@
     </div>
 
     <nav class="tabs" id="mainTabs" role="tablist" aria-label="Khu vực chính">
-      <button class="tab" type="button" role="tab" data-tab="quiz" aria-selected="true">
+      <button class="tab" type="button" role="tab" data-tab="learn" aria-selected="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M12 3 2 8l10 5 10-5-10-5z" />
+          <path d="M2 14l10 5 10-5" />
+        </svg><span>Học từ</span>
+      </button>
+      <button class="tab" type="button" role="tab" data-tab="quiz" aria-selected="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
           <path d="M9 11l3 3 8-8" />
@@ -286,8 +311,183 @@
       </button>
     </nav>
 
+    <!-- ===================== TAB: HỌC TỪ ===================== -->
+    <section id="pane-learn">
+      <div id="learnHome">
+        <div class="stats">
+          <div class="stat">
+            <div class="v" id="lnLearned">0</div>
+            <div class="l">Từ đã học</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="lnStrong">0</div>
+            <div class="l">Thuộc chắc</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="lnDueN">0</div>
+            <div class="l">Ôn hôm nay</div>
+          </div>
+          <div class="stat">
+            <div class="v" id="lnNewN">0</div>
+            <div class="l">Từ chưa học</div>
+          </div>
+        </div>
+
+        <div class="card hero">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 3 2 8l10 5 10-5-10-5z" />
+              <path d="M2 14l10 5 10-5" />
+            </svg>
+            Học nhanh · lặp lại giãn cách
+          </div>
+
+          <div class="field">
+            <div class="field-lb">Phạm vi học</div>
+            <div class="chips" id="lnScope">
+              <button class="chip" type="button" data-scope="all" aria-pressed="true">Tất cả</button>
+              <button class="chip only-kanji" type="button" data-scope="p1" aria-pressed="false">問題1</button>
+              <button class="chip only-kanji" type="button" data-scope="p2" aria-pressed="false">問題2</button>
+              <button class="chip" type="button" data-scope="rep" aria-pressed="false">Ra thi ≥ 2 lần</button>
+              <button class="chip" type="button" data-scope="star" aria-pressed="false">Đã đánh dấu</button>
+              <button class="chip" type="button" data-scope="wrong" aria-pressed="false">Hay sai</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="learn-btns">
+              <button class="btn btn-primary" type="button" id="btnLearnNew">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                Học từ mới <span class="pill" id="pillNew">0</span>
+              </button>
+              <button class="btn" type="button" id="btnLearnDue">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5" />
+                </svg>
+                Ôn từ đến hạn <span class="pill" id="pillDue">0</span>
+              </button>
+              <button class="btn" type="button" id="btnLearnBook">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                  stroke-linejoin="round">
+                  <path d="M4 19V6a2 2 0 0 1 2-2h9l5 5v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+                  <path d="M14 4v5h5" />
+                </svg>
+                Tra từ đã học <span class="pill" id="pillBook">0</span>
+              </button>
+            </div>
+            <p class="hint" id="lnHint"></p>
+          </div>
+
+          <details class="note" style="margin:15px 0 0">
+            <summary>Tuỳ chỉnh nhóm &amp; mục tiêu mỗi buổi</summary>
+            <div class="field">
+              <div class="field-lb">Mỗi nhóm bao nhiêu từ</div>
+              <div class="chips" id="batchChips">
+                <button class="chip" type="button" data-batch="4" aria-pressed="false">4 từ</button>
+                <button class="chip" type="button" data-batch="5" aria-pressed="true">5 từ</button>
+                <button class="chip" type="button" data-batch="8" aria-pressed="false">8 từ</button>
+                <button class="chip" type="button" data-batch="10" aria-pressed="false">10 từ</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-lb">Mục tiêu từ mới mỗi buổi</div>
+              <div class="chips" id="goalChips">
+                <button class="chip" type="button" data-goal="10" aria-pressed="false">10 từ</button>
+                <button class="chip" type="button" data-goal="20" aria-pressed="true">20 từ</button>
+                <button class="chip" type="button" data-goal="30" aria-pressed="false">30 từ</button>
+                <button class="chip" type="button" data-goal="50" aria-pressed="false">50 từ</button>
+              </div>
+            </div>
+          </details>
+
+          <details class="note" style="margin:10px 0 0">
+            <summary>Cách học này hoạt động thế nào?</summary>
+            <p>Học <b>từng nhóm nhỏ</b>: xem từ + nghĩa 1 lần, rồi mỗi từ phải vượt <b>3 vòng kiểm tra</b>
+              (nhận nghĩa → chọn chữ → cách đọc) mới coi là thuộc. Sai thì từ đó quay lại ngay sau vài câu.
+              Hết nhóm, app <b>hẹn ngày ôn lại</b> (1 → 3 → 7 → 16 → 35 → 90 ngày) để không quên.
+              Tiến độ lưu riêng cho từng bộ từ (漢字 / 類義語) ngay trên máy này.</p>
+          </details>
+        </div>
+      </div>
+
+      <!-- ---------- đang học ---------- -->
+      <div id="learnPlay" class="hidden">
+        <div class="card">
+          <div class="qbar">
+            <span id="lPhase">Nhóm 1</span>
+            <span class="track"><i id="lFill" style="width:0%"></i></span>
+            <span id="lDone">0 thuộc</span>
+            <span class="chunk" id="lChunk"></span>
+          </div>
+
+          <!-- giới thiệu từ mới -->
+          <div class="qstem" id="lIntro">
+            <div class="kicker">Từ mới · ghi nhớ nhanh</div>
+            <div class="big jp" id="lBig">—</div>
+            <div class="sub jp" id="lRead"></div>
+            <div class="mean" id="lMean"></div>
+          </div>
+
+          <!-- kiểm tra -->
+          <div id="lDrill" class="hidden">
+            <div class="qstem">
+              <div class="lb" id="lLabel">—</div>
+              <div class="big" id="lqBig">—</div>
+              <div class="sub hidden" id="lqSub"></div>
+            </div>
+            <div class="opts" id="lOpts"></div>
+            <div class="fb hidden" id="lFb"></div>
+          </div>
+
+          <div class="btn-row" style="margin-top:18px">
+            <button class="btn" type="button" id="lSpeak">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M11 5L6 9H2v6h4l5 4V5z" />
+                <path d="M19.1 4.9a10 10 0 0 1 0 14.2M15.5 8.5a5 5 0 0 1 0 7" />
+              </svg>
+              Nghe
+            </button>
+            <button class="btn" type="button" id="lStar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9L12 3z" />
+              </svg>
+              Đánh dấu
+            </button>
+            <span class="spacer"></span>
+            <button class="btn btn-primary" type="button" id="lNext">Tiếp tục</button>
+            <button class="btn" type="button" id="lQuit">Tạm dừng</button>
+          </div>
+          <div class="kbd-hint">Bấm <kbd>1</kbd>–<kbd>4</kbd> để chọn · <kbd>Enter</kbd> tiếp tục ·
+            <kbd>S</kbd> đánh dấu · <kbd>Space</kbd> nghe</div>
+        </div>
+      </div>
+
+      <!-- ---------- kết quả buổi học ---------- -->
+      <div id="learnDone" class="hidden">
+        <div class="card score">
+          <div class="n" id="lrN">0%</div>
+          <div class="t" id="lrT">—</div>
+          <p class="hint" id="lrDesc" style="margin-top:10px"></p>
+          <div class="btn-row" style="justify-content:center;margin-top:16px">
+            <button class="btn btn-primary" type="button" id="lrAgain">Học tiếp</button>
+            <button class="btn" type="button" id="lrWrong">Ôn lại <span class="pill" id="lrWrongN">0</span> từ sai</button>
+            <button class="btn" type="button" id="lrBack">Về màn học</button>
+          </div>
+        </div>
+        <div class="card" id="lrReviewCard">
+          <div class="card-title">Từ từng trả lời sai trong buổi này</div>
+          <div class="wlist" id="lrList"></div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== TAB: TRẮC NGHIỆM ===================== -->
-    <section id="pane-quiz">
+    <section id="pane-quiz" class="hidden">
       <div id="quizSetup">
         <div class="stats">
           <div class="stat">
@@ -504,13 +704,38 @@
           <button class="chip" type="button" data-scope="rep" aria-pressed="false">Ra thi ≥ 2 lần</button>
         </div>
         <div class="field">
+          <div class="field-lb">Tình trạng ghi nhớ</div>
+          <div class="chips" id="lsStatus">
+            <button class="chip" type="button" data-st="any" aria-pressed="true">Không lọc</button>
+            <button class="chip" type="button" data-st="learned" aria-pressed="false">Đã học</button>
+            <button class="chip" type="button" data-st="due" aria-pressed="false">Đến hạn ôn</button>
+            <button class="chip" type="button" data-st="strong" aria-pressed="false">Thuộc chắc</button>
+            <button class="chip" type="button" data-st="new" aria-pressed="false">Chưa học</button>
+          </div>
+        </div>
+        <div class="field">
+          <div class="field-lb">Sắp xếp</div>
+          <div class="chips" id="lsSort">
+            <button class="chip" type="button" data-sort="occ" aria-pressed="true">Ra thi nhiều nhất</button>
+            <button class="chip" type="button" data-sort="due" aria-pressed="false">Hạn ôn gần nhất</button>
+            <button class="chip" type="button" data-sort="lv" aria-pressed="false">Bậc thấp trước</button>
+            <button class="chip" type="button" data-sort="miss" aria-pressed="false">Sai nhiều nhất</button>
+          </div>
+        </div>
+        <div class="field">
           <div class="field-lb">Lọc theo đề</div>
           <div class="chips" id="lsExams"></div>
         </div>
       </div>
 
+      <p class="sum" id="lsSum" style="margin-top:14px"></p>
       <p class="hint" id="lsCount"></p>
       <div class="wlist" id="lsList"></div>
+      <div class="btn-row" style="margin-top:14px">
+        <button class="btn btn-primary" type="button" id="lsQuiz">Trắc nghiệm danh sách này</button>
+        <button class="btn" type="button" id="lsFlash">Xem bằng thẻ ghi nhớ</button>
+        <button class="btn" type="button" id="lsMore">Hiện thêm</button>
+      </div>
     </section>
   </div>
 
@@ -1337,6 +1562,8 @@
     const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0;[a[i], a[j]] = [a[j], a[i]]; } return a; };
     /* cụm 問題4 dài -> cần cỡ chữ nhỏ hơn để không tràn */
     const isLong = t => t.length > 8;
+    /* nút vừa bấm sẽ bị ẩn khi đổi màn -> bỏ focus, nếu không Enter/Space sẽ bấm lại nó */
+    const dropFocus = () => { const a = document.activeElement; if (a && a.blur) a.blur(); };
 
     /* ============================== HAI BỘ TỪ ==============================
        Mỗi từ đều có 3 trường nên dùng chung được một bộ máy trắc nghiệm:
@@ -1396,8 +1623,15 @@
     Object.values(BANKS).forEach(buildBank);
     let BANK = BANKS.kanji;
 
-    /* ============================== TIẾN ĐỘ ============================== */
-    const state = Object.assign({ star: [], wrong: {} }, JSON.parse(localStorage.getItem(LS_KEY) || '{}'));
+    /* ============================== TIẾN ĐỘ ==============================
+       star  : các từ tự đánh dấu
+       wrong : số lần trả lời sai còn "nợ" của mỗi từ
+       srs   : lịch lặp lại giãn cách  { key: {lv, due, seen} }
+       prefs : cỡ nhóm học & mục tiêu từ mới mỗi buổi
+       ====================================================================== */
+    const state = Object.assign(
+      { star: [], wrong: {}, srs: {}, prefs: { batch: 5, goal: 20 } },
+      JSON.parse(localStorage.getItem(LS_KEY) || '{}'));
     const starSet = new Set(state.star);
     const save = () => {
       state.star = Array.from(starSet);
@@ -1409,6 +1643,19 @@
     const markRight = w => {
       if (state.wrong[w.key]) { state.wrong[w.key]--; if (state.wrong[w.key] <= 0) delete state.wrong[w.key]; save(); }
     };
+
+    /* ---- lặp lại giãn cách (SRS): bậc 0..6, mỗi bậc là số ngày chờ ôn lại ---- */
+    const SRS_DAYS = [0, 1, 3, 7, 16, 35, 90];
+    const DAY = 864e5;
+    const rec = w => state.srs[w.key];
+    /* thuộc cả nhóm -> lên 1 bậc; nếu trong nhóm từng sai thì tụt về bậc 1 (ôn lại mai) */
+    const promote = (w, failed) => {
+      const cur = rec(w) || { lv: 0, seen: 0 };
+      const lv = failed ? 1 : Math.min((cur.lv || 0) + 1, SRS_DAYS.length - 1);
+      state.srs[w.key] = { lv, due: Date.now() + SRS_DAYS[lv] * DAY, seen: (cur.seen || 0) + 1 };
+    };
+    const srsRecs = () => BANK.words.map(rec).filter(Boolean);
+    const daysLeft = r => Math.ceil((r.due - Date.now()) / DAY);
 
     /* ---- đọc tiếng Nhật ---- */
     let jaVoice = null;
@@ -1425,6 +1672,8 @@
       if (jaVoice) u.voice = jaVoice;
       speechSynthesis.speak(u);
     };
+    /* bộ 類義語 đọc cả hai vế để nghe được cặp đồng nghĩa */
+    const say = w => speak(BANK.eq ? w.k + '\u3002' + w.r : w.k);
 
     /* ---- lọc từ theo phạm vi ---- */
     const inPart = (w, p) => w.occ.some(o => o.part === p);
@@ -1464,12 +1713,18 @@
       localStorage.setItem('jlptn3_theme', dark ? 'light' : 'dark');
     };
 
+    const PANES = ['learn', 'quiz', 'card', 'list'];
+    function goTab(name) {
+      $$('#mainTabs .tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.tab === name)));
+      PANES.forEach(n => $('#pane-' + n).classList.toggle('hidden', n !== name));
+      dropFocus();
+      if (name === 'learn') lnStats();
+      if (name === 'card' && !fc.list.length) fcBuild();
+      if (name === 'list') lsRender();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     $('#mainTabs').addEventListener('click', e => {
-      const b = e.target.closest('.tab'); if (!b) return;
-      $$('#mainTabs .tab').forEach(t => t.setAttribute('aria-selected', String(t === b)));
-      ['quiz', 'card', 'list'].forEach(n => $('#pane-' + n).classList.toggle('hidden', n !== b.dataset.tab));
-      if (b.dataset.tab === 'card' && !fc.list.length) fcBuild();
-      if (b.dataset.tab === 'list') lsRender();
+      const b = e.target.closest('.tab'); if (b) goTab(b.dataset.tab);
     });
 
     function refreshStats() {
@@ -1484,8 +1739,18 @@
     const STAR_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.8 6.2 20.9l1.1-6.5L2.6 9.8l6.5-.9L12 3z"/></svg>';
     const SPK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.1 4.9a10 10 0 0 1 0 14.2M15.5 8.5a5 5 0 0 1 0 7"/></svg>';
 
+    /* nhãn bậc ghi nhớ: chưa học thì không hiện gì */
+    function lvTag(w) {
+      const r = rec(w); if (!r) return '';
+      const left = daysLeft(r);
+      if (left <= 0) return '<span class="tag lv-due">đến hạn ôn</span>';
+      return `<span class="tag ${r.lv >= 3 ? 'lv-hi' : 'lv'}">bậc ${r.lv} · `
+        + `${left === 1 ? 'ôn mai' : 'ôn sau ' + left + ' ngày'}</span>`;
+    }
+
     function wordRow(w) {
-      const tags = w.occ.map(o => `<span class="tag p${o.part}">${o.label} · 問題${o.part}</span>`).join('');
+      const tags = w.occ.map(o => `<span class="tag p${o.part}">${o.label} · 問題${o.part}</span>`).join('')
+        + lvTag(w);
       const wr = state.wrong[w.key] ? `<span class="tag" style="background:var(--bad-soft);color:var(--bad)">sai ${state.wrong[w.key]}×</span>` : '';
       return `<div class="wrow" data-key="${esc(w.key)}">
         <div class="mid">
@@ -1504,7 +1769,7 @@
       container.addEventListener('click', e => {
         const b = e.target.closest('.sq'); if (!b) return;
         const w = BANK.map.get(b.closest('.wrow').dataset.key); if (!w) return;
-        if (b.dataset.act === 'spk') speak(BANK.eq ? w.k + '。' + w.r : w.k);
+        if (b.dataset.act === 'spk') say(w);
         else { toggleStar(w); b.setAttribute('aria-pressed', String(isStar(w))); }
       });
     }
@@ -1557,14 +1822,62 @@
     const FIELD = { k2r: 'r', r2k: 'k', k2v: 'v', v2k: 'k' };
 
     let quiz = null;
+    const QEL = { label: '#qLabel', big: '#qBig', sub: '#qSub', opts: '#qOpts', fb: '#qFb' };
 
-    function buildQuestion(w, mode) {
+    /* near = danh sách từ ưu tiên lấy đáp án nhiễu (các từ cùng nhóm đang học) */
+    function buildQuestion(w, mode, near) {
       const f = FIELD[mode];
       const answer = w[f];
       const opts = [answer];
-      const bag = shuffle(BANK.words.filter(x => x.key !== w.key && x[f] !== answer));
-      for (const c of bag) { if (opts.length >= 4) break; if (!opts.includes(c[f])) opts.push(c[f]); }
+      for (const bag of [near || [], BANK.words]) {
+        for (const c of shuffle(bag.filter(x => x.key !== w.key && x[f] !== answer))) {
+          if (opts.length >= 4) break;
+          if (!opts.includes(c[f])) opts.push(c[f]);
+        }
+        if (opts.length >= 4) break;
+      }
       return { w, mode, answer, opts: shuffle(opts) };
+    }
+
+    /* ---- vẽ 1 câu hỏi vào khu vực bất kỳ (dùng chung Trắc nghiệm & Học từ) ---- */
+    const stemOf = q => q.mode === 'k2r' || q.mode === 'k2v' ? q.w.k : q.mode === 'r2k' ? q.w.r : q.w.v;
+
+    function paintQuestion(q, el) {
+      const w = q.w;
+      $(el.label).textContent = BANK.label[q.mode];
+      const stem = stemOf(q);
+      const big = $(el.big);
+      big.textContent = stem;
+      big.className = 'big' + (q.mode === 'v2k' ? '' : ' jp') + (isLong(stem) ? ' long' : '');
+      const sub = $(el.sub);
+      // bộ 漢字: gợi ý cách đọc khi phải viết Kanji. Bộ 類義語 không gợi ý để không lộ đáp án.
+      if (q.mode === 'v2k' && !BANK.eq) {
+        sub.textContent = 'Cách đọc: ' + w.r; sub.className = 'sub jp'; sub.classList.remove('hidden');
+      } else sub.classList.add('hidden');
+
+      const jp = q.mode !== 'k2v';
+      $(el.opts).innerHTML = q.opts.map((o, i) =>
+        `<button class="opt${jp ? ' jp' : ''}${isLong(o) ? ' long' : ''}" type="button" data-i="${i}">
+           <span class="idx">${i + 1}</span><span>${esc(o)}</span></button>`).join('');
+      $(el.fb).className = 'fb hidden';
+    }
+
+    /* ---- tô màu đáp án sau khi chọn ---- */
+    function markOpts(sel, q, i) {
+      $$(sel + ' .opt').forEach((b, j) => {
+        b.disabled = true;
+        if (q.opts[j] === q.answer) b.classList.add('ok');
+        else if (j === i) b.classList.add('no');
+      });
+    }
+    /* ---- dòng phản hồi đúng/sai ---- */
+    function paintFb(sel, w, ok) {
+      const fb = $(sel);
+      fb.className = 'fb ' + (ok ? 'ok' : 'no');
+      fb.innerHTML = (ok ? '\u2713 Chính xác \u2014 ' : '\u2717 Đáp án đúng: ')
+        + (BANK.eq
+          ? `<b class="jp">${esc(w.k)}</b> \uff1d <b class="jp">${esc(w.r)}</b> \u00b7 ${esc(w.v)}`
+          : `<b class="jp">${esc(w.k)}</b> <b class="jp">(${esc(w.r)})</b> \u00b7 ${esc(w.v)}`);
     }
 
     function startQuiz(list) {
@@ -1577,6 +1890,7 @@
       $('#quizSetup').classList.add('hidden');
       $('#quizDone').classList.add('hidden');
       $('#quizPlay').classList.remove('hidden');
+      dropFocus();
       renderQ();
     }
     $('#startQuiz').onclick = () => startQuiz(currentPool());
@@ -1586,23 +1900,7 @@
       $('#qPos').textContent = `${quiz.i + 1}/${quiz.qs.length}`;
       $('#qScore').textContent = `${quiz.right} đúng`;
       $('#qFill').style.width = (quiz.i / quiz.qs.length * 100) + '%';
-      $('#qLabel').textContent = BANK.label[q.mode];
-
-      const stem = q.mode === 'k2r' || q.mode === 'k2v' ? w.k : q.mode === 'r2k' ? w.r : w.v;
-      const big = $('#qBig');
-      big.textContent = stem;
-      big.className = 'big' + (q.mode === 'v2k' ? '' : ' jp') + (isLong(stem) ? ' long' : '');
-      const sub = $('#qSub');
-      // bộ 漢字: gợi ý cách đọc khi phải viết Kanji. Bộ 類義語 không gợi ý để không lộ đáp án.
-      if (q.mode === 'v2k' && !BANK.eq) {
-        sub.textContent = 'Cách đọc: ' + w.r; sub.className = 'sub jp'; sub.classList.remove('hidden');
-      } else sub.classList.add('hidden');
-
-      const jp = q.mode !== 'k2v';
-      $('#qOpts').innerHTML = q.opts.map((o, i) =>
-        `<button class="opt${jp ? ' jp' : ''}${isLong(o) ? ' long' : ''}" type="button" data-i="${i}">
-           <span class="idx">${i + 1}</span><span>${esc(o)}</span></button>`).join('');
-      $('#qFb').className = 'fb hidden';
+      paintQuestion(q, QEL);
       $('#qNext').classList.add('hidden');
       $('#qStar').style.opacity = isStar(w) ? 1 : .6;
     }
@@ -1617,21 +1915,12 @@
       const btns = $$('#qOpts .opt');
       if (btns[0].disabled) return;
       const ok = q.opts[i] === q.answer;
-      btns.forEach((b, j) => {
-        b.disabled = true;
-        if (q.opts[j] === q.answer) b.classList.add('ok');
-        else if (j === i) b.classList.add('no');
-      });
+      markOpts('#qOpts', q, i);
       if (ok) { quiz.right++; markRight(w); } else { quiz.wrongList.push(w); markWrong(w); }
-      const fb = $('#qFb');
-      fb.className = 'fb ' + (ok ? 'ok' : 'no');
-      fb.innerHTML = (ok ? '✓ Chính xác — ' : '✗ Đáp án đúng: ')
-        + (BANK.eq
-          ? `<b class="jp">${esc(w.k)}</b> ＝ <b class="jp">${esc(w.r)}</b> · ${esc(w.v)}`
-          : `<b class="jp">${esc(w.k)}</b> <b class="jp">(${esc(w.r)})</b> · ${esc(w.v)}`);
+      paintFb('#qFb', w, ok);
       $('#qScore').textContent = `${quiz.right} đúng`;
       $('#qNext').classList.remove('hidden');
-      speak(BANK.eq ? w.k + '。' + w.r : w.k);
+      say(w);
     }
 
     $('#qNext').onclick = () => {
@@ -1640,7 +1929,7 @@
     };
     $('#qSpeak').onclick = () => {
       const w = quiz.qs[quiz.i].w;
-      speak(BANK.eq ? w.k + '。' + w.r : w.k);
+      say(w);
     };
     $('#qStar').onclick = () => {
       const w = quiz.qs[quiz.i].w; toggleStar(w);
@@ -1654,6 +1943,7 @@
       $('#quizPlay').classList.add('hidden');
       $('#quizDone').classList.add('hidden');
       $('#quizSetup').classList.remove('hidden');
+      dropFocus();
       refreshStats();
     }
     function finish() {
@@ -1668,6 +1958,7 @@
       $('#rsList').innerHTML = uniq.map(wordRow).join('');
       $('#quizPlay').classList.add('hidden');
       $('#quizDone').classList.remove('hidden');
+      dropFocus();
       refreshStats();
     }
     bindRows($('#rsList'));
@@ -1678,8 +1969,214 @@
     };
     $('#rsBack').onclick = backToSetup;
     $('#resetProgress').onclick = () => {
-      if (!confirm('Xoá toàn bộ từ đã đánh dấu và lịch sử câu sai (cả hai bộ từ)?')) return;
-      starSet.clear(); state.wrong = {}; save(); refreshStats(); fcRender(); lsRender();
+      if (!confirm('Xoá toàn bộ tiến độ: từ đã đánh dấu, lịch sử câu sai và lịch ôn tập (cả hai bộ từ)?')) return;
+      starSet.clear(); state.wrong = {}; state.srs = {};
+      save(); refreshStats(); fcRender(); lsRender(); lnHome();
+    };
+
+    /* ================================ HỌC TỪ ================================
+       Vòng học một nhóm nhỏ:
+         1. xem từ + nghĩa 1 lần (chỉ với từ mới)
+         2. mỗi từ vượt 3 vòng: 漢字→nghĩa, nghĩa→漢字, 漢字→cách đọc
+         3. sai thì từ đó chen lại ngay sau vài câu, và thêm 1 lượt ở cuối nhóm
+         4. hết nhóm -> chốt bậc SRS, hẹn ngày ôn lại
+       ====================================================================== */
+    const ln = { scope: 'all' };
+    const LEL = { label: '#lLabel', big: '#lqBig', sub: '#lqSub', opts: '#lOpts', fb: '#lFb' };
+    const MAX_MISS = 3;   // sai quá 3 lần cùng một vòng thì tạm bỏ qua, để buổi sau ôn lại
+    let L = null;
+
+    const lnPool = () => pool(ln.scope, null);
+    /* từ ra thi nhiều lần được học trước */
+    const byValue = (a, b) => b.occ.length - a.occ.length || a.r.localeCompare(b.r, 'ja');
+    const newWords = () => lnPool().filter(w => !rec(w)).sort(byValue);
+    const dueWords = () => lnPool().filter(w => rec(w) && rec(w).due <= Date.now())
+      .sort((a, b) => rec(a).due - rec(b).due);
+    /* từ mới: 3 vòng cho chắc. ôn lại: 2 vòng cho nhanh */
+    const stepsFor = mode => mode === 'due' ? ['k2v', 'v2k'] : ['k2v', 'v2k', 'k2r'];
+
+    /* ---- màn hình chờ ---- */
+    function lnStats() {
+      const recs = srsRecs(), t = Date.now();
+      const nNew = newWords().length, nDue = dueWords().length;
+      $('#lnLearned').textContent = recs.length;
+      $('#lnStrong').textContent = recs.filter(r => r.lv >= 3).length;
+      $('#lnDueN').textContent = recs.filter(r => r.due <= t).length;
+      $('#lnNewN').textContent = nNew;
+      $('#pillNew').textContent = Math.min(nNew, state.prefs.goal || 20);
+      $('#pillDue').textContent = nDue;
+      $('#pillBook').textContent = recs.length;
+      $('#btnLearnNew').disabled = nNew < 4;
+      $('#btnLearnDue').disabled = nDue === 0;
+      $('#btnLearnBook').disabled = recs.length === 0;
+      $('#lnHint').textContent = nNew < 4
+        ? (nDue ? 'Phạm vi này đã học hết — hãy ôn ' + nDue + ' từ đến hạn.'
+          : 'Phạm vi này đã học hết và chưa có từ nào đến hạn ôn. Chọn phạm vi khác nhé.')
+        : `Còn ${nNew} từ chưa học · buổi này sẽ học ${Math.min(nNew, state.prefs.goal || 20)} từ, `
+        + `chia thành nhóm ${state.prefs.batch} từ.`;
+    }
+    function lnHome() {
+      $('#learnPlay').classList.add('hidden');
+      $('#learnDone').classList.add('hidden');
+      $('#learnHome').classList.remove('hidden');
+      dropFocus();
+      lnStats();
+    }
+
+    singleSelect($('#lnScope'), b => { ln.scope = b.dataset.scope; lnStats(); });
+    singleSelect($('#batchChips'), b => { state.prefs.batch = +b.dataset.batch; save(); lnStats(); });
+    singleSelect($('#goalChips'), b => { state.prefs.goal = +b.dataset.goal; save(); lnStats(); });
+
+    /* ---- chạy buổi học ---- */
+    function startLearn(mode, src) {
+      let list = src ? src.slice() : (mode === 'due' ? dueWords() : newWords());
+      if (!list.length) return;
+      list = list.slice(0, mode === 'due' ? 80 : (state.prefs.goal || 20));
+      L = {
+        mode, pool: list, cursor: 0, batchNo: 0, batch: [], queue: [], cur: null,
+        answered: false, q: null, learned: 0, doneCount: 0, asked: 0, right: 0, wrong: []
+      };
+      $('#learnHome').classList.add('hidden');
+      $('#learnDone').classList.add('hidden');
+      $('#learnPlay').classList.remove('hidden');
+      dropFocus();
+      nextBatch();
+    }
+    function nextBatch() {
+      const slice = L.pool.slice(L.cursor, L.cursor + (state.prefs.batch || 5));
+      if (!slice.length) return finishLearn();
+      L.cursor += slice.length; L.batchNo++;
+      L.batch = slice.map(w => ({ w, si: 0, miss: 0, steps: stepsFor(L.mode), failed: false, done: false }));
+      L.queue = L.mode === 'new' ? L.batch.map(e => ({ e, intro: true })) : [];
+      const maxS = Math.max(...L.batch.map(e => e.steps.length));
+      for (let k = 0; k < maxS; k++) L.batch.forEach(e => { if (k < e.steps.length) L.queue.push({ e }); });
+      advanceL();
+    }
+    /* chốt bậc SRS cho các từ đã xong trong nhóm */
+    function commitBatch() {
+      L.batch.forEach(e => { if (e.done) promote(e.w, e.failed); });
+      save();
+    }
+    function advanceL() {
+      while (L.queue.length && L.queue[0].e.done && !L.queue[0].intro) L.queue.shift();
+      if (!L.queue.length) {
+        commitBatch();
+        if (L.cursor >= L.pool.length) return finishLearn();
+        return nextBatch();
+      }
+      L.cur = L.queue[0]; L.answered = false;
+      updateLBar();
+      L.cur.intro ? renderIntro() : renderDrill();
+    }
+    function updateLBar() {
+      $('#lPhase').textContent = (L.mode === 'due' ? 'Ôn tập · nhóm ' : 'Nhóm ') + L.batchNo;
+      $('#lFill').style.width = (L.doneCount / L.pool.length * 100) + '%';
+      $('#lDone').textContent = `${L.learned}/${L.pool.length} thuộc`;
+      $('#lChunk').innerHTML = L.batch.map(e =>
+        `<i class="${e.done ? 'on' : (e === L.cur.e ? 'cur' : '')}"></i>`).join('');
+      $('#lStar').style.opacity = isStar(L.cur.e.w) ? 1 : .6;
+    }
+    function renderIntro() {
+      const w = L.cur.e.w;
+      $('#lIntro').classList.remove('hidden');
+      $('#lDrill').classList.add('hidden');
+      const big = $('#lBig');
+      big.textContent = w.k;
+      big.className = 'big jp' + (isLong(w.k) ? ' long' : '');
+      $('#lRead').textContent = (BANK.eq ? '\uff1d ' : '') + w.r;
+      $('#lMean').textContent = w.v;
+      $('#lNext').textContent = 'Đã hiểu, tiếp tục';
+      $('#lNext').classList.remove('hidden');
+    }
+    function renderDrill() {
+      const e = L.cur.e, w = e.w;
+      $('#lIntro').classList.add('hidden');
+      $('#lDrill').classList.remove('hidden');
+      L.q = buildQuestion(w, e.steps[e.si], L.batch.map(x => x.w));
+      paintQuestion(L.q, LEL);
+      $('#lNext').textContent = 'Tiếp tục';
+      $('#lNext').classList.add('hidden');
+    }
+    function lAnswer(i) {
+      if (L.answered || L.cur.intro) return;
+      L.answered = true;
+      const e = L.cur.e, w = e.w, ok = L.q.opts[i] === L.q.answer;
+      markOpts('#lOpts', L.q, i);
+      L.asked++;
+      let forced = false;
+      if (ok) {
+        L.right++; e.si++; e.miss = 0; markRight(w);
+      } else {
+        e.failed = true; e.miss++;
+        L.wrong.push(w); markWrong(w);
+        if (e.miss >= MAX_MISS) { e.si++; e.miss = 0; forced = true; }  // tránh kẹt mãi một từ
+        else {
+          L.queue.splice(Math.min(3, L.queue.length), 0, { e });        // gặp lại ngay sau vài câu
+          L.queue.push({ e });                                         // và một lượt nữa ở cuối nhóm
+        }
+      }
+      if (e.si >= e.steps.length && !e.done) {
+        e.done = true; L.doneCount++;
+        if (!e.failed) L.learned++;
+      }
+      paintFb('#lFb', w, ok);
+      const note = ok ? (e.done ? ' \u00b7 <b>thuộc rồi!</b>' : '')
+        : (forced ? ' \u00b7 <b>để buổi sau ôn lại từ này</b>' : ' \u00b7 sẽ gặp lại từ này ngay');
+      $('#lFb').innerHTML += note;
+      $('#lNext').classList.remove('hidden');
+      updateLBar();
+      say(w);
+    }
+    function finishLearn() {
+      const pct = L.asked ? Math.round(L.right / L.asked * 100) : 0;
+      const dues = L.pool.slice(0, L.cursor).map(rec).filter(Boolean).map(r => r.due);
+      const days = dues.length ? Math.max(1, Math.round((Math.min(...dues) - Date.now()) / DAY)) : 0;
+      const uniq = [...new Map(L.wrong.map(w => [w.key, w])).values()];
+      $('#lrN').textContent = pct + '%';
+      $('#lrT').textContent = L.doneCount
+        ? `Xong ${L.doneCount} từ · ${L.learned} từ không sai lần nào` : 'Tạm dừng';
+      $('#lrDesc').textContent = `Đúng ${L.right}/${L.asked} lượt`
+        + (days ? ` · lịch ôn lại gần nhất: ${days === 1 ? 'ngày mai' : days + ' ngày nữa'}` : '')
+        + ` · ${uniq.length} từ từng sai`;
+      $('#lrWrongN').textContent = uniq.length;
+      $('#lrWrong').disabled = uniq.length === 0;
+      $('#lrReviewCard').classList.toggle('hidden', uniq.length === 0);
+      $('#lrList').innerHTML = uniq.map(wordRow).join('');
+      $('#learnPlay').classList.add('hidden');
+      $('#learnDone').classList.remove('hidden');
+      dropFocus();
+      lnStats();
+      refreshStats();
+    }
+    bindRows($('#lrList'));
+
+    $('#lOpts').addEventListener('click', e => {
+      const b = e.target.closest('.opt'); if (!b || b.disabled) return;
+      lAnswer(+b.dataset.i);
+    });
+    $('#lNext').onclick = () => {
+      if (!L.cur.intro && !L.answered) return;
+      L.queue.shift();
+      advanceL();
+    };
+    $('#lQuit').onclick = () => { commitBatch(); finishLearn(); };
+    $('#lSpeak').onclick = () => { say(L.cur.e.w); dropFocus(); };
+    $('#lStar').onclick = () => { toggleStar(L.cur.e.w); updateLBar(); dropFocus(); };
+    $('#lrAgain').onclick = () => {
+      const list = L.mode === 'due' ? dueWords() : newWords();
+      list.length ? startLearn(L.mode) : lnHome();
+    };
+    $('#lrWrong').onclick = () => {
+      const uniq = [...new Map(L.wrong.map(w => [w.key, w])).values()];
+      startLearn('due', uniq);
+    };
+    $('#lrBack').onclick = lnHome;
+    $('#btnLearnNew').onclick = () => startLearn('new');
+    $('#btnLearnDue').onclick = () => startLearn('due');
+    $('#btnLearnBook').onclick = () => {
+      ls.st = 'learned';
+      $$('#lsStatus .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.st === 'learned')));
+      goTab('list');
     };
 
     /* ================================ THẺ GHI NHỚ ================================ */
@@ -1714,7 +2211,7 @@
     $('#fcSpeak').onclick = () => {
       if (!fc.list.length) return;
       const w = fc.list[fc.i];
-      speak(BANK.eq ? w.k + '。' + w.r : w.k);
+      say(w);
     };
     $('#fcStar').onclick = () => { if (fc.list.length) { toggleStar(fc.list[fc.i]); fcRender(); } };
     singleSelect($('#fcScope'), b => { fc.scope = b.dataset.scope; fcBuild(); });
@@ -1727,8 +2224,15 @@
       e.currentTarget.setAttribute('aria-pressed', String(fc.backFirst)); fc.flip = false; fcRender();
     };
 
-    /* ================================ TRA TỪ ================================ */
-    const ls = { scope: 'all', exams: new Set(), q: '' };
+    /* =========================== TRA TỪ / SỔ TỪ ĐÃ HỌC =========================== */
+    const ls = { scope: 'all', exams: new Set(), q: '', st: 'any', sort: 'occ', limit: 150 };
+    const LS_ST = {
+      any: () => true,
+      learned: w => !!rec(w),
+      due: w => { const r = rec(w); return !!r && r.due <= Date.now(); },
+      strong: w => { const r = rec(w); return !!r && r.lv >= 3; },
+      new: w => !rec(w)
+    };
     $('#lsExams').addEventListener('click', e => {
       const b = e.target.closest('.chip'); if (!b) return;
       const on = b.getAttribute('aria-pressed') !== 'true';
@@ -1736,19 +2240,54 @@
       on ? ls.exams.add(b.dataset.exam) : ls.exams.delete(b.dataset.exam);
       lsRender();
     });
-    singleSelect($('#lsScope'), b => { ls.scope = b.dataset.scope; lsRender(); });
-    $('#q').addEventListener('input', e => { ls.q = norm(e.target.value.trim()); lsRender(); });
+    const lsReset = () => { ls.limit = 150; lsRender(); };
+    singleSelect($('#lsScope'), b => { ls.scope = b.dataset.scope; lsReset(); });
+    singleSelect($('#lsStatus'), b => { ls.st = b.dataset.st; lsReset(); });
+    singleSelect($('#lsSort'), b => { ls.sort = b.dataset.sort; lsReset(); });
+    $('#q').addEventListener('input', e => { ls.q = norm(e.target.value.trim()); lsReset(); });
+    $('#lsMore').onclick = () => { ls.limit += 300; lsRender(); };
 
-    function lsRender() {
-      let list = pool(ls.scope, null);
+    function lsList() {
+      let list = pool(ls.scope, null).filter(LS_ST[ls.st] || LS_ST.any);
       if (ls.exams.size) list = list.filter(w => w.occ.some(o => ls.exams.has(o.exam)));
       if (ls.q) list = list.filter(w => w.hay.includes(ls.q));
-      list = list.slice().sort((a, b) => b.occ.length - a.occ.length || a.r.localeCompare(b.r, 'ja'));
+      const lv = w => rec(w) ? rec(w).lv : -1;
+      const due = w => rec(w) ? rec(w).due : Infinity;
+      const cmp = {
+        occ: byValue,
+        due: (a, b) => due(a) - due(b) || byValue(a, b),
+        lv: (a, b) => lv(a) - lv(b) || byValue(a, b),
+        miss: (a, b) => (state.wrong[b.key] || 0) - (state.wrong[a.key] || 0) || byValue(a, b)
+      };
+      return list.sort(cmp[ls.sort] || cmp.occ);
+    }
+
+    function lsRender() {
+      const list = lsList();
+      const recs = srsRecs(), t = Date.now();
+      $('#lsSum').innerHTML = `Đã học <b>${recs.length}</b>/${BANK.words.length} từ · `
+        + `thuộc chắc (bậc ≥3) <b>${recs.filter(r => r.lv >= 3).length}</b> · `
+        + `đến hạn ôn <b>${recs.filter(r => r.due <= t).length}</b> · `
+        + `đánh dấu <b>${BANK.words.filter(isStar).length}</b> · `
+        + `hay sai <b>${BANK.words.filter(w => state.wrong[w.key]).length}</b>`;
       $('#lsCount').textContent = `${list.length} từ` + (ls.exams.size ? ` · ${ls.exams.size} đề đang lọc` : '');
-      $('#lsList').innerHTML = list.length ? list.map(wordRow).join('')
+      $('#lsList').innerHTML = list.length ? list.slice(0, ls.limit).map(wordRow).join('')
         : '<div class="empty">Không tìm thấy từ nào khớp.</div>';
+      const rest = list.length - ls.limit;
+      $('#lsMore').classList.toggle('hidden', rest <= 0);
+      $('#lsMore').textContent = `Hiện thêm (${rest})`;
+      $('#lsQuiz').disabled = list.length < 4;
+      $('#lsFlash').disabled = list.length === 0;
     }
     bindRows($('#lsList'));
+
+    /* luyện ngay danh sách vừa lọc */
+    $('#lsQuiz').onclick = () => { goTab('quiz'); startQuiz(lsList()); };
+    $('#lsFlash').onclick = () => {
+      fc.list = lsList(); if (fc.shuffle) shuffle(fc.list);
+      fc.i = 0; fc.flip = false;
+      goTab('card'); fcRender();
+    };
 
     /* ============================ ĐỔI BỘ TỪ ============================ */
     function resetScope(sel, obj) {
@@ -1766,6 +2305,10 @@
       resetScope('#scopeChips', cfg);
       resetScope('#fcScope', fc);
       resetScope('#lsScope', ls);
+      resetScope('#lnScope', ln);
+      $$('#lsStatus .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.st === 'any')));
+      $$('#lsSort .chip').forEach(c => c.setAttribute('aria-pressed', String(c.dataset.sort === 'occ')));
+      ls.st = 'any'; ls.sort = 'occ'; ls.limit = 150;
       cfg.exams.clear(); ls.exams.clear();
       $('#examPickWrap').classList.add('hidden');
       renderExamChips();
@@ -1774,6 +2317,7 @@
       fcBuild();
       lsRender();
       refreshStats();
+      lnHome();
     }
     $('#bankSeg').addEventListener('click', e => {
       const b = e.target.closest('.segb'); if (!b || BANKS[b.dataset.bank] === BANK) return;
@@ -1786,7 +2330,15 @@
       if (/^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
       const onQuiz = !$('#quizPlay').classList.contains('hidden');
       const onCard = !$('#pane-card').classList.contains('hidden');
-      if (onQuiz) {
+      const onLearn = !$('#learnPlay').classList.contains('hidden');
+      if (onLearn) {
+        if (/^[1-4]$/.test(e.key) && !L.cur.intro) { e.preventDefault(); lAnswer(+e.key - 1); }
+        else if (e.key === 'Enter') {
+          if (!$('#lNext').classList.contains('hidden')) { e.preventDefault(); $('#lNext').click(); }
+        }
+        else if (e.key === ' ') { e.preventDefault(); say(L.cur.e.w); }
+        else if (e.key === 's' || e.key === 'S') { e.preventDefault(); $('#lStar').click(); }
+      } else if (onQuiz) {
         if (/^[1-4]$/.test(e.key)) { e.preventDefault(); answer(+e.key - 1); }
         else if (e.key === 'Enter' || e.key === ' ') {
           if (!$('#qNext').classList.contains('hidden')) { e.preventDefault(); $('#qNext').click(); }
@@ -1797,6 +2349,12 @@
         else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); $('#fcCard').click(); }
       }
     });
+
+    /* khôi phục lựa chọn nhóm & mục tiêu đã lưu */
+    const syncPref = (sel, attr, val) =>
+      $$(sel + ' .chip').forEach(c => c.setAttribute('aria-pressed', String(+c.dataset[attr] === val)));
+    syncPref('#batchChips', 'batch', state.prefs.batch);
+    syncPref('#goalChips', 'goal', state.prefs.goal);
 
     applyBank();
   </script>
