@@ -2276,7 +2276,8 @@
       const rest = list.length - ls.limit;
       $('#lsMore').classList.toggle('hidden', rest <= 0);
       $('#lsMore').textContent = `Hiện thêm (${rest})`;
-      $('#lsQuiz').disabled = list.length < 4;
+      // đáp án nhiễu lấy từ toàn bộ ngân hàng từ nên chỉ cần 1 từ là luyện được
+      $('#lsQuiz').disabled = list.length === 0;
       $('#lsFlash').disabled = list.length === 0;
     }
     bindRows($('#lsList'));
