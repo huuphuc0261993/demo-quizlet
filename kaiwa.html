@@ -69,6 +69,33 @@ html:not([data-theme="dark"]) .moon{display:none}
 .chip:hover{border-color:var(--primary-2);color:var(--text)}
 .chip[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
 html[data-theme="dark"] .chip[aria-pressed="true"]{color:#0b1020}
+
+/* nav 2 tầng: nhóm chủ đề + danh sách chủ đề */
+.cat-row{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:14px;margin-bottom:14px;
+  border-bottom:1px dashed var(--border)}
+.cnt{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;margin-left:6px;
+  border-radius:6px;font-size:11px;font-weight:800;background:var(--surface-in);color:var(--text-3)}
+.chip[aria-pressed="true"] .cnt{background:rgba(255,255,255,.24);color:#fff}
+html[data-theme="dark"] .chip[aria-pressed="true"] .cnt{background:rgba(11,16,32,.18);color:#0b1020}
+.tabs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+.tab{display:flex;align-items:flex-start;gap:9px;text-align:left;padding:10px 12px;cursor:pointer;
+  border-radius:var(--radius-sm);border:1.5px solid var(--border);background:var(--surface-2);
+  color:var(--text-2);font-family:inherit;transition:border-color .18s,background .18s,color .18s}
+.tab:hover{border-color:var(--primary-2);background:var(--surface);color:var(--text)}
+.tab[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:#fff}
+html[data-theme="dark"] .tab[aria-pressed="true"]{color:#0b1020}
+.tab .i{width:22px;height:22px;flex:none;border-radius:7px;display:grid;place-items:center;
+  font-size:11.5px;font-weight:800;background:var(--primary-soft);color:var(--primary)}
+.tab[aria-pressed="true"] .i{background:rgba(255,255,255,.24);color:#fff}
+html[data-theme="dark"] .tab[aria-pressed="true"] .i{background:rgba(11,16,32,.18);color:#0b1020}
+.tab .t-jp{font-size:13.5px;font-weight:700;line-height:1.45}
+.tab .t-vn{font-size:11.5px;font-weight:500;line-height:1.35;margin-top:1px;opacity:.72}
+.tab[aria-pressed="true"] .t-vn{opacity:.92}
+
+/* điều hướng trước/sau cuối mỗi chủ đề */
+.pager{display:flex;gap:9px;align-items:center;margin-top:16px}
+.pager .chip{flex:1;min-width:0;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pager .chip[disabled]{opacity:.4;cursor:default}
 .tag{display:inline-block;padding:4px 11px;border-radius:99px;font-size:11.5px;font-weight:700;
   background:var(--primary-soft);color:var(--primary);letter-spacing:.02em}
 
@@ -156,7 +183,8 @@ td.kana{color:var(--text-3);font-size:13px;white-space:nowrap}
 
   <div class="card" id="tabsCard">
     <div class="card-title">Chủ đề</div>
-    <div class="chips" id="tabs"></div>
+    <div class="cat-row chips" id="cats"></div>
+    <div class="tabs-grid" id="tabs"></div>
   </div>
 
   <div id="list"></div>
@@ -939,13 +967,382 @@ const KAIWA = [
       }
     ]
   }
+  ,
+  {
+    cat: "病院 · Ở bệnh viện",
+    title: "体調を気にかける · Đồng nghiệp hỏi thăm",
+    // Hội thoại 2 người: A = 山本 (đồng nghiệp hỏi thăm), B = 木村 (người bị đau).
+    note: 'Bối cảnh: ở công ty, 山本 (A) thấy 木村 (B) sắc mặt không ổn nên hỏi thăm. Đây là mẫu hỏi thăm sức khỏe + khuyên đi bệnh viện.',
+    lines: [
+      { who: 'A', jp: '<ruby>木村<rt>きむら</rt></ruby>さん、どうしましたか。<ruby>大丈夫<rt>だいじょうぶ</rt></ruby>ですか。', vn: 'Anh Kimura, anh bị sao vậy? Anh ổn không?' },
+      { who: 'B', jp: 'ちょっと<ruby>胃<rt>い</rt></ruby>がキリキリするんです…。', vn: 'Dạ, dạ dày em hơi đau quặn ạ…' },
+      { who: 'A', jp: 'いつからですか。', vn: 'Từ khi nào?' },
+      { who: 'B', jp: '<ruby>昨日<rt>きのう</rt></ruby>からなんですが…。', vn: 'Từ hôm qua ạ…' },
+      { who: 'A', jp: '<ruby>病院<rt>びょういん</rt></ruby>でみてもらいましたか。', vn: 'Đã đi bệnh viện khám chưa?' },
+      { who: 'B', jp: 'いいえ、まだです…。', vn: 'Chưa, em vẫn chưa đi ạ…' },
+      { who: 'A', jp: 'えっ、はやく<ruby>病院<rt>びょういん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ったほうがいいですよ。', vn: 'Ơ, nên đi bệnh viện sớm đi!' },
+      { who: 'B', jp: '<ruby>実<rt>じつ</rt></ruby>は、<ruby>昨日<rt>きのう</rt></ruby>は、<ruby>痛<rt>いた</rt></ruby>すぎてなにもできなかったんです…。', vn: 'Thật ra hôm qua em đau quá nên chẳng làm được gì cả…' },
+      { who: 'A', jp: 'そうですか、それはいけませんね。<ruby>早<rt>はや</rt></ruby>く<ruby>病院<rt>びょういん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ったほうがいいですよ。', vn: 'Vậy à, thế thì không ổn đâu. Nên đi bệnh viện sớm đi.' },
+      { who: 'B', jp: 'そうですね。<ruby>今日<rt>きょう</rt></ruby>、<ruby>病院<rt>びょういん</rt></ruby>へいきます…。', vn: 'Vâng, đúng ạ. Hôm nay em sẽ đi bệnh viện…' },
+      { who: 'A', jp: 'お<ruby>大事<rt>だいじ</rt></ruby>に。', vn: 'Anh giữ gìn sức khỏe nhé.' }
+    ],
+    vocab: [
+      ["どうしましたか","","Bị sao vậy? (câu mở đầu hỏi thăm, bác sĩ cũng dùng)"],
+      ["胃","い","dạ dày"],
+      ["キリキリする","","đau quặn, đau nhói từng cơn (dạ dày)"],
+      ["ズキズキする","","đau nhức giật giật (đầu, vết thương)"],
+      ["シクシクする","","đau âm ỉ (bụng)"],
+      ["診てもらう","みてもらう","được khám (nhờ bác sĩ khám cho)"],
+      ["実は","じつは","thật ra là (mở đầu khi nói điều khó nói)"],
+      ["痛すぎる","いたすぎる","đau quá mức"],
+      ["それはいけませんね","","Thế thì không ổn đâu / tệ quá nhỉ (đồng cảm)"],
+      ["お大事に","おだいじに","Giữ gìn sức khỏe nhé (nói với người đang ốm)"],
+      ["体調","たいちょう","tình trạng sức khỏe"],
+      ["無理をする","むりをする","làm quá sức, gắng quá"]
+    ],
+    grammar: [
+      ["～んです","Giải thích / kể tình trạng cho người nghe hiểu. Nói triệu chứng thì gần như luôn dùng ～んです: 「<ruby>胃<rt>い</rt></ruby>がキリキリする<b>んです</b>」 tự nhiên hơn 「～します」."],
+      ["～てもらう","Được ai đó làm cho mình. 「<ruby>病院<rt>びょういん</rt></ruby>で<ruby>診<rt>み</rt></ruby>て<b>もらう</b>」 = được bệnh viện khám cho. Không nói 「病院を見る」."],
+      ["～たほうがいい","Nên làm ~ (khuyên). Dạng phủ định: 「<ruby>無理<rt>むり</rt></ruby>し<b>ないほうがいい</b>」 = không nên gắng sức."],
+      ["～すぎる","Quá mức. Tính từ い bỏ い + すぎる: <ruby>痛<rt>いた</rt></ruby>い→<ruby>痛<rt>いた</rt></ruby><b>すぎる</b>、<ruby>忙<rt>いそが</rt></ruby>しい→<ruby>忙<rt>いそが</rt></ruby>し<b>すぎる</b>."],
+      ["～なんですが…","= ～んですが. Bỏ lửng ở cuối để tỏ ý ngập ngừng / chờ đối phương phản ứng: 「<ruby>昨日<rt>きのう</rt></ruby>から<b>なんですが</b>…」."],
+      ["<ruby>体<rt>からだ</rt></ruby>の<ruby>部位<rt>ぶい</rt></ruby>＋が＋<ruby>痛<rt>いた</rt></ruby>い","Cấu trúc nói đau: 「<ruby>頭<rt>あたま</rt></ruby><b>が</b><ruby>痛<rt>いた</rt></ruby>いです」「のど<b>が</b><ruby>痛<rt>いた</rt></ruby>いです」. Bộ phận đau dùng が, không dùng を."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>病院<rt>びょういん</rt></ruby>で<b>みて</b>もらいましたか。',
+        good: '<ruby>病院<rt>びょういん</rt></ruby>で<b><ruby>診<rt>み</rt></ruby>て</b>もらいましたか。',
+        why: '「<ruby>診<rt>み</rt></ruby>る」 = khám bệnh (bác sĩ khám); 「<ruby>見<rt>み</rt></ruby>る」 = nhìn/xem. Cùng đọc み・る nhưng viết khác nghĩa khác. Ở bệnh viện luôn là 診る: 「<ruby>先生<rt>せんせい</rt></ruby>に<ruby>診<rt>み</rt></ruby>てもらう」「<ruby>診察<rt>しんさつ</rt></ruby>してもらう」.'
+      },
+      {
+        bad: '(<ruby>山本<rt>やまもと</rt></ruby>) はやく<ruby>病院<rt>びょういん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ったほうがいいですよ。… <b>早く<ruby>病院<rt>びょういん</rt></ruby>へ<ruby>行<rt>い</rt></ruby>ったほうがいいですよ。</b>',
+        good: '… それはいけませんね。<b><ruby>無理<rt>むり</rt></ruby>しないで、<ruby>今日<rt>きょう</rt></ruby>にでも<ruby>診<rt>み</rt></ruby>てもらってください。</b>',
+        why: 'Câu khuyên bị lặp y nguyên 2 lần → nghe như học thuộc lòng. Lần thứ hai nên đổi cách nói: 無理しないで～てください / 早めに～たほうが… / <ruby>午後<rt>ごご</rt></ruby>から<ruby>休<rt>やす</rt></ruby>んでもいいですよ. Lưu ý viết thống nhất はやく hoặc 早く, đừng lẫn cả hai.'
+      },
+      {
+        bad: '<ruby>実<rt>じつ</rt></ruby>は、<b><ruby>昨日<rt>きのう</rt></ruby>は、</b><ruby>痛<rt>いた</rt></ruby>すぎて<b>なにも</b>できなかったんです。',
+        good: '<ruby>実<rt>じつ</rt></ruby>は、<b><ruby>昨日<rt>きのう</rt></ruby>は</b><ruby>痛<rt>いた</rt></ruby>すぎて<b><ruby>何<rt>なに</rt></ruby>も</b>できなかったんです。',
+        why: 'Bỏ dấu phẩy thừa sau 昨日は — 3 dấu phẩy trong 1 câu ngắn làm câu bị vụn. Trong văn viết nên dùng kanji 何も.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — 木村 chỉ nói triệu chứng, không nói mức độ / có sốt hay không.',
+        good: '<ruby>熱<rt>ねつ</rt></ruby>はないんですが、<ruby>食<rt>た</rt></ruby>べると<ruby>特<rt>とく</rt></ruby>に<ruby>痛<rt>いた</rt></ruby>くなるんです。',
+        why: 'Khi bị hỏi thăm (và nhất là khi khai với bác sĩ) công thức ăn điểm: <b>bộ phận + kiểu đau + từ khi nào + điều gì làm nặng hơn + có sốt hay không</b>. Chỉ nói 「痛いんです」 là thiếu thông tin.'
+      }
+    ]
+  },
+  {
+    cat: "病院 · Ở bệnh viện",
+    title: "電話で予約 · Gọi điện đặt hẹn khám",
+    // A = 患者 (người gọi), B = 受付 (lễ tân bệnh viện).
+    note: 'Bối cảnh: gọi điện đến bệnh viện xin đặt hẹn khám. LƯU Ý: bản gốc đánh nhãn A/B bị lẫn (câu 「診察はいつがご希望でしょうか」 là lời của 受付 nhưng lại ghi A). Ở đây đã sắp lại đúng vai: A = 患者, B = 受付.',
+    lines: [
+      { who: 'A', jp: 'もしもし。すみません、<ruby>診察<rt>しんさつ</rt></ruby>の<ruby>予約<rt>よやく</rt></ruby>をしたいんですが。', vn: 'Alô. Xin lỗi, tôi muốn đặt hẹn khám ạ.' },
+      { who: 'B', jp: 'はい。では、お<ruby>名前<rt>なまえ</rt></ruby>と<ruby>症状<rt>しょうじょう</rt></ruby>を<ruby>教<rt>おし</rt></ruby>えていただけますか。', vn: 'Vâng. Vậy anh/chị cho tôi biết tên và triệu chứng được không ạ?' },
+      { who: 'B', jp: '<ruby>診察<rt>しんさつ</rt></ruby>はいつがご<ruby>希望<rt>きぼう</rt></ruby>でしょうか。', vn: 'Anh/chị muốn khám vào lúc nào ạ?' },
+      { who: 'A', jp: '<ruby>今<rt>いま</rt></ruby>すごく<ruby>痛<rt>いた</rt></ruby>いので、できるだけ<ruby>早<rt>はや</rt></ruby>く<ruby>診<rt>み</rt></ruby>てもらいたいんですが。<ruby>今日<rt>きょう</rt></ruby>か<ruby>明日<rt>あした</rt></ruby>は、どうですか。', vn: 'Bây giờ tôi đau lắm nên muốn được khám càng sớm càng tốt. Hôm nay hoặc mai thì thế nào ạ?' },
+      { who: 'B', jp: '<ruby>確認<rt>かくにん</rt></ruby>いたしますので<ruby>少々<rt>しょうしょう</rt></ruby>お<ruby>待<rt>ま</rt></ruby>ちください。', vn: 'Tôi kiểm tra nên anh/chị vui lòng đợi một chút ạ.' }
+    ],
+    vocab: [
+      ["診察","しんさつ","sự khám bệnh"],
+      ["予約","よやく","đặt hẹn, đặt lịch"],
+      ["症状","しょうじょう","triệu chứng"],
+      ["希望","きぼう","mong muốn, nguyện vọng"],
+      ["ご希望","ごきぼう","mong muốn của quý khách (kính ngữ)"],
+      ["できるだけ早く","できるだけはやく","càng sớm càng tốt"],
+      ["確認いたします","かくにんいたします","tôi xin kiểm tra (khiêm nhường của 確認します)"],
+      ["少々お待ちください","しょうしょうおまちください","vui lòng đợi một chút"],
+      ["空いている","あいている","còn trống (chỗ, giờ hẹn)"],
+      ["初診","しょしん","khám lần đầu"],
+      ["再診","さいしん","khám lại (đã từng khám)"],
+      ["何科","なにか","khoa nào (内科・外科・<ruby>耳鼻科<rt>じびか</rt></ruby>…)"]
+    ],
+    grammar: [
+      ["～たいんですが","Công thức nêu yêu cầu lịch sự qua điện thoại: 「<ruby>予約<rt>よやく</rt></ruby>をし<b>たいんですが</b>」. Bỏ lửng (không nói hết) để đối phương tự mời tiếp — rất tự nhiên trong tiếng Nhật."],
+      ["～ていただけますか","Nhờ vả lịch sự nhất trong 3 mức: ～てください ＜ ～てもらえますか ＜ <b>～ていただけますか</b>. Nhân viên luôn dùng mức này với khách."],
+      ["ご希望でしょうか","Kính ngữ hỏi ý khách. 「いつがご<ruby>希望<rt>きぼう</rt></ruby>でしょうか」 ＝ 「いつがいいですか」 nhưng trang trọng hơn nhiều. でしょうか mềm hơn ですか."],
+      ["～ので","Nêu lý do, khách quan và lịch sự hơn ～から: 「<ruby>痛<rt>いた</rt></ruby>い<b>ので</b>、<ruby>早<rt>はや</rt></ruby>く<ruby>診<rt>み</rt></ruby>てもらいたいんですが」."],
+      ["～てもらいたい","Muốn được ai làm cho. Lịch sự hơn: 「<ruby>診<rt>み</rt></ruby>て<b>いただきたい</b>んですが」."],
+      ["お＋Vます＋ください","Kính ngữ của yêu cầu: お<ruby>待<rt>ま</rt></ruby>ちください、お<ruby>座<rt>すわ</rt></ruby>りください、お<ruby>持<rt>も</rt></ruby>ちください."],
+      ["いたす（謙譲語）","Dạng khiêm nhường của する: 確認<b>いたします</b>、お<ruby>預<rt>あず</rt></ruby>かり<b>いたします</b>、<ruby>失礼<rt>しつれい</rt></ruby><b>いたします</b>. Chỉ dùng cho hành động CỦA MÌNH."]
+    ],
+    fix: [
+      {
+        bad: '<b>A:</b> <ruby>診察<rt>しんさつ</rt></ruby>はいつがご<ruby>希望<rt>きぼう</rt></ruby>でしょうか。',
+        good: '<b>B（<ruby>受付<rt>うけつけ</rt></ruby>）:</b> <ruby>診察<rt>しんさつ</rt></ruby>はいつがご<ruby>希望<rt>きぼう</rt></ruby>でしょうか。',
+        why: '「ご希望でしょうか」 là kính ngữ HỎI Ý KHÁCH → chỉ nhân viên nói. Bản gốc gán cho A (bệnh nhân) là sai vai. Nguyên tắc: 「ご～」「お～」＋でしょうか hướng về đối phương ⇒ người phục vụ nói.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — 受付 hỏi tên + triệu chứng nhưng bệnh nhân không trả lời.',
+        good: 'はい、グエン・ヴァン・アーと<ruby>申<rt>もう</rt></ruby>します。<ruby>昨日<rt>きのう</rt></ruby>から<ruby>胃<rt>い</rt></ruby>が<ruby>痛<rt>いた</rt></ruby>くて、<ruby>熱<rt>ねつ</rt></ruby>も<ruby>少<rt>すこ</rt></ruby>しあります。',
+        why: 'Bị hỏi thì phải đáp — bỏ qua là mất điểm hội thoại. Tự giới thiệu tên dùng 「～と<ruby>申<rt>もう</rt></ruby>します」 (khiêm nhường) thay vì 「～です」 khi nói với nhân viên/khách.'
+      },
+      {
+        bad: '<ruby>今日<rt>きょう</rt></ruby>か<ruby>明日<rt>あした</rt></ruby>は、<b>どうですか</b>。',
+        good: '<ruby>今日<rt>きょう</rt></ruby>か<ruby>明日<rt>あした</rt></ruby>で、<b><ruby>空<rt>あ</rt></ruby>いている<ruby>時間<rt>じかん</rt></ruby>はありますか</b>。',
+        why: '「どうですか」 quá mơ hồ (hỏi cảm nhận?). Hỏi lịch trống phải dùng 「空いていますか」「<ruby>予約<rt>よやく</rt></ruby>は<ruby>取<rt>と</rt></ruby>れますか」. Trang trọng hơn: 「<ruby>空<rt>あ</rt></ruby>いている<ruby>時間<rt>じかん</rt></ruby>はございますか」.'
+      },
+      {
+        bad: 'もしもし<b>！</b>すみません、…',
+        good: 'もしもし<b>。</b><ruby>恐<rt>おそ</rt></ruby>れ<ruby>入<rt>い</rt></ruby>ります、…',
+        why: 'Gọi điện đến cơ quan không dùng giọng cảm thán 「もしもし！」. Mở đầu chuẩn: 「もしもし、<ruby>初<rt>はじ</rt></ruby>めてなんですが、<ruby>予約<rt>よやく</rt></ruby>をお<ruby>願<rt>ねが</rt></ruby>いしたいんですが」. 恐れ入ります／すみません đều được, 恐れ入ります lịch sự hơn.'
+      }
+    ]
+  },
+  {
+    cat: "病院 · Ở bệnh viện",
+    title: "受付・自動受付機 · Quầy tiếp nhận & máy tự động",
+    // A = 患者, B = 受付.
+    note: 'Bối cảnh: đã đặt hẹn online, đến bệnh viện và được hướng dẫn cho thẻ khám vào máy tự động tiếp nhận (自動受付機).',
+    lines: [
+      { who: 'A', jp: 'すみません、オンラインで<ruby>予約<rt>よやく</rt></ruby>した〇〇ですが…。', vn: 'Xin lỗi, tôi là 〇〇, người đã đặt hẹn online ạ…' },
+      { who: 'B', jp: 'こちらの<ruby>機械<rt>きかい</rt></ruby>に<ruby>診察券<rt>しんさつけん</rt></ruby>を<ruby>入<rt>い</rt></ruby>れてください。', vn: 'Anh/chị vui lòng cho thẻ khám vào máy bên này ạ.' },
+      { who: 'A', jp: 'ここですか。', vn: 'Ở đây ạ?' },
+      { who: 'B', jp: 'はい、そうです。<ruby>受付票<rt>うけつけひょう</rt></ruby>が<ruby>出<rt>で</rt></ruby>ますので、こちらを<ruby>受付<rt>うけつけ</rt></ruby>カウンターに<ruby>出<rt>だ</rt></ruby>してください。', vn: 'Vâng, đúng rồi ạ. Phiếu tiếp nhận sẽ được in ra, anh/chị đưa phiếu này ra quầy tiếp nhận nhé.' }
+    ],
+    vocab: [
+      ["診察券","しんさつけん","thẻ khám bệnh (thẻ nhựa của bệnh viện)"],
+      ["受付票","うけつけひょう","phiếu tiếp nhận (máy in ra)"],
+      ["受付カウンター","うけつけカウンター","quầy tiếp nhận"],
+      ["自動受付機","じどううけつけき","máy tiếp nhận tự động"],
+      ["機械","きかい","máy, thiết bị"],
+      ["入れる","いれる","cho vào, đưa vào (tha động từ)"],
+      ["出る","でる","ra, hiện ra (tự động từ)"],
+      ["出す","だす","đưa ra, nộp (tha động từ)"],
+      ["番号札","ばんごうふだ","phiếu số thứ tự"],
+      ["呼ばれる","よばれる","được gọi (tên/số)"],
+      ["待合室","まちあいしつ","phòng chờ"],
+      ["会計","かいけい","quầy thanh toán"]
+    ],
+    grammar: [
+      ["Vた＋<ruby>名詞<rt>めいし</rt></ruby>","Mệnh đề bổ nghĩa danh từ: 「オンラインで<ruby>予約<rt>よやく</rt></ruby><b>した</b>〇〇です」 = tôi là 〇〇, người đã đặt online. Đây là cách tự giới thiệu chuẩn ở quầy tiếp nhận."],
+      ["こちら／そちら／あちら","Dạng lịch sự của ここ／そこ／あそこ và của これ／それ／あれ. Nhân viên luôn nói 「<b>こちら</b>の<ruby>機械<rt>きかい</rt></ruby>」「<b>こちら</b>をお<ruby>出<rt>だ</rt></ruby>しください」."],
+      ["～ますので、～てください","Nêu điều sẽ xảy ra + việc khách cần làm: 「<ruby>受付票<rt>うけつけひょう</rt></ruby>が<ruby>出<rt>で</rt></ruby><b>ますので</b>、<ruby>出<rt>だ</rt></ruby>し<b>てください</b>」. Mẫu câu chỉ dẫn cực kỳ hay gặp ở nơi công cộng."],
+      ["<ruby>自動詞<rt>じどうし</rt></ruby>／<ruby>他動詞<rt>たどうし</rt></ruby>：<ruby>出<rt>で</rt></ruby>る／<ruby>出<rt>だ</rt></ruby>す","<b>出る</b> = tự nó ra (受付票<b>が</b>出る). <b>出す</b> = mình đưa ra (受付票<b>を</b>出す). Cùng nhóm: <ruby>入<rt>はい</rt></ruby>る／<ruby>入<rt>い</rt></ruby>れる、<ruby>閉<rt>し</rt></ruby>まる／<ruby>閉<rt>し</rt></ruby>める."],
+      ["～ですが…","Bỏ lửng khi bắt chuyện với nhân viên: 「<ruby>予約<rt>よやく</rt></ruby>した〇〇<b>ですが</b>…」 = tôi là 〇〇 đã đặt hẹn (… giờ tôi phải làm gì ạ?). Rất tự nhiên, không cần nói hết câu."]
+    ],
+    fix: [
+      {
+        bad: 'すみません<b>が</b>、オンラインで<ruby>予約<rt>よやく</rt></ruby>した<b>、</b>〇〇です<b>が</b>…。',
+        good: 'すみません、オンラインで<ruby>予約<rt>よやく</rt></ruby>した〇〇ですが…。',
+        why: 'Một câu có 2 chữ が (「すみませんが」＋「ですが」) nghe rất nặng. Chọn một: 「<b>すみません</b>、～ですが…」 hoặc 「<b>すみませんが</b>、～です」. Ngoài ra không đặt dấu phẩy giữa mệnh đề bổ nghĩa và danh từ (予約した<b>、</b>〇〇 → sai).'
+      },
+      {
+        bad: 'こちらを<ruby>受付<rt>うけつけ</rt></ruby>カウンターに<b><ruby>出<rt>だ</rt></ruby>してください</b>。',
+        good: 'こちらを<ruby>受付<rt>うけつけ</rt></ruby>カウンターに<b>お<ruby>出<rt>だ</rt></ruby>しください</b>。',
+        why: 'Câu gốc không sai, nhưng nhân viên nói với khách thường lên một bậc kính ngữ: お＋Vます＋ください → お出しください、お<ruby>持<rt>も</rt></ruby>ちください、お<ruby>掛<rt>か</rt></ruby>けください. Nhớ để PHÂN BIỆT: khách nói với nhân viên thì dùng ～ていただけますか.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — nhận chỉ dẫn xong không đáp lời.',
+        good: 'はい、<ruby>分<rt>わ</rt></ruby>かりました。ありがとうございます。（＋<ruby>待合室<rt>まちあいしつ</rt></ruby>で<ruby>待<rt>ま</rt></ruby>っていればいいですか。）',
+        why: 'Sau khi được hướng dẫn phải xác nhận lại: 「はい、分かりました」＋ câu hỏi tiếp nếu chưa rõ (「<ruby>待合室<rt>まちあいしつ</rt></ruby>で<ruby>待<rt>ま</rt></ruby>ちますか」「<ruby>名前<rt>なまえ</rt></ruby>を<ruby>呼<rt>よ</rt></ruby>ばれるまで<ruby>待<rt>ま</rt></ruby>てばいいですか」). Đây là điểm ăn điểm ở phần kaiwa: chủ động hỏi tiếp.'
+      }
+    ]
+  },
+  {
+    cat: "病院 · Ở bệnh viện",
+    title: "受付・保険証と問診票 · Thẻ bảo hiểm & phiếu khai bệnh",
+    // A = 患者, B = 受付.
+    note: 'Bối cảnh: đã hẹn qua điện thoại, đến quầy tiếp nhận lần đầu → xuất trình 保険証, điền 問診票, tự đo nhiệt độ. 〇〇 = chỗ điền tên của bạn.',
+    lines: [
+      { who: 'A', jp: 'こんにちは。<ruby>電話<rt>でんわ</rt></ruby>で<ruby>予約<rt>よやく</rt></ruby>した〇〇です。', vn: 'Xin chào. Tôi là 〇〇, người đã đặt hẹn qua điện thoại.' },
+      { who: 'B', jp: 'はい、こんにちは。〇〇<ruby>様<rt>さま</rt></ruby>ですね。<ruby>本日<rt>ほんじつ</rt></ruby><ruby>保険証<rt>ほけんしょう</rt></ruby>をお<ruby>持<rt>も</rt></ruby>ちですか。', vn: 'Vâng, xin chào. Anh/chị là 〇〇 phải không ạ. Hôm nay anh/chị có mang thẻ bảo hiểm không ạ?' },
+      { who: 'A', jp: 'はい、<ruby>保険証<rt>ほけんしょう</rt></ruby>です。お<ruby>願<rt>ねが</rt></ruby>いします。', vn: 'Vâng, thẻ bảo hiểm đây ạ. Nhờ chị ạ.' },
+      { who: 'B', jp: 'ありがとうございます。お<ruby>預<rt>あず</rt></ruby>かりいたします。<ruby>当院<rt>とういん</rt></ruby>は<ruby>初<rt>はじ</rt></ruby>めてですか。', vn: 'Cảm ơn anh/chị. Tôi xin nhận giữ ạ. Anh/chị đến bệnh viện chúng tôi lần đầu phải không ạ?' },
+      { who: 'A', jp: 'はい、<ruby>初<rt>はじ</rt></ruby>めてです。', vn: 'Vâng, lần đầu ạ.' },
+      { who: 'B', jp: 'では、こちらの<ruby>用紙<rt>ようし</rt></ruby>にご<ruby>記入<rt>きにゅう</rt></ruby>お<ruby>願<rt>ねが</rt></ruby>いします。<ruby>熱<rt>ねつ</rt></ruby>も<ruby>測<rt>はか</rt></ruby>ってください。', vn: 'Vậy anh/chị vui lòng điền vào tờ phiếu này ạ. Và cũng đo nhiệt độ giúp tôi nhé.' },
+      { who: 'A', jp: 'はい、<ruby>分<rt>わ</rt></ruby>かりました。', vn: 'Vâng, tôi hiểu rồi ạ.' },
+      { who: 'B', jp: '<ruby>終<rt>お</rt></ruby>わりましたら、お<ruby>声<rt>こえ</rt></ruby>かけください。', vn: 'Xong rồi thì anh/chị gọi tôi nhé ạ.' }
+    ],
+    vocab: [
+      ["保険証","ほけんしょう","thẻ bảo hiểm y tế"],
+      ["本日","ほんじつ","hôm nay (dạng trang trọng của 今日)"],
+      ["お持ちですか","おもちですか","anh/chị có mang ~ không ạ (kính ngữ của 持っていますか)"],
+      ["お預かりいたします","おあずかりいたします","tôi xin nhận giữ (khiêm nhường)"],
+      ["当院","とういん","bệnh viện chúng tôi"],
+      ["用紙","ようし","tờ giấy, mẫu phiếu"],
+      ["問診票","もんしんひょう","phiếu khai bệnh"],
+      ["ご記入","ごきにゅう","việc điền vào (kính ngữ của 記入)"],
+      ["熱を測る","ねつをはかる","đo nhiệt độ"],
+      ["体温計","たいおんけい","nhiệt kế"],
+      ["お声かけください","おこえかけください","xin hãy gọi tôi (khi cần)"],
+      ["診察券を作る","しんさつけんをつくる","làm thẻ khám (cho người khám lần đầu)"]
+    ],
+    grammar: [
+      ["お＋Vます＋ですか（<ruby>尊敬語<rt>そんけいご</rt></ruby>）","Kính ngữ hỏi về hành động của khách: <b>お<ruby>持<rt>も</rt></ruby>ちですか</b>（＝持っていますか）、お<ruby>決<rt>き</rt></ruby>まりですか、お<ruby>帰<rt>かえ</rt></ruby>りですか."],
+      ["お＋Vます＋いたします（<ruby>謙譲語<rt>けんじょうご</rt></ruby>）","Khiêm nhường cho hành động của MÌNH: <b>お<ruby>預<rt>あず</rt></ruby>かりいたします</b>、お<ruby>持<rt>も</rt></ruby>ちいたします、ご<ruby>案内<rt>あんない</rt></ruby>いたします. Nhớ cặp đối: khách → 尊敬語, mình → 謙譲語."],
+      ["ご＋<ruby>名詞<rt>めいし</rt></ruby>＋お<ruby>願<rt>ねが</rt></ruby>いします","Nhờ khách làm gì: 「ご<ruby>記入<rt>きにゅう</rt></ruby><b>お願いします</b>」「ご<ruby>確認<rt>かくにん</rt></ruby>お願いします」. Trang trọng hơn: ご記入<b>いただけますか</b>／ご記入<b>ください</b>."],
+      ["～ましたら","Điều kiện dạng lịch sự (＝～たら): 「<ruby>終<rt>お</rt></ruby>わり<b>ましたら</b>」＝「終わったら」. Nhân viên dùng ～ましたら với khách; bạn bè thì ～たら."],
+      ["～様（さま）","Hậu tố gọi khách hàng / bệnh nhân, trên cả ～さん: 「〇〇<b>様</b>ですね」. Không bao giờ tự gọi mình là ～様."],
+      ["<ruby>和語<rt>わご</rt></ruby>と<ruby>漢語<rt>かんご</rt></ruby>：お vs ご","Trước từ gốc Nhật (和語) dùng <b>お</b>: お<ruby>名前<rt>なまえ</rt></ruby>、お<ruby>金<rt>かね</rt></ruby>、お<ruby>持<rt>も</rt></ruby>ち. Trước từ Hán (漢語) dùng <b>ご</b>: ご<ruby>記入<rt>きにゅう</rt></ruby>、ご<ruby>希望<rt>きぼう</rt></ruby>、ご<ruby>確認<rt>かくにん</rt></ruby>. Ngoại lệ hay gặp (từ Hán nhưng vẫn dùng お): お<ruby>電話<rt>でんわ</rt></ruby>、お<ruby>時間<rt>じかん</rt></ruby>、お<ruby>食事<rt>しょくじ</rt></ruby>、お<ruby>返事<rt>へんじ</rt></ruby>."]
+    ],
+    fix: [
+      {
+        bad: '<b><ruby>本日<rt>ほんじつ</rt></ruby>保険証を</b>お<ruby>持<rt>も</rt></ruby>ちですか。',
+        good: '<b><ruby>本日<rt>ほんじつ</rt></ruby>、<ruby>保険証<rt>ほけんしょう</rt></ruby>は</b>お<ruby>持<rt>も</rt></ruby>ちですか。',
+        why: 'Cần dấu phẩy sau 本日 (trạng ngữ thời gian) để câu dễ nghe. Với 「お持ちですか」 dùng trợ từ <b>は</b> (nêu chủ đề, hỏi có/không) tự nhiên hơn を. Nếu dùng を thì phải là 「保険証<b>を</b>お<ruby>持<rt>も</rt></ruby>ちいただけましたか」.'
+      },
+      {
+        bad: 'はい、<b>保険証です</b>。お<ruby>願<rt>ねが</rt></ruby>いします。',
+        good: 'はい、<b>こちらです</b>。お<ruby>願<rt>ねが</rt></ruby>いします。',
+        why: 'Vừa được hỏi về 保険証 rồi nên nhắc lại danh từ là dư. Khi đưa vật cho người khác, tiếng Nhật nói 「<b>こちらです</b>」「<b>どうぞ</b>」. Câu gốc không sai ngữ pháp nhưng nghe như đang dạy đối phương biết đó là cái gì.'
+      },
+      {
+        bad: '<ruby>熱<rt>ねつ</rt></ruby>も<b><ruby>測<rt>はか</rt></ruby>ってください</b>。',
+        good: '<ruby>熱<rt>ねつ</rt></ruby>も<b><ruby>測<rt>はか</rt></ruby>っていただけますか</b>。／<ruby>熱<rt>ねつ</rt></ruby>も<b>お<ruby>測<rt>はか</rt></ruby>りください</b>。',
+        why: '～てください là yêu cầu trung tính, nhân viên nói với khách hơi cụt. Lên bậc: ～ていただけますか (nhờ) hoặc お＋Vます＋ください (chỉ dẫn lịch sự). Lưu ý 測る (đo lường) khác 計る／量る — nhiệt độ, thời gian dùng <b>測る／計る</b>, cân nặng dùng <b>量る</b>.'
+      },
+      {
+        bad: 'お<b><ruby>声<rt>こえ</rt></ruby>かけ</b>ください。',
+        good: 'お<b><ruby>声<rt>こえ</rt></ruby>がけ</b>ください。／<ruby>終<rt>お</rt></ruby>わりましたら、<b><ruby>声<rt>こえ</rt></ruby>をかけてください</b>。',
+        why: 'Cách đọc chuẩn là <b>おこえがけ</b> (âm hóa đục 連濁: かけ→がけ). Dạng thường dùng đầy đủ: 「<ruby>声<rt>こえ</rt></ruby>を<ruby>掛<rt>か</rt></ruby>けてください」＝ hãy lên tiếng gọi. Không nói 「声を言ってください」.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — người khám lần đầu nhưng không nhắc gì tới 診察券.',
+        good: '<ruby>初<rt>はじ</rt></ruby>めてですので、<ruby>診察券<rt>しんさつけん</rt></ruby>をお<ruby>作<rt>つく</rt></ruby>りいたします。<ruby>次回<rt>じかい</rt></ruby>からはこちらをお<ruby>持<rt>も</rt></ruby>ちください。',
+        why: 'Ở Nhật, khám lần đầu (初診) bệnh viện sẽ LÀM 診察券 và lần sau phải mang theo (nối tiếp đúng với chủ đề 「自動受付機」 ở trên). Thêm câu này thì mạch hội thoại mới trọn.'
+      }
+    ]
+  },
+  {
+    cat: "病院 · Ở bệnh viện",
+    title: "診察 · Khám bệnh với bác sĩ",
+    // A = 医者, B = 患者.
+    note: 'Bối cảnh: vào phòng khám, bác sĩ (A) hỏi triệu chứng, bệnh nhân (B) khai bệnh, bác sĩ kê thuốc 1 tuần.',
+    lines: [
+      { who: 'A', jp: 'どうしましたか。', vn: 'Anh/chị bị sao ạ?' },
+      { who: 'B', jp: '<ruby>昨日<rt>きのう</rt></ruby>から、<ruby>頭<rt>あたま</rt></ruby>がズキズキするんです。', vn: 'Từ hôm qua, đầu tôi đau nhức giật giật ạ.' },
+      { who: 'A', jp: '<ruby>最近<rt>さいきん</rt></ruby>、<ruby>何<rt>なに</rt></ruby>かしましたか。', vn: 'Gần đây anh/chị có làm gì (khác thường) không?' },
+      { who: 'B', jp: 'いいえ、<ruby>別<rt>べつ</rt></ruby>に…。でも、このごろちょっと<ruby>疲<rt>つか</rt></ruby>れているんです。', vn: 'Không, không có gì đặc biệt ạ… Nhưng dạo này tôi hơi mệt.' },
+      { who: 'A', jp: 'それが<ruby>原因<rt>げんいん</rt></ruby>かもしれませんね。じゃあ、<ruby>1週間分<rt>いっしゅうかんぶん</rt></ruby>の<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますから、のんでください。', vn: 'Có thể đó là nguyên nhân đấy. Vậy tôi kê thuốc 1 tuần, anh/chị uống nhé.' },
+      { who: 'B', jp: 'わかりました。ありがとうございました。', vn: 'Tôi hiểu rồi. Cảm ơn bác sĩ.' }
+    ],
+    vocab: [
+      ["ズキズキする","","đau nhức giật giật (đầu, răng, vết thương)"],
+      ["別に","べつに","không có gì đặc biệt (đi với phủ định)"],
+      ["このごろ","","dạo này, thời gian gần đây"],
+      ["疲れている","つかれている","đang mệt (trạng thái)"],
+      ["原因","げんいん","nguyên nhân"],
+      ["～分","～ぶん","phần lượng cho ~ (1週間分 = lượng dùng 1 tuần)"],
+      ["薬を出す","くすりをだす","kê thuốc (bác sĩ)"],
+      ["薬を飲む","くすりをのむ","uống thuốc"],
+      ["食後","しょくご","sau khi ăn (cách uống thuốc)"],
+      ["1日3回","いちにちさんかい","3 lần một ngày"],
+      ["処方箋","しょほうせん","đơn thuốc"],
+      ["安静にする","あんせいにする","nghỉ ngơi yên tĩnh (theo lời bác sĩ)"]
+    ],
+    grammar: [
+      ["どうしましたか","Câu mở đầu cố định của bác sĩ. Nếu là 看護師／同僚 thì cũng dùng câu này. Trả lời bằng 「<ruby>部位<rt>ぶい</rt></ruby>＋が＋<ruby>症状<rt>しょうじょう</rt></ruby>＋んです」."],
+      ["<ruby>擬態語<rt>ぎたいご</rt></ruby>＋する","Từ tượng trạng miêu tả cơn đau, cực kỳ hay hỏi trong N3: <b>ズキズキ</b>（đầu, răng: nhức giật）、<b>キリキリ</b>（dạ dày: quặn nhói）、<b>シクシク</b>（bụng: âm ỉ）、<b>ヒリヒリ</b>（rát）、<b>ガンガン</b>（đầu: đau như búa）、<b>チクチク</b>（châm kim）."],
+      ["<ruby>別<rt>べつ</rt></ruby>に…","「別に」 luôn đi với phủ định hoặc bỏ lửng: 「<ruby>別<rt>べつ</rt></ruby>に<b>ありません</b>」「別に…」＝ không có gì đặc biệt. Bỏ lửng như câu gốc là cách nói tự nhiên trong hội thoại."],
+      ["～かもしれません","Có thể là ~ (độ chắc chắn ~50%, thấp hơn ～でしょう). 「それが<ruby>原因<rt>げんいん</rt></ruby><b>かもしれません</b>ね」. Bác sĩ dùng để không kết luận quá chắc."],
+      ["～から、～てください","Nêu lý do rồi mới yêu cầu: 「<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>します<b>から</b>、のん<b>でください</b>」. から ở đây là nguyên nhân, không phải 'từ'."],
+      ["<ruby>期間<rt>きかん</rt></ruby>＋<ruby>分<rt>ぶん</rt></ruby>","Lượng dùng cho khoảng thời gian: <ruby>1週間分<rt>いっしゅうかんぶん</rt></ruby>、<ruby>3日分<rt>みっかぶん</rt></ruby>、<ruby>1ヶ月分<rt>いっかげつぶん</rt></ruby>. Cũng dùng cho tiền: <ruby>2人分<rt>ふたりぶん</rt></ruby>（phần 2 người）."],
+      ["～ている（<ruby>状態<rt>じょうたい</rt></ruby>）","「<ruby>疲<rt>つか</rt></ruby>れ<b>ている</b>」 = đang trong trạng thái mệt. Nói 「疲れます」 là sai (thành thói quen/tương lai). Cùng nhóm: <ruby>太<rt>ふと</rt></ruby>っている、<ruby>結婚<rt>けっこん</rt></ruby>している、<ruby>知<rt>し</rt></ruby>っている."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますから、<b>のんでください</b>。',
+        good: '<ruby>薬<rt>くすり</rt></ruby>を<ruby>出<rt>だ</rt></ruby>しますから、<b><ruby>飲<rt>の</rt></ruby>んでください</b>。',
+        why: 'Thuốc dùng động từ <b><ruby>飲<rt>の</rt></ruby>む</b> — kể cả thuốc viên, thuốc bột, cũng không dùng 食べる. Trong văn viết nên viết kanji 飲む. Bác sĩ nói đầy đủ hơn: 「<ruby>1日3回<rt>いちにちさんかい</rt></ruby>、<ruby>食後<rt>しょくご</rt></ruby>に<ruby>飲<rt>の</rt></ruby>んでください」.'
+      },
+      {
+        bad: '<ruby>最近<rt>さいきん</rt></ruby>、<b><ruby>何<rt>なに</rt></ruby>かしましたか</b>。',
+        good: '<ruby>最近<rt>さいきん</rt></ruby>、<b><ruby>何<rt>なに</rt></ruby>か<ruby>変<rt>か</rt></ruby>わったことはありませんでしたか</b>。／<b>お<ruby>仕事<rt>しごと</rt></ruby>は<ruby>忙<rt>いそが</rt></ruby>しいですか</b>。',
+        why: '「何かしましたか」 nghe như đang truy vấn "anh đã làm gì (sai)?". Bác sĩ hỏi tiền sử thường dùng 「<ruby>何<rt>なに</rt></ruby>か<ruby>変<rt>か</rt></ruby>わったことは？」「<ruby>睡眠<rt>すいみん</rt></ruby>は<ruby>取<rt>と</rt></ruby>れていますか」「<ruby>熱<rt>ねつ</rt></ruby>はありますか」.'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — bệnh nhân không hỏi lại cách uống thuốc.',
+        good: 'この<ruby>薬<rt>くすり</rt></ruby>は<b><ruby>1日<rt>いちにち</rt></ruby><ruby>何回<rt>なんかい</rt></ruby></b><ruby>飲<rt>の</rt></ruby>めばいいですか。<b><ruby>食後<rt>しょくご</rt></ruby></b>ですか。',
+        why: 'Nhận thuốc thì phải xác nhận: SỐ LẦN/NGÀY + TRƯỚC hay SAU ăn + có được lái xe / uống rượu không. Mẫu hỏi: 「～ばいいですか」 = tôi nên ~ thì được ạ?'
+      },
+      {
+        bad: '<b>(Thiếu)</b> — bác sĩ không có câu chốt.',
+        good: 'よくならなかったら、また<ruby>来<rt>き</rt></ruby>てください。お<ruby>大事<rt>だいじ</rt></ruby>に。',
+        why: 'Kết thúc 診察 gần như luôn có: 「よくならなければ、また<ruby>来<rt>き</rt></ruby>てください」＋「<b>お<ruby>大事<rt>だいじ</rt></ruby>に</b>」. Bệnh nhân đáp 「ありがとうございました。<ruby>失礼<rt>しつれい</rt></ruby>します」.'
+      },
+      {
+        bad: 'いいえ、<ruby>別<rt>べつ</rt></ruby>に…。<b>でも</b>、このごろちょっと<ruby>疲<rt>つか</rt></ruby>れているんです。',
+        good: 'いいえ、<ruby>特<rt>とく</rt></ruby>に<ruby>何<rt>なに</rt></ruby>もしていません。<b>ただ</b>、このごろ<ruby>残業<rt>ざんぎょう</rt></ruby>が<ruby>多<rt>おお</rt></ruby>くて、<ruby>少<rt>すこ</rt></ruby>し<ruby>疲<rt>つか</rt></ruby>れているんです。',
+        why: 'Câu gốc đúng và tự nhiên trong hội thoại thường. Nhưng khi thi kaiwa nên: ① thay 「別に…」 bỏ lửng bằng 「<ruby>特<rt>とく</rt></ruby>に<ruby>何<rt>なに</rt></ruby>もしていません」 cho rõ ràng; ② nêu LÝ DO cụ thể (<ruby>残業<rt>ざんぎょう</rt></ruby>が<ruby>多<rt>おお</rt></ruby>くて) thay vì chỉ 「疲れている」 — bác sĩ mới chẩn đoán được. でも／ただ đều được, ただ trang trọng hơn.'
+      }
+    ]
+  }
+  ,
+  {
+    cat: "病院 · Ở bệnh viện",
+    title: "読解：病院の中庭 · Đọc hiểu: Sân trong bệnh viện",
+    // Bài đọc (không phải hội thoại) → lines không có who, đánh số theo câu.
+    note: 'Bài đọc ngắn dạng 読解 N3. Đọc từng câu, chú ý 6 mẫu ngữ pháp: 受身＋ている / ～ほど～ない / ～ように / ～わけではない / それでも / ～と考えている.',
+    lines: [
+      { jp: '<ruby>病院<rt>びょういん</rt></ruby>の<ruby>中庭<rt>なかにわ</rt></ruby>には<ruby>木<rt>き</rt></ruby>の<ruby>温<rt>あたた</rt></ruby>かみを<ruby>感<rt>かん</rt></ruby>じるベンチが<ruby>置<rt>お</rt></ruby>かれている。', vn: 'Ở sân trong của bệnh viện có đặt những chiếc ghế băng cho ta cảm nhận được sự ấm áp của gỗ.' },
+      { jp: '<ruby>患者<rt>かんじゃ</rt></ruby>や<ruby>家族<rt>かぞく</rt></ruby>が<ruby>短<rt>みじか</rt></ruby>い<ruby>時間<rt>じかん</rt></ruby>でも<ruby>外<rt>そと</rt></ruby>の<ruby>空気<rt>くうき</rt></ruby>を<ruby>吸<rt>す</rt></ruby>える<ruby>場所<rt>ばしょ</rt></ruby>だ。', vn: 'Đó là nơi mà bệnh nhân và gia đình, dù chỉ trong thời gian ngắn, cũng có thể hít thở không khí bên ngoài.' },
+      { jp: '<ruby>広<rt>ひろ</rt></ruby>さは<ruby>公園<rt>こうえん</rt></ruby>ほど<ruby>大<rt>おお</rt></ruby>きくないが、<ruby>季節<rt>きせつ</rt></ruby>の<ruby>花<rt>はな</rt></ruby>や<ruby>小<rt>ちい</rt></ruby>さな<ruby>池<rt>いけ</rt></ruby>がある。', vn: 'Diện tích thì không lớn bằng công viên, nhưng có hoa theo mùa và một cái ao nhỏ.' },
+      { jp: '<ruby>病室<rt>びょうしつ</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>からも<ruby>庭<rt>にわ</rt></ruby>が<ruby>見<rt>み</rt></ruby>えるように<ruby>作<rt>つく</rt></ruby>られた。', vn: 'Nó được xây sao cho từ cửa sổ phòng bệnh cũng nhìn thấy được khu sân.' },
+      { jp: '<ruby>庭<rt>にわ</rt></ruby>だけで<ruby>病気<rt>びょうき</rt></ruby>が<ruby>治<rt>なお</rt></ruby>るわけではない。', vn: 'Không phải chỉ nhờ khu sân mà bệnh sẽ khỏi.' },
+      { jp: 'それでも、<ruby>気持<rt>きも</rt></ruby>ちを<ruby>休<rt>やす</rt></ruby>ませる<ruby>環境<rt>かんきょう</rt></ruby>も<ruby>治療<rt>ちりょう</rt></ruby>を<ruby>支<rt>ささ</rt></ruby>えると<ruby>病院<rt>びょういん</rt></ruby>は<ruby>考<rt>かんが</rt></ruby>えている。', vn: 'Dù vậy, bệnh viện cho rằng một môi trường giúp tâm hồn được nghỉ ngơi cũng hỗ trợ cho việc điều trị.' }
+    ],
+    vocab: [
+      ["中庭","なかにわ","sân trong (sân giữa các khối nhà)"],
+      ["温かみ","あたたかみ","sự ấm áp (cảm giác, không phải nhiệt độ)"],
+      ["感じる","かんじる","cảm nhận"],
+      ["置かれている","おかれている","đang được đặt (thể bị động + ている)"],
+      ["患者","かんじゃ","bệnh nhân"],
+      ["空気を吸う","くうきをすう","hít không khí"],
+      ["広さ","ひろさ","diện tích, độ rộng"],
+      ["季節の花","きせつのはな","hoa theo mùa"],
+      ["池","いけ","cái ao"],
+      ["病室","びょうしつ","phòng bệnh"],
+      ["治る","なおる","(bệnh) khỏi — tự động từ"],
+      ["治す","なおす","chữa (bệnh) — tha động từ"],
+      ["環境","かんきょう","môi trường"],
+      ["治療","ちりょう","sự điều trị"],
+      ["支える","ささえる","chống đỡ, hỗ trợ"],
+      ["休ませる","やすませる","cho ~ nghỉ (thể sai khiến của 休む)"]
+    ],
+    grammar: [
+      ["<ruby>受身<rt>うけみ</rt></ruby>＋ている（<ruby>置<rt>お</rt></ruby>かれている）","Mô tả TRẠNG THÁI do người khác tạo ra, hay gặp trong văn miêu tả/読解: 「ベンチが<b><ruby>置<rt>お</rt></ruby>かれている</b>」＝ ghế đang được đặt (sẵn). So sánh: 置いてある (khẩu ngữ, cùng nghĩa) / 置いている (ai đó đang đặt)."],
+      ["～ほど～ない","So sánh không bằng: 「<ruby>公園<rt>こうえん</rt></ruby><b>ほど</b><ruby>大<rt>おお</rt></ruby>き<b>くない</b>」＝ không lớn bằng công viên. Lưu ý ～ほど CHỈ dùng với phủ định; câu khẳng định phải dùng より: 「公園<b>より</b>小さい」."],
+      ["～ように＋V","Sao cho ~, để ~ (mục đích): 「<ruby>庭<rt>にわ</rt></ruby>が<ruby>見<rt>み</rt></ruby>える<b>ように</b><ruby>作<rt>つく</rt></ruby>られた」. Trước ように dùng thể từ điển/khả năng/phủ định (見える・忘れない), KHÔNG dùng thể ます."],
+      ["～わけではない","Phủ định một suy luận: 「<ruby>庭<rt>にわ</rt></ruby>だけで<ruby>病気<rt>びょうき</rt></ruby>が<ruby>治<rt>なお</rt></ruby>る<b>わけではない</b>」＝ không phải là (cứ có sân thì) bệnh khỏi. Đây là mẫu ăn điểm N3 — dùng để nói 'không hẳn là ~'."],
+      ["それでも","Dù vậy vẫn ~ (nối sau một sự thừa nhận). Cặp lập luận rất Nhật: <b>～わけではない。それでも、～</b> = tuy không hẳn là ~, nhưng dù vậy ~. Cùng nhóm: とはいえ、それにしても."],
+      ["<ruby>使役<rt>しえき</rt></ruby>（<ruby>休<rt>やす</rt></ruby>ませる）","Thể sai khiến: 休む→<b>休ませる</b> = làm cho/để cho ~ nghỉ. Ở đây 「<ruby>気持<rt>きも</rt></ruby>ちを<ruby>休<rt>やす</rt></ruby>ませる<ruby>環境<rt>かんきょう</rt></ruby>」＝ môi trường làm cho tâm hồn được nghỉ."],
+      ["～と<ruby>考<rt>かんが</rt></ruby>えている／～と<ruby>言<rt>い</rt></ruby>われている","Trích ý kiến của một tổ chức/tập thể: 「～と<ruby>病院<rt>びょういん</rt></ruby>は<b><ruby>考<rt>かんが</rt></ruby>えている</b>」. Trong 読解, cụm này thường nằm ở CÂU CUỐI và chính là Ý CHÍNH của bài."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>広<rt>ひろ</rt></ruby>さは<ruby>公園<rt>こうえん</rt></ruby><b>ほど<ruby>大<rt>おお</rt></ruby>きい</b>。',
+        good: '<ruby>広<rt>ひろ</rt></ruby>さは<ruby>公園<rt>こうえん</rt></ruby><b>ほど<ruby>大<rt>おお</rt></ruby>きくない</b>。／<ruby>公園<rt>こうえん</rt></ruby><b>より<ruby>小<rt>ちい</rt></ruby>さい</b>。',
+        why: '～ほど chỉ đi với PHỦ ĐỊNH. Muốn nói khẳng định phải đổi sang より. Đây là lỗi bị bắt nhiều nhất ở phần 文法 N3.'
+      },
+      {
+        bad: '<ruby>庭<rt>にわ</rt></ruby>だけで<ruby>病気<rt>びょうき</rt></ruby>が<b><ruby>治<rt>なお</rt></ruby>るはずがない</b>。',
+        good: '<ruby>庭<rt>にわ</rt></ruby>だけで<ruby>病気<rt>びょうき</rt></ruby>が<b><ruby>治<rt>なお</rt></ruby>るわけではない</b>。',
+        why: '<b>はずがない</b> = không thể nào (phủ định mạnh, gần như bác bỏ). <b>わけではない</b> = không hẳn là (để ngỏ, mềm). Văn bản này muốn nói "không hẳn" rồi mới nối それでも → phải dùng わけではない. Dùng はずがない thì câu sau それでも sẽ vô nghĩa.'
+      },
+      {
+        bad: '<ruby>気持<rt>きも</rt></ruby>ちを<b><ruby>休<rt>やす</rt></ruby>める</b><ruby>環境<rt>かんきょう</rt></ruby>',
+        good: '<ruby>気持<rt>きも</rt></ruby>ちを<b><ruby>休<rt>やす</rt></ruby>ませる</b><ruby>環境<rt>かんきょう</rt></ruby>',
+        why: '休める là thể KHẢ NĂNG (có thể nghỉ) → 「気持ちを休める」 sai vì 気持ち không phải chủ thể nghỉ. Cần thể SAI KHIẾN 休ませる (làm cho ~ nghỉ). Nhớ phân biệt: <ruby>休<rt>やす</rt></ruby>む → 休<b>める</b>(khả năng) ／ 休<b>ませる</b>(sai khiến).'
+      },
+      {
+        bad: '<ruby>病室<rt>びょうしつ</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>からも<ruby>庭<rt>にわ</rt></ruby>が<b><ruby>見<rt>み</rt></ruby>ますように</b><ruby>作<rt>つく</rt></ruby>られた。',
+        good: '<ruby>病室<rt>びょうしつ</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>からも<ruby>庭<rt>にわ</rt></ruby>が<b><ruby>見<rt>み</rt></ruby>えるように</b><ruby>作<rt>つく</rt></ruby>られた。',
+        why: '① Trước ように không dùng thể ます. ② 「<ruby>見<rt>み</rt></ruby>る」(chủ động nhìn) vs 「<ruby>見<rt>み</rt></ruby>える」(tự nhìn thấy được). Ở đây cảnh TỰ hiện ra trong tầm mắt → 見える. Cùng cặp: <ruby>聞<rt>き</rt></ruby>く／<ruby>聞<rt>き</rt></ruby>こえる.'
+      }
+    ]
+  }
 ];
+
+/* Sắp chủ đề theo nhóm để số thứ tự liền mạch (nhóm giữ thứ tự xuất hiện trong KAIWA) */
+const CAT_ORDER = [...new Set(KAIWA.map(t => t.cat))];
+const TOPICS = CAT_ORDER.flatMap(c => KAIWA.filter(t => t.cat === c));
 
 /* ==================== RENDER ==================== */
 const ICON_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>';
 
 const list = document.getElementById('list');
-list.innerHTML = KAIWA.map((t, ti) => `
+list.innerHTML = TOPICS.map((t, ti) => `
   <section class="topic" data-topic="${ti}">
   <div class="card">
     <span class="tag">${t.cat}</span>
@@ -997,22 +1394,75 @@ list.innerHTML = KAIWA.map((t, ti) => `
         <div class="why">${f.why}</div>
       </div>`).join('')}
   </div>`}
+
+  <div class="card">
+    <div class="pager">
+      <button class="chip" data-go="${ti - 1}" ${ti === 0 ? 'disabled' : ''}>← ${ti === 0 ? '' : (ti) + '. ' + TOPICS[ti - 1].title.split(' · ')[0]}</button>
+      <button class="chip" data-go="${ti + 1}" ${ti === TOPICS.length - 1 ? 'disabled' : ''}>${ti === TOPICS.length - 1 ? '' : (ti + 2) + '. ' + TOPICS[ti + 1].title.split(' · ')[0]} →</button>
+    </div>
+  </div>
   </section>
 `).join('');
 
-/* ==================== TABS CHỦ ĐỀ ==================== */
-const tabs = document.getElementById('tabs');
-tabs.innerHTML = KAIWA.map((t, i) =>
-  `<button class="chip" data-tab="${i}" aria-pressed="${i === 0}">${i + 1}. ${t.title}</button>`).join('');
+/* ==================== TABS CHỦ ĐỀ (2 tầng: nhóm → chủ đề) ==================== */
+const cats  = document.getElementById('cats');
+const tabs  = document.getElementById('tabs');
+
+// Tách "面接 · Phỏng vấn" -> ["面接", "Phỏng vấn"]
+const split2 = s => { const i = s.indexOf(' · '); return i < 0 ? [s, ''] : [s.slice(0, i), s.slice(i + 3)]; };
+
+// Danh sách nhóm theo thứ tự xuất hiện + chỉ số chủ đề thuộc nhóm
+const CATS = [];
+TOPICS.forEach((t, i) => {
+  let c = CATS.find(c => c.name === t.cat);
+  if (!c) CATS.push(c = { name: t.cat, idx: [] });
+  c.idx.push(i);
+});
+
+cats.innerHTML = CATS.map((c, ci) => {
+  const [jp, vn] = split2(c.name);
+  return `<button class="chip" data-cat="${ci}"><span class="jp">${jp}</span> · ${vn}<span class="cnt">${c.idx.length}</span></button>`;
+}).join('');
+
+let curCat = 0, curTopic = 0;
+
+function renderTabs() {
+  tabs.innerHTML = CATS[curCat].idx.map(i => {
+    const [jp, vn] = split2(TOPICS[i].title);
+    return `<button class="tab" data-tab="${i}" aria-pressed="${i === curTopic}">
+      <span class="i">${i + 1}</span>
+      <span><span class="t-jp jp">${jp}</span><br><span class="t-vn">${vn}</span></span>
+    </button>`;
+  }).join('');
+  cats.querySelectorAll('[data-cat]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.cat === curCat));
+}
+
 function showTopic(i) {
+  curTopic = i;
+  curCat = CATS.findIndex(c => c.idx.includes(i));
   document.querySelectorAll('.topic').forEach(s => s.classList.toggle('on', +s.dataset.topic === i));
-  tabs.querySelectorAll('[data-tab]').forEach(b => b.setAttribute('aria-pressed', +b.dataset.tab === i));
+  renderTabs();
   window.speechSynthesis && window.speechSynthesis.cancel();
 }
+
+// Bấm nhóm: mở nhóm đó và nhảy tới chủ đề đầu tiên trong nhóm
+cats.addEventListener('click', e => {
+  const b = e.target.closest('[data-cat]');
+  if (b) showTopic(CATS[+b.dataset.cat].idx[0]);
+});
 tabs.addEventListener('click', e => {
   const b = e.target.closest('[data-tab]');
   if (b) showTopic(+b.dataset.tab);
 });
+
+// Trước / sau (nút ở cuối mỗi chủ đề)
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-go]');
+  if (!b) return;
+  showTopic(+b.dataset.go);
+  document.getElementById('tabsCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+});
+
 showTopic(0);
 
 /* ==================== TTS ==================== */
