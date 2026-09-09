@@ -410,6 +410,132 @@ const KAIWA = [
     ]
   }  ,
   {
+    cat: "面接 · Phỏng vấn",
+    title: "性格① 明るい · Tính cách: điểm mạnh",
+    // Hội thoại 2 người: A = người hỏi (面接官／先生), B = người trả lời.
+    note: 'Mẫu cơ bản nhất khi bị hỏi về tính cách: ① nêu tính cách bằng một tính từ → ② đưa LÝ DO bằng 「～からです」. Luôn trả lời theo cặp "kết luận trước, lý do sau".',
+    lines: [
+      { who: 'A', jp: 'どんな<ruby>性格<rt>せいかく</rt></ruby>ですか。', vn: 'Bạn là người tính cách như thế nào?' },
+      { who: 'B', jp: '<ruby>私<rt>わたし</rt></ruby>は<ruby>明<rt>あか</rt></ruby>るい<ruby>性格<rt>せいかく</rt></ruby>です。', vn: 'Tôi là người có tính cách vui vẻ, cởi mở.' },
+      { who: 'A', jp: 'どうしてですか。', vn: 'Vì sao vậy?' },
+      { who: 'B', jp: 'よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>すからです。', vn: 'Vì tôi hay nói chuyện với bạn bè.' }
+    ],
+    vocab: [
+      ["性格","せいかく","tính cách"],
+      ["明るい","あかるい","vui vẻ, cởi mở (cũng nghĩa \"sáng\")"],
+      ["暗い","くらい","u sầu, khép kín (trái nghĩa 明るい)"],
+      ["優しい","やさしい","dịu dàng, tốt bụng"],
+      ["まじめ","","nghiêm túc, chăm chỉ (tính từ -na)"],
+      ["おとなしい","","điềm đạm, ít nói"],
+      ["積極的","せっきょくてき","chủ động, tích cực (tính từ -na)"],
+      ["社交的","しゃこうてき","hòa đồng, giỏi giao tiếp (tính từ -na)"],
+      ["よく","","thường xuyên, hay ~ (tần suất)"],
+      ["友達と話す","ともだちとはなす","nói chuyện với bạn bè (と, KHÔNG dùng を)"],
+      ["長所","ちょうしょ","điểm mạnh"],
+      ["自分","じぶん","bản thân mình"]
+    ],
+    grammar: [
+      ["どんな＋N＋ですか","Hỏi về tính chất/loại: 「<b>どんな</b><ruby>性格<rt>せいかく</rt></ruby>ですか」= tính cách thế nào? Phân biệt với 「<ruby>何<rt>なん</rt></ruby>ですか」(hỏi cái gì) và 「どう<ruby>思<rt>おも</rt></ruby>いますか」(hỏi ý kiến)."],
+      ["<ruby>形容詞<rt>けいようし</rt></ruby>＋N（<ruby>明<rt>あか</rt></ruby>るい<ruby>性格<rt>せいかく</rt></ruby>）","Tính từ -i bổ nghĩa danh từ giữ nguyên: 明るい性格 (KHÔNG có な). Tính từ -na phải thêm な: まじめ<b>な</b>性格・<ruby>積極的<rt>せっきょくてき</rt></ruby><b>な</b>性格."],
+      ["<ruby>私<rt>わたし</rt></ruby>は～<ruby>性格<rt>せいかく</rt></ruby>です／<ruby>私<rt>わたし</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby>は～です","Hai cách đều đúng: 「私は明るい性格です」(nói về CON NGƯỜI mình) ／「私の性格は明るいです」(nói về TÍNH CÁCH như một chủ đề). Câu đầu tự nhiên hơn khi tự giới thiệu."],
+      ["どうしてですか／なぜですか","Hỏi lý do. どうして dùng trong hội thoại thường; なぜ trang trọng/văn viết; 「どうしてそう<ruby>思<rt>おも</rt></ruby>いますか」= vì sao bạn nghĩ vậy (mềm hơn)."],
+      ["～からです","Dùng để TRẢ LỜI câu hỏi lý do: 「よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>からです</b>」. Trước から dùng thể thường (辞書形／た形／ない形), KHÔNG dùng ます: ✕ 話しますからです."],
+      ["～ので／～ため（です）","Nâng cấp N3 của からです: 「よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>ので</b>、<ruby>明<rt>あか</rt></ruby>るいと<ruby>言<rt>い</rt></ruby>われます」. ので lịch sự/mềm hơn から; ため trang trọng nhất, hay dùng khi phỏng vấn."],
+      ["～と<ruby>言<rt>い</rt></ruby>われます","Được người ta nói là ~ (thể bị động). 「よく<ruby>明<rt>あか</rt></ruby>るいと<b><ruby>言<rt>い</rt></ruby>われます</b>」= mọi người thường nói tôi vui vẻ → nghe khiêm tốn hơn tự khen, rất ăn điểm khi phỏng vấn."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>私<rt>わたし</rt></ruby>は<b><ruby>明<rt>あか</rt></ruby>るいな</b><ruby>性格<rt>せいかく</rt></ruby>です。',
+        good: '<ruby>私<rt>わたし</rt></ruby>は<b><ruby>明<rt>あか</rt></ruby>るい</b><ruby>性格<rt>せいかく</rt></ruby>です。',
+        why: '明るい là tính từ -i → bổ nghĩa danh từ KHÔNG thêm な. Chỉ tính từ -na mới cần: まじめ<b>な</b>性格・<ruby>親切<rt>しんせつ</rt></ruby><b>な</b><ruby>性格<rt>せいかく</rt></ruby>. Đây là lỗi cực phổ biến của người Việt học N3.'
+      },
+      {
+        bad: 'よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>です</b>。／よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>し<b>ますからです</b>。',
+        good: 'よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>からです</b>。',
+        why: '① Động từ thể từ điển KHÔNG nối trực tiếp với です (✕ 話すです). ② Trước から phải là thể thường: 話す<b>から</b>, không phải 話します<b>から</b> (dạng 「話しますから」 chỉ đúng khi đứng giữa câu nói lịch sự, còn 「～ますからです」 thì sai).'
+      },
+      {
+        bad: 'よく<ruby>友達<rt>ともだち</rt></ruby><b>を</b><ruby>話<rt>はな</rt></ruby>します。',
+        good: 'よく<ruby>友達<rt>ともだち</rt></ruby><b>と</b><ruby>話<rt>はな</rt></ruby>します。',
+        why: '話す (nói chuyện CÙNG ai) dùng trợ từ <b>と</b>. Dùng を chỉ khi nói NỘI DUNG: 「<ruby>日本語<rt>にほんご</rt></ruby><b>を</b><ruby>話<rt>はな</rt></ruby>す」= nói tiếng Nhật. Cùng nhóm: <ruby>友達<rt>ともだち</rt></ruby><b>に</b><ruby>話<rt>はな</rt></ruby>す = kể cho bạn nghe (một chiều).'
+      },
+      {
+        bad: '<ruby>私<rt>わたし</rt></ruby>は<ruby>明<rt>あか</rt></ruby>るい<ruby>性格<rt>せいかく</rt></ruby><b>います</b>。',
+        good: '<ruby>私<rt>わたし</rt></ruby>は<ruby>明<rt>あか</rt></ruby>るい<ruby>性格<rt>せいかく</rt></ruby><b>です</b>。／<ruby>明<rt>あか</rt></ruby>るい<ruby>性格<rt>せいかく</rt></ruby>を<b><ruby>持<rt>も</rt></ruby>っています</b>。',
+        why: '性格 là danh từ → dùng です. います chỉ dùng cho sự tồn tại của người/động vật. Nếu muốn dùng ている thì phải có động từ: 「<ruby>持<rt>も</rt></ruby>っています」, nhưng 「～性格です」 là cách nói tự nhiên nhất.'
+      },
+      {
+        bad: 'A:「どうしてですか。」 B:「<b><ruby>明<rt>あか</rt></ruby>るいですから</b>。」',
+        good: 'A:「どうしてですか。」 B:「よく<ruby>友達<rt>ともだち</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>からです</b>。」',
+        why: 'Trả lời 「明るいですから」 là lặp lại kết luận, KHÔNG phải lý do → bị trừ điểm. Lý do phải là một <b>hành động/sự việc cụ thể</b> chứng minh cho tính cách đó (よく友達と話す・<ruby>初<rt>はじ</rt></ruby>めての<ruby>人<rt>ひと</rt></ruby>にも<ruby>自分<rt>じぶん</rt></ruby>から<ruby>声<rt>こえ</rt></ruby>をかける).'
+      }
+    ]
+  }
+  ,
+  {
+    cat: "面接 · Phỏng vấn",
+    title: "性格② 人見知り · Tính cách: điểm yếu",
+    // Hội thoại 2 người: A = người hỏi, B = người trả lời (nói về 短所).
+    note: 'Khi nói ĐIỂM YẾU, đừng khẳng định tuyệt đối 「私は人見知りです」. Dùng 「<ruby>少<rt>すこ</rt></ruby>し～なところがあります」 để làm mềm, rồi nêu HOÀN CẢNH cụ thể bằng 「～とき」.',
+    lines: [
+      { who: 'A', jp: '<ruby>自分<rt>じぶん</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby>をどう<ruby>思<rt>おも</rt></ruby>いますか。', vn: 'Bạn nghĩ thế nào về tính cách của mình?' },
+      { who: 'B', jp: '<ruby>少<rt>すこ</rt></ruby>し<ruby>人見知<rt>ひとみし</rt></ruby>りなところがあります。', vn: 'Tôi có hơi rụt rè với người lạ một chút.' },
+      { who: 'A', jp: 'そうですか。どんなときですか。', vn: 'Vậy à. Là những lúc như thế nào?' },
+      { who: 'B', jp: '<ruby>初<rt>はじ</rt></ruby>めて<ruby>会<rt>あ</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>と<ruby>話<rt>はな</rt></ruby>すとき、あまり<ruby>話<rt>はな</rt></ruby>せません。', vn: 'Khi nói chuyện với người mới gặp lần đầu, tôi không nói được nhiều.' }
+    ],
+    vocab: [
+      ["人見知り","ひとみしり","sự rụt rè/e dè trước người lạ"],
+      ["人見知りする","ひとみしりする","(bị) e dè trước người lạ"],
+      ["～なところがある","","có điểm/khía cạnh là ~"],
+      ["初めて","はじめて","lần đầu tiên"],
+      ["初めて会う人","はじめてあうひと","người gặp lần đầu"],
+      ["あまり～ない","","không ~ lắm"],
+      ["話せる","はなせる","có thể nói (thể khả năng của 話す)"],
+      ["恥ずかしい","はずかしい","ngại, mắc cỡ"],
+      ["緊張する","きんちょうする","căng thẳng, run"],
+      ["慣れる","なれる","quen dần (～に慣れる)"],
+      ["内向的","ないこうてき","hướng nội (tính từ -na)"],
+      ["短所","たんしょ","điểm yếu (trái nghĩa 長所)"]
+    ],
+    grammar: [
+      ["～をどう<ruby>思<rt>おも</rt></ruby>いますか","Hỏi Ý KIẾN, ĐÁNH GIÁ: 「<ruby>自分<rt>じぶん</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby><b>をどう<ruby>思<rt>おも</rt></ruby>いますか</b>」. Khác 「どんな性格ですか」(hỏi mô tả) — câu này yêu cầu bạn TỰ NHẬN XÉT, nên trả lời nên có đánh giá + ví dụ."],
+      ["～なところがあります","Có điểm/mặt là ~ (tự nhận xét MỀM). Cách nối: N/-na adj ＋<b>な</b>ところ (<ruby>人見知<rt>ひとみし</rt></ruby>り<b>な</b>ところ・まじめ<b>な</b>ところ)／-i adj giữ nguyên (<ruby>優<rt>やさ</rt></ruby>し<b>い</b>ところ)／V thể thường (<ruby>言<rt>い</rt></ruby>いすぎ<b>る</b>ところ). Thêm 少し／ちょっと ở đầu để giảm nhẹ hơn nữa."],
+      ["どんなときですか","Hỏi HOÀN CẢNH: là lúc nào? Cùng nhóm: 「どんな<ruby>場合<rt>ばあい</rt></ruby>ですか」「<ruby>具体的<rt>ぐたいてき</rt></ruby>には？」= cụ thể là? → phải trả lời bằng một tình huống cụ thể."],
+      ["V<ruby>辞書形<rt>じしょけい</rt></ruby>＋とき","Khi làm ~: 「<ruby>話<rt>はな</rt></ruby><b>すとき</b>」= khi nói. Dùng 辞書形 khi hành động CHƯA/ĐANG xảy ra; dùng た形 khi ĐÃ xong: 「<ruby>話<rt>はな</rt></ruby><b>したとき</b>」= khi đã nói xong. Với danh từ: 「<ruby>面接<rt>めんせつ</rt></ruby><b>のとき</b>」."],
+      ["<ruby>名詞修飾<rt>めいししゅうしょく</rt></ruby>（<ruby>初<rt>はじ</rt></ruby>めて<ruby>会<rt>あ</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>）","Mệnh đề bổ nghĩa danh từ: 「<ruby>初<rt>はじ</rt></ruby>めて<b><ruby>会<rt>あ</rt></ruby>う</b><ruby>人<rt>ひと</rt></ruby>」= người (mà tôi) gặp lần đầu. Động từ để thể THƯỜNG, đặt TRƯỚC danh từ, không cần の: ✕ 初めて会うの人."],
+      ["あまり＋<ruby>否定<rt>ひてい</rt></ruby>","あまり LUÔN đi với phủ định: 「<b>あまり</b><ruby>話<rt>はな</rt></ruby>せ<b>ません</b>」= không nói được nhiều. Mức độ: あまり～ない (không lắm) ＜ ぜんぜん～ない (hoàn toàn không). Khi nói điểm yếu nên dùng あまり cho nhẹ."],
+      ["<ruby>可能形<rt>かのうけい</rt></ruby>の<ruby>否定<rt>ひてい</rt></ruby>（<ruby>話<rt>はな</rt></ruby>せません）","<ruby>話<rt>はな</rt></ruby>す→<ruby>話<rt>はな</rt></ruby><b>せません</b> = KHÔNG THỂ nói được (do tính cách, ngoài ý muốn). Khác 「<ruby>話<rt>はな</rt></ruby>し<b>ません</b>」= KHÔNG nói (do mình chọn) — nghe như cố tình im lặng, dễ gây ấn tượng xấu."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>少<rt>すこ</rt></ruby>し<ruby>人見知<rt>ひとみし</rt></ruby>り<b>の</b>ところがあります。',
+        good: '<ruby>少<rt>すこ</rt></ruby>し<ruby>人見知<rt>ひとみし</rt></ruby>り<b>な</b>ところがあります。／<ruby>人見知<rt>ひとみし</rt></ruby>り<b>する</b>ところがあります。',
+        why: 'Trong cụm 「～ところがある」, 人見知り hoạt động như tính từ -na → dùng <b>な</b>. Muốn dùng dạng động từ thì 「人見知り<b>する</b>ところ」. Còn の chỉ dùng khi ところ mang nghĩa "chỗ, nơi" thật: 「<ruby>友達<rt>ともだち</rt></ruby><b>の</b>ところ」= chỗ của bạn.'
+      },
+      {
+        bad: '<ruby>初<rt>はじ</rt></ruby>めて<ruby>会<rt>あ</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>と<ruby>話<rt>はな</rt></ruby>すとき、あまり<b><ruby>話<rt>はな</rt></ruby>しません</b>。',
+        good: '<ruby>初<rt>はじ</rt></ruby>めて<ruby>会<rt>あ</rt></ruby>う<ruby>人<rt>ひと</rt></ruby>と<ruby>話<rt>はな</rt></ruby>すとき、あまり<b><ruby>話<rt>はな</rt></ruby>せません</b>。',
+        why: '話しません = tôi KHÔNG nói (chủ động chọn im lặng) → người nghe hiểu là bạn lạnh nhạt. 話せません = tôi KHÔNG NÓI ĐƯỢC (thể khả năng, do tính cách) → đúng ý "rụt rè". Khi nói về điểm yếu ngoài ý muốn, luôn dùng thể khả năng phủ định.'
+      },
+      {
+        bad: '<ruby>初<rt>はじ</rt></ruby>めて<b><ruby>会<rt>あ</rt></ruby>うの</b><ruby>人<rt>ひと</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>とき</b>に、<b>ぜんぜん</b><ruby>話<rt>はな</rt></ruby>せません。',
+        good: '<ruby>初<rt>はじ</rt></ruby>めて<b><ruby>会<rt>あ</rt></ruby>う</b><ruby>人<rt>ひと</rt></ruby>と<ruby>話<rt>はな</rt></ruby>す<b>とき</b>、<b>あまり</b><ruby>話<rt>はな</rt></ruby>せません。',
+        why: '① Mệnh đề bổ nghĩa danh từ KHÔNG chèn の: 会う人 (✕ 会うの人). ② ぜんぜん話せません = hoàn toàn không nói được → quá mạnh, tự hạ thấp mình; あまり～ません vừa phải. ③ とき／ときに đều được, bỏ に nghe gọn hơn trong hội thoại.'
+      },
+      {
+        bad: '<ruby>私<rt>わたし</rt></ruby>は<b><ruby>人見知<rt>ひとみし</rt></ruby>りです</b>。',
+        good: '<ruby>少<rt>すこ</rt></ruby>し<b><ruby>人見知<rt>ひとみし</rt></ruby>りなところがあります</b>が、<ruby>慣<rt>な</rt></ruby>れると<ruby>普通<rt>ふつう</rt></ruby>に<ruby>話<rt>はな</rt></ruby>せます。',
+        why: '「私は人見知りです」 đúng ngữ pháp nhưng là lời khẳng định TUYỆT ĐỐI về bản thân → nghe như một khuyết điểm không sửa được. Công thức an toàn khi nói 短所: <b>少し～なところがあります＋が＋<ruby>改善<rt>かいぜん</rt></ruby>／<ruby>慣<rt>な</rt></ruby>れると～できます</b> (nêu nhẹ rồi nêu hướng khắc phục).'
+      },
+      {
+        bad: '<ruby>自分<rt>じぶん</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby>を<b>どう<ruby>思<rt>おも</rt></ruby>いますか</b>。→「<b>はい、いい<ruby>性格<rt>せいかく</rt></ruby>です</b>。」',
+        good: '<ruby>自分<rt>じぶん</rt></ruby>の<ruby>性格<rt>せいかく</rt></ruby>をどう<ruby>思<rt>おも</rt></ruby>いますか。→「<b><ruby>少<rt>すこ</rt></ruby>し<ruby>人見知<rt>ひとみし</rt></ruby>りなところがあります</b>。」',
+        why: '「どう思いますか」 là câu hỏi MỞ (không phải câu hỏi はい／いいえ) → trả lời 「はい」 là sai kiểu câu. Phải nêu ngay nội dung nhận xét. Lỗi này rất hay bị trừ điểm ở phần 会話 vì thể hiện không nghe hiểu dạng câu hỏi.'
+      }
+    ]
+  }
+  ,
+  {
     cat: "職場 · Hội thoại nơi làm việc",
     title: "進捗確認 · Báo cáo tiến độ",
     // Hội thoại 2 người: A = 上司 (cấp trên), B = 部下 (nhân viên).
@@ -1329,6 +1455,310 @@ const KAIWA = [
         bad: '<ruby>病室<rt>びょうしつ</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>からも<ruby>庭<rt>にわ</rt></ruby>が<b><ruby>見<rt>み</rt></ruby>ますように</b><ruby>作<rt>つく</rt></ruby>られた。',
         good: '<ruby>病室<rt>びょうしつ</rt></ruby>の<ruby>窓<rt>まど</rt></ruby>からも<ruby>庭<rt>にわ</rt></ruby>が<b><ruby>見<rt>み</rt></ruby>えるように</b><ruby>作<rt>つく</rt></ruby>られた。',
         why: '① Trước ように không dùng thể ます. ② 「<ruby>見<rt>み</rt></ruby>る」(chủ động nhìn) vs 「<ruby>見<rt>み</rt></ruby>える」(tự nhìn thấy được). Ở đây cảnh TỰ hiện ra trong tầm mắt → 見える. Cùng cặp: <ruby>聞<rt>き</rt></ruby>く／<ruby>聞<rt>き</rt></ruby>こえる.'
+      }
+    ]
+  }
+  ,
+  {
+    cat: "人の描写 · Miêu tả người",
+    title: "外見を聞く · Hỏi về ngoại hình",
+    // Hội thoại 2 người: A = người tò mò hỏi, B = người biết chuyện.
+    note: 'Mẫu hỏi–tả NGOẠI HÌNH. Điểm cốt lõi: nối nhiều đặc điểm bằng 「～くて」, và tả chiều cao phải nói 「<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い」 chứ không phải 「<ruby>高<rt>たか</rt></ruby>い」 một mình.',
+    lines: [
+      { who: 'A', jp: '<ruby>上杉<rt>うえすぎ</rt></ruby>さんの<ruby>彼女<rt>かのじょ</rt></ruby>ってどんな<ruby>人<rt>ひと</rt></ruby>ですか。', vn: 'Bạn gái của anh Uesugi là người thế nào ạ?' },
+      { who: 'B', jp: 'ちょっと<ruby>細<rt>ほそ</rt></ruby>くて、<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。', vn: 'Hơi gầy, và cao ạ.' },
+      { who: 'A', jp: 'へー！<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いんだ。<ruby>何<rt>なん</rt></ruby>センチくらいあるんですか。', vn: 'Ồ! Cao thế à. Khoảng bao nhiêu centimet ạ?' },
+      { who: 'B', jp: '170センチで、<ruby>私<rt>わたし</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じぐらいですね。', vn: '170 cm, khoảng bằng tôi đấy.' }
+    ],
+    vocab: [
+      ["彼女","かのじょ","bạn gái / cô ấy"],
+      ["彼","かれ","bạn trai / anh ấy"],
+      ["～って","","= 「～は」 dạng khẩu ngữ (nêu chủ đề)"],
+      ["細い","ほそい","gầy, mảnh khảnh"],
+      ["太い／太っている","ふとい／ふとっている","béo (người → dùng 太っている)"],
+      ["背が高い","せがたかい","cao (người)"],
+      ["背が低い","せがひくい","thấp (người)"],
+      ["何センチ","なんセンチ","bao nhiêu centimet"],
+      ["～くらい／～ぐらい","","khoảng chừng ~"],
+      ["同じ","おなじ","giống, bằng nhau"],
+      ["髪が長い","かみがながい","tóc dài"],
+      ["かわいい／きれい","","xinh xắn / xinh đẹp, gọn gàng"]
+    ],
+    grammar: [
+      ["どんな<ruby>人<rt>ひと</rt></ruby>ですか","Câu hỏi mở đầu để hỏi về một người. Trả lời được cả NGOẠI HÌNH (背が高い) và TÍNH CÁCH (<ruby>明<rt>あか</rt></ruby>るい). Nếu chỉ muốn hỏi ngoại hình: 「どんな<ruby>外見<rt>がいけん</rt></ruby>ですか」／「<ruby>見<rt>み</rt></ruby>た<ruby>目<rt>め</rt></ruby>は？」."],
+      ["～って（＝～は）","Trợ từ nêu chủ đề dạng KHẨU NGỮ: 「<ruby>彼女<rt>かのじょ</rt></ruby><b>って</b>どんな<ruby>人<rt>ひと</rt></ruby>ですか」. Thân mật, không dùng trong phỏng vấn/văn viết — ở đó phải dùng は."],
+      ["<ruby>形容詞<rt>けいようし</rt></ruby>の<ruby>連結<rt>れんけつ</rt></ruby>（～くて）","Nối 2 đặc điểm: -i adj bỏ い＋<b>くて</b> (<ruby>細<rt>ほそ</rt></ruby>い→<ruby>細<rt>ほそ</rt></ruby><b>くて</b>)／-na adj＋<b>で</b> (きれい<b>で</b>)／N＋<b>で</b> (170センチ<b>で</b>). Ngoại lệ: いい→<b>よくて</b>."],
+      ["<ruby>身体<rt>しんたい</rt></ruby><ruby>描写<rt>びょうしゃ</rt></ruby>「Nは～が～」","Tả bộ phận phải nêu bộ phận làm chủ ngữ nhỏ: 「<ruby>彼女<rt>かのじょ</rt></ruby>は<b><ruby>背<rt>せ</rt></ruby>が</b><ruby>高<rt>たか</rt></ruby>いです」「<b><ruby>髪<rt>かみ</rt></ruby>が</b><ruby>長<rt>なが</rt></ruby>いです」「<b><ruby>目<rt>め</rt></ruby>が</b><ruby>大<rt>おお</rt></ruby>きいです」. Nói 「彼女は高いです」 sẽ hiểu là ĐẮT TIỀN."],
+      ["～んだ／～んですか","んだ = 「のだ」 rút gọn, thể hiện MỚI NHẬN RA / tiếp nhận thông tin: 「<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>い<b>んだ</b>」= à, cao thế à. Dạng lịch sự: 「～<b>んですね</b>」. Còn 「～<b>んですか</b>」= hỏi để xin thông tin chi tiết."],
+      ["<ruby>数量<rt>すうりょう</rt></ruby>＋くらい／ぐらい＋ある","Ước lượng con số: 「<ruby>何<rt>なん</rt></ruby>センチ<b>くらいある</b>んですか」= khoảng bao nhiêu cm. Với chiều cao/khoảng cách dùng động từ <b>ある</b>, KHÔNG dùng です khi hỏi ước lượng."],
+      ["～と<ruby>同<rt>おな</rt></ruby>じぐらい","Xấp xỉ bằng ~: 「<ruby>私<rt>わたし</rt></ruby><b>と<ruby>同<rt>おな</rt></ruby>じぐらい</b>です」. Lưu ý 同じ là ngoại lệ: bổ nghĩa danh từ KHÔNG thêm な → 「<ruby>同<rt>おな</rt></ruby>じ<ruby>大<rt>おお</rt></ruby>きさ」(✕ 同じな大きさ)."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>彼女<rt>かのじょ</rt></ruby>は<b><ruby>高<rt>たか</rt></ruby>いです</b>。',
+        good: '<ruby>彼女<rt>かのじょ</rt></ruby>は<b><ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです</b>。',
+        why: '「高い」 đứng một mình với người = ĐẮT/cao giá (hoặc ở vị trí cao). Tả chiều cao NGƯỜI bắt buộc có <b>背が</b>. Cùng nhóm bắt buộc nêu bộ phận: <ruby>髪<rt>かみ</rt></ruby>が<ruby>長<rt>なが</rt></ruby>い・<ruby>目<rt>め</rt></ruby>が<ruby>大<rt>おお</rt></ruby>きい・<ruby>足<rt>あし</rt></ruby>が<ruby>長<rt>なが</rt></ruby>い.'
+      },
+      {
+        bad: 'ちょっと<b><ruby>細<rt>ほそ</rt></ruby>いで</b>、<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。',
+        good: 'ちょっと<b><ruby>細<rt>ほそ</rt></ruby>くて</b>、<ruby>背<rt>せ</rt></ruby>が<ruby>高<rt>たか</rt></ruby>いです。',
+        why: 'Tính từ -i nối câu phải đổi い→<b>くて</b>, không dùng で. で chỉ dùng cho tính từ -na và danh từ: 「きれい<b>で</b><ruby>優<rt>やさ</rt></ruby>しい」「170センチ<b>で</b>…」.'
+      },
+      {
+        bad: '<ruby>彼女<rt>かのじょ</rt></ruby>は<b><ruby>太<rt>ふと</rt></ruby>いです</b>。',
+        good: '<ruby>彼女<rt>かのじょ</rt></ruby>は<b><ruby>太<rt>ふと</rt></ruby>っています</b>。／<b>ぽっちゃりしています</b>。',
+        why: '太い dùng cho VẬT có dạng ống (<ruby>太<rt>ふと</rt></ruby>い<ruby>木<rt>き</rt></ruby>・<ruby>太<rt>ふと</rt></ruby>い<ruby>線<rt>せん</rt></ruby>). Người béo → <b>太っている</b>. Lưu ý: nói ai đó 太っている là hơi mất lịch sự; nên dùng 「ぽっちゃり」 (mũm mĩm, nghe dễ thương) hoặc tránh nhắc.'
+      },
+      {
+        bad: '<ruby>何<rt>なん</rt></ruby>センチ<b>ですか</b>。→「170センチ<b>と</b><ruby>私<rt>わたし</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じぐらいです。」',
+        good: '<ruby>何<rt>なん</rt></ruby>センチ<b>くらいあるんですか</b>。→「170センチ<b>で</b>、<ruby>私<rt>わたし</rt></ruby>と<ruby>同<rt>おな</rt></ruby>じぐらいです。」',
+        why: '① Hỏi ước lượng chiều cao tự nhiên là 「<ruby>何<rt>なん</rt></ruby>センチくらい<b>ある</b>んですか」. ② Nối "170cm, và bằng tôi" dùng <b>で</b> (danh từ nối câu), không dùng と — と là "và" giữa hai DANH TỪ đồng hạng (りんご<b>と</b>みかん).'
+      }
+    ]
+  }
+  ,
+  {
+    cat: "人の描写 · Miêu tả người",
+    title: "人を特定する · Chỉ ra người nào (đặc điểm)",
+    // Hội thoại 2 người: A = khách/người tìm, B = người ở đó (nhân viên/học viên).
+    note: 'Mẫu tìm người bằng ĐẶC ĐIỂM ĐANG DIỄN RA: 「<ruby>眼鏡<rt>めがね</rt></ruby>をかけて、パソコンを<ruby>使<rt>つか</rt></ruby>っている<ruby>人<rt>ひと</rt></ruby>」. Đồng thời học 敬語: いらっしゃる／どの<ruby>方<rt>かた</rt></ruby>.',
+    lines: [
+      { who: 'A', jp: 'すみません、<ruby>田中<rt>たなか</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>はいらっしゃいますか。', vn: 'Xin lỗi, thầy Tanaka có ở đây không ạ?' },
+      { who: 'B', jp: 'はい、あそこにいますよ。', vn: 'Có, thầy ở kia kìa.' },
+      { who: 'A', jp: 'あ、すみません。どの<ruby>方<rt>かた</rt></ruby>ですか。', vn: 'À, xin lỗi. Là vị nào ạ?' },
+      { who: 'B', jp: 'えーとね！メガネをかけてパソコンを<ruby>使<rt>つか</rt></ruby>っている<ruby>人<rt>ひと</rt></ruby>ですよ。', vn: 'Để xem… Là người đang đeo kính và dùng máy tính đó ạ.' }
+    ],
+    vocab: [
+      ["いらっしゃる","","(kính ngữ của いる／来る／行く) có mặt, đến"],
+      ["おる","","(khiêm nhường ngữ của いる) tôi/người bên tôi có mặt"],
+      ["どの方","どのかた","vị nào (kính ngữ của どの人)"],
+      ["方","かた","vị, người (kính ngữ của 人)"],
+      ["えーと","","à, để xem… (từ đệm khi đang nghĩ)"],
+      ["メガネをかける","めがねをかける","đeo kính (dùng động từ かける)"],
+      ["帽子をかぶる","ぼうしをかぶる","đội mũ"],
+      ["着る","きる","mặc (áo, đồ phần thân trên)"],
+      ["はく","","mặc/xỏ (quần, váy, giày, tất)"],
+      ["ネクタイをする／締める","ネクタイをする／しめる","đeo/thắt cà vạt"],
+      ["使う","つかう","dùng, sử dụng"],
+      ["あそこ／向こう","あそこ／むこう","kia / phía bên kia"]
+    ],
+    grammar: [
+      ["いらっしゃいますか（<ruby>尊敬語<rt>そんけいご</rt></ruby>）","Kính ngữ của います dùng cho NGƯỜI TRÊN: 「<ruby>田中<rt>たなか</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>は<b>いらっしゃいますか</b>」. Nói về BẢN THÂN/nội bộ mình thì dùng khiêm nhường 「<b>おります</b>」: ✕ 私はいらっしゃいます."],
+      ["どの<ruby>方<rt>かた</rt></ruby>／どちら<ruby>様<rt>さま</rt></ruby>","Nâng cấp kính ngữ: <ruby>人<rt>ひと</rt></ruby>→<b><ruby>方<rt>かた</rt></ruby></b>、だれ→<b>どの<ruby>方<rt>かた</rt></ruby></b>／<b>どちら<ruby>様<rt>さま</rt></ruby></b> (dùng qua điện thoại). 「どの方ですか」= vị nào trong số đó?"],
+      ["<ruby>着用<rt>ちゃくよう</rt></ruby><ruby>動詞<rt>どうし</rt></ruby>（かける・かぶる・<ruby>着<rt>き</rt></ruby>る・はく）","Tiếng Nhật đổi động từ theo BỘ PHẬN: メガネ／マスクを<b>かける</b>／<ruby>帽子<rt>ぼうし</rt></ruby>を<b>かぶる</b>／シャツを<b><ruby>着<rt>き</rt></ruby>る</b>／ズボン・<ruby>靴<rt>くつ</rt></ruby>を<b>はく</b>／ネクタイを<b>する</b>／<ruby>時計<rt>とけい</rt></ruby>を<b>する</b>. Không có động từ \"mặc\" chung như tiếng Việt."],
+      ["～て、～ている＋N","Nối nhiều đặc điểm rồi bổ nghĩa danh từ: 「メガネを<b>かけて</b>、パソコンを<b><ruby>使<rt>つか</rt></ruby>っている</b><ruby>人<rt>ひと</rt></ruby>」. Chỉ động từ CUỐI mang ている; các động từ trước để thể て. Đây là mẫu chuẩn để chỉ người trong đám đông."],
+      ["ている（<ruby>状態<rt>じょうたい</rt></ruby>）","ている có 2 nghĩa: ① đang làm (パソコンを<ruby>使<rt>つか</rt></ruby>っている) ② TRẠNG THÁI đang duy trì (メガネを<b>かけている</b>＝đang đeo kính, không phải \"đang thao tác đeo\"). Với 着用動詞, ている hầu như luôn là nghĩa ②."],
+      ["あそこ／そこ／ここ","あそこ = xa cả người nói và người nghe (nhìn thấy được) → dùng khi chỉ người ở phía xa trong phòng. Kính ngữ/lịch sự hơn: 「<b>あちら</b>におります」."],
+      ["<ruby>終助詞<rt>しゅうじょし</rt></ruby>よ／ね","<b>よ</b> = cung cấp thông tin người nghe chưa biết (「あそこにいます<b>よ</b>」). <b>ね</b> = xác nhận/đồng cảm (「<ruby>同<rt>おな</rt></ruby>じぐらいです<b>ね</b>」). Dùng sai sẽ nghe áp đặt hoặc thiếu tự nhiên."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>田中<rt>たなか</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>は<b>いますか</b>。',
+        good: '<ruby>田中<rt>たなか</rt></ruby><ruby>先生<rt>せんせい</rt></ruby>は<b>いらっしゃいますか</b>。',
+        why: 'Hỏi về 先生 (người trên) phải dùng kính ngữ <b>いらっしゃる</b>. 「いますか」 chỉ dùng với người ngang/dưới hoặc bạn bè. Ngược lại, khi nói về mình: 「<ruby>私<rt>わたし</rt></ruby>は<ruby>会社<rt>かいしゃ</rt></ruby>に<b>おります</b>」.'
+      },
+      {
+        bad: 'メガネを<b>して</b>いる<ruby>人<rt>ひと</rt></ruby>／メガネを<b><ruby>着<rt>き</rt></ruby>て</b>いる<ruby>人<rt>ひと</rt></ruby>',
+        good: 'メガネを<b>かけて</b>いる<ruby>人<rt>ひと</rt></ruby>',
+        why: 'Kính đi với <b>かける</b>. 「メガネをする」 nghe được trong khẩu ngữ nhưng không chuẩn ở bài thi; 着る tuyệt đối sai (chỉ dùng cho áo). Học theo cặp: メガネ→かける、<ruby>帽子<rt>ぼうし</rt></ruby>→かぶる、<ruby>靴<rt>くつ</rt></ruby>→はく.'
+      },
+      {
+        bad: 'メガネを<b>かけていて</b>、パソコンを<b><ruby>使<rt>つか</rt></ruby>っていて</b>の<ruby>人<rt>ひと</rt></ruby>です。',
+        good: 'メガネを<b>かけて</b>、パソコンを<b><ruby>使<rt>つか</rt></ruby>っている</b><ruby>人<rt>ひと</rt></ruby>です。',
+        why: '① Chuỗi đặc điểm: động từ giữa để thể <b>て</b> đơn giản (かけて), chỉ động từ CUỐI chia ている. ② Mệnh đề bổ nghĩa danh từ KHÔNG chèn の: ✕ 使っているの人 → ○ 使っている人.'
+      },
+      {
+        bad: 'あ、すみません。<b>どの<ruby>人<rt>ひと</rt></ruby>ですか</b>。',
+        good: 'あ、すみません。<b>どの<ruby>方<rt>かた</rt></ruby>ですか</b>。',
+        why: 'Đang nói về 先生 nên phải nâng lên kính ngữ: <ruby>人<rt>ひと</rt></ruby>→<b><ruby>方<rt>かた</rt></ruby></b>. 「どの人ですか」 không sai ngữ pháp nhưng thiếu tôn trọng khi đối tượng là thầy/khách hàng.'
+      }
+    ]
+  }
+  ,
+  {
+    cat: "人の描写 · Miêu tả người",
+    title: "友達との会話 · Nhờ bạn giới thiệu (thể suồng sã)",
+    // Hội thoại 2 người bạn thân: A = người nhờ, B = たけちゃん.
+    note: 'Toàn bộ đoạn này dùng <b>普通体（タメ口）</b> — thể suồng sã giữa bạn thân. Chú ý cách rút gọn: 「いない？」「なくて…」「～の?」. Đây là dạng hay ra ở phần <ruby>聴解<rt>ちょうかい</rt></ruby> N3.',
+    lines: [
+      { who: 'A', jp: 'ねえねえ、たけちゃん。', vn: 'Này này, Take-chan.' },
+      { who: 'B', jp: 'うん、<ruby>何<rt>なに</rt></ruby>？', vn: 'Ừ, gì đấy?' },
+      { who: 'A', jp: '<ruby>誰<rt>だれ</rt></ruby>かいい<ruby>人<rt>ひと</rt></ruby>いない？<ruby>最近<rt>さいきん</rt></ruby><ruby>出会<rt>であ</rt></ruby>いがなくて…。', vn: 'Có ai tốt (để giới thiệu) không? Dạo này tớ chẳng gặp được ai cả…' },
+      { who: 'B', jp: 'そうか、どんな<ruby>人<rt>ひと</rt></ruby>がいいの？', vn: 'Vậy à, cậu muốn người thế nào?' }
+    ],
+    vocab: [
+      ["ねえねえ","","này này (gọi bạn thân, thân mật)"],
+      ["～ちゃん","","hậu tố thân mật (bạn thân, trẻ nhỏ)"],
+      ["誰か","だれか","ai đó (không xác định)"],
+      ["いい人","いいひと","người tốt / người phù hợp (để hẹn hò)"],
+      ["最近","さいきん","dạo này, gần đây"],
+      ["出会い","であい","cơ hội gặp gỡ, duyên gặp"],
+      ["出会う","であう","gặp (tình cờ, định mệnh)"],
+      ["紹介する","しょうかいする","giới thiệu"],
+      ["合コン","ごうコン","buổi gặp gỡ ghép đôi nhóm"],
+      ["そうか／そっか","","vậy à (tiếp nhận thông tin, thể suồng sã)"],
+      ["タイプ","","kiểu người mình thích"],
+      ["普通体","ふつうたい","thể thường/suồng sã (tài liệu ngữ pháp)"]
+    ],
+    grammar: [
+      ["<ruby>普通体<rt>ふつうたい</rt></ruby>（タメ<ruby>口<rt>ぐち</rt></ruby>）","Bỏ です／ます giữa bạn thân: いません→<b>いない</b>、<ruby>何<rt>なん</rt></ruby>ですか→<b><ruby>何<rt>なに</rt></ruby>？</b>、そうですか→<b>そうか／そっか</b>. Lên giọng ở cuối là thành câu hỏi, không cần か."],
+      ["<ruby>誰<rt>だれ</rt></ruby>か＋<ruby>疑問<rt>ぎもん</rt></ruby>","<ruby>誰<rt>だれ</rt></ruby><b>か</b>＝ai đó (có tồn tại hay không thì chưa biết). Bộ 4 cần nhớ: <ruby>誰<rt>だれ</rt></ruby>か／<ruby>何<rt>なに</rt></ruby>か／どこか／いつか. Lưu ý trợ từ thường bị LƯỢC: 「<ruby>誰<rt>だれ</rt></ruby>か（が）いい<ruby>人<rt>ひと</rt></ruby>（は）いない？」."],
+      ["<ruby>否定<rt>ひてい</rt></ruby><ruby>疑問<rt>ぎもん</rt></ruby>（～ない？）","Hỏi dạng phủ định để NHỜ VẢ/rủ rê nhẹ nhàng: 「いい<ruby>人<rt>ひと</rt></ruby><b>いない？</b>」= có ai tốt không (giới thiệu tớ với)? Lịch sự: 「いい<ruby>人<rt>ひと</rt></ruby>は<b>いませんか</b>」. Cùng mẫu: 「<ruby>手伝<rt>てつだ</rt></ruby>って<b>くれない？</b>」."],
+      ["～なくて…（<ruby>理由<rt>りゆう</rt></ruby>を<ruby>言<rt>い</rt></ruby>いさす）","Bỏ lửng câu ở thể て để NÊU LÝ DO mà không nói hết: 「<ruby>出会<rt>であ</rt></ruby>いが<b>なくて</b>…」= vì chẳng có cơ hội gặp ai (nên mới nhờ cậu). Rất Nhật: để người nghe tự suy ra phần sau. Cách nối: ない→<b>なくて</b>、<ruby>忙<rt>いそが</rt></ruby>しい→<ruby>忙<rt>いそが</rt></ruby>し<b>くて</b>."],
+      ["～の？（<ruby>疑問<rt>ぎもん</rt></ruby>の の）","の cuối câu = câu hỏi thể thường, nghe mềm và quan tâm: 「どんな<ruby>人<rt>ひと</rt></ruby>がいい<b>の？</b>」. Dạng lịch sự: 「～<b>んですか</b>」. Với danh từ/-na adj cần thêm な: 「<ruby>元気<rt>げんき</rt></ruby><b>なの</b>？」."],
+      ["Nが＋いい／ほしい","Khi nêu MONG MUỐN, đối tượng dùng <b>が</b> (không phải を): 「どんな<ruby>人<rt>ひと</rt></ruby><b>が</b>いいの？」「<ruby>優<rt>やさ</rt></ruby>しい<ruby>人<rt>ひと</rt></ruby><b>が</b>いい」. Cùng nhóm が: ～がほしい・～が<ruby>好<rt>す</rt></ruby>き・～が<ruby>上手<rt>じょうず</rt></ruby>."]
+    ],
+    fix: [
+      {
+        bad: '<ruby>誰<rt>だれ</rt></ruby>か<b>いい<ruby>人<rt>ひと</rt></ruby>を</b>いない？',
+        good: '<ruby>誰<rt>だれ</rt></ruby>か<b>いい<ruby>人<rt>ひと</rt></ruby></b>いない？／いい<ruby>人<rt>ひと</rt></ruby><b>は</b>いない？',
+        why: 'いる／ない là động từ TỒN TẠI → chủ ngữ dùng が／は, KHÔNG dùng を. Trong khẩu ngữ trợ từ thường được lược hẳn: 「いい人いない？」 là tự nhiên nhất.'
+      },
+      {
+        bad: '<ruby>最近<rt>さいきん</rt></ruby><ruby>出会<rt>であ</rt></ruby>いが<b>ないくて</b>…／<b>ないで</b>…',
+        good: '<ruby>最近<rt>さいきん</rt></ruby><ruby>出会<rt>であ</rt></ruby>いが<b>なくて</b>…',
+        why: 'ない là tính từ -i → thể て là <b>なくて</b> (bỏ い＋くて). ✕ ないくて ✕ ないで. Lưu ý phân biệt: 「<ruby>行<rt>い</rt></ruby>か<b>ないで</b>」(đừng đi / không đi mà~) là thể phủ định của ĐỘNG TỪ, khác hoàn toàn.'
+      },
+      {
+        bad: 'どんな<ruby>人<rt>ひと</rt></ruby><b>をいいの</b>？',
+        good: 'どんな<ruby>人<rt>ひと</rt></ruby><b>がいいの</b>？',
+        why: 'いい (mong muốn/lựa chọn) đi với <b>が</b>. Đây là nhóm vị ngữ chỉ cảm xúc–mong muốn luôn dùng が: ～がいい・～がほしい・～が<ruby>好<rt>す</rt></ruby>き・～が<ruby>怖<rt>こわ</rt></ruby>い.'
+      },
+      {
+        bad: 'ねえねえ、たけちゃん。<b>いい<ruby>人<rt>ひと</rt></ruby>はいらっしゃいませんか</b>。',
+        good: 'ねえねえ、たけちゃん。いい<ruby>人<rt>ひと</rt></ruby><b>いない</b>？',
+        why: 'Lỗi <b>lệch văn phong (文体の不一致)</b>: đã gọi 「ねえねえ＋～ちゃん」 (cực thân mật) thì không thể nối kính ngữ いらっしゃいませんか. Phải chọn MỘT mức: tất cả suồng sã, hoặc tất cả lịch sự (「<ruby>山田<rt>やまだ</rt></ruby>さん、いい<ruby>人<rt>ひと</rt></ruby>はいませんか」).'
+      }
+    ]
+  }
+  ,
+  {
+    cat: "人の描写 · Miêu tả người",
+    title: "あの人は誰？ · Hỏi \"người vừa rồi là ai?\"",
+    // Hội thoại 2 người bạn thân (普通体). A = người tò mò, B = người vừa nói chuyện với 玉ちゃん.
+    note: 'Mẫu hỏi về NGƯỜI VỪA XUẤT HIỆN, toàn bộ ở <b>普通体</b>. Ba điểm ăn điểm: ① 「<ruby>話<rt>はな</rt></ruby>して<b>た</b>」 rút gọn của 話していた ② 「<b>のって</b>」＝ 「のは」 khẩu ngữ ③ 「<ruby>同僚<rt>どうりょう</rt></ruby><b>なの</b>？」 — danh từ phải có な trước の.',
+    lines: [
+      { who: 'A', jp: 'ねえ、さっき<ruby>話<rt>はな</rt></ruby>してたのって<ruby>誰<rt>だれ</rt></ruby>？<ruby>友達<rt>ともだち</rt></ruby>？', vn: 'Này, người cậu nói chuyện lúc trước là ai đấy? Bạn cậu à?' },
+      { who: 'B', jp: 'あ、<ruby>玉<rt>たま</rt></ruby>ちゃんか。<ruby>同僚<rt>どうりょう</rt></ruby>だよ。', vn: 'À, Tama-chan hả. Đồng nghiệp của tớ đấy.' },
+      { who: 'A', jp: '<ruby>同僚<rt>どうりょう</rt></ruby>なの？<ruby>玉<rt>たま</rt></ruby>ちゃんはどんな<ruby>人<rt>ひと</rt></ruby>？', vn: 'Đồng nghiệp à? Tama-chan là người thế nào?' },
+      { who: 'B', jp: 'えーと…。', vn: 'Ừm, để xem…' }
+    ],
+    vocab: [
+      ["さっき","","lúc trước, vừa rồi (khẩu ngữ của <ruby>先<rt>さき</rt></ruby>ほど)"],
+      ["先ほど","さきほど","vừa rồi (lịch sự)"],
+      ["話してた","はなしてた","= 話していた (đang nói chuyện lúc đó)"],
+      ["～のって","","= 「～のは」 (khẩu ngữ, nêu chủ đề đã danh từ hoá)"],
+      ["同僚","どうりょう","đồng nghiệp (cùng cấp)"],
+      ["先輩／後輩","せんぱい／こうはい","người vào trước / vào sau"],
+      ["上司／部下","じょうし／ぶか","cấp trên / cấp dưới"],
+      ["知り合い","しりあい","người quen (chưa thân bằng 友達)"],
+      ["同期","どうき","người cùng khoá/cùng năm vào công ty"],
+      ["～だよ","","~ đấy (thể thường của ～です＋よ)"],
+      ["えーと","","ừm, để xem… (đang nghĩ)"],
+      ["どんな人","どんなひと","người như thế nào"]
+    ],
+    grammar: [
+      ["V<ruby>普通形<rt>ふつうけい</rt></ruby>＋の（<ruby>名詞化<rt>めいしか</rt></ruby>）","の biến mệnh đề thành DANH TỪ: 「さっき<ruby>話<rt>はな</rt></ruby>してた<b>の</b>」= cái/người mà (cậu) đang nói chuyện lúc trước. Ở đây の thay cho NGƯỜI, nên câu sau mới hỏi được 誰. Dạng lịch sự/văn viết: 「～た<b><ruby>人<rt>ひと</rt></ruby></b>は」."],
+      ["～のって（＝～のは）","Khẩu ngữ nối chủ đề: 「<ruby>話<rt>はな</rt></ruby>してた<b>のって</b><ruby>誰<rt>だれ</rt></ruby>？」＝「<ruby>話<rt>はな</rt></ruby>してた<b>のは</b><ruby>誰<rt>だれ</rt></ruby>ですか」. って rất hay nghe trong 聴解 N3 — phải nhận ra nó chỉ là は."],
+      ["～てた（＝～ていた）","Rút gọn khẩu ngữ: ～てい→<b>～て</b>. 話し<b>ていた</b>→話し<b>てた</b>／<ruby>見<rt>み</rt></ruby><b>ている</b>→<ruby>見<rt>み</rt></ruby><b>てる</b>／<ruby>知<rt>し</rt></ruby>っ<b>ている</b>→<ruby>知<rt>し</rt></ruby>っ<b>てる</b>. Không dùng dạng này khi viết hoặc phỏng vấn."],
+      ["N／-na adj＋<b>なの</b>？","Câu hỏi thể thường với DANH TỪ bắt buộc chèn な: 「<ruby>同僚<rt>どうりょう</rt></ruby><b>なの</b>？」「<ruby>元気<rt>げんき</rt></ruby><b>なの</b>？」. Với động từ/-i adj thì KHÔNG: 「<ruby>行<rt>い</rt></ruby>く<b>の</b>？」「<ruby>忙<rt>いそが</rt></ruby>しい<b>の</b>？」. Đây là lỗi kinh điển của người học."],
+      ["<ruby>体言止<rt>たいげんど</rt></ruby>め（<ruby>友達<rt>ともだち</rt></ruby>？／どんな<ruby>人<rt>ひと</rt></ruby>？）","Trong hội thoại thân mật, chỉ cần nói DANH TỪ ＋ lên giọng là thành câu hỏi: 「<ruby>友達<rt>ともだち</rt></ruby>？」＝ bạn cậu à? Không cần です／なの. Lịch sự thì phải đủ: 「<ruby>友達<rt>ともだち</rt></ruby><b>ですか</b>」."],
+      ["～か（<ruby>納得<rt>なっとく</rt></ruby>のか）","「<ruby>玉<rt>たま</rt></ruby>ちゃん<b>か</b>」— か cuối câu ở thể thường KHÔNG phải câu hỏi, mà là TỰ XÁC NHẬN / mới nhận ra: \"à, ra là Tama-chan\". Cùng nhóm: 「そう<b>か</b>」「なるほど」. Phân biệt với 「<ruby>玉<rt>たま</rt></ruby>ちゃん<b>ですか</b>？」= câu hỏi thật."]
+    ],
+    fix: [
+      {
+        bad: 'さっき<ruby>話<rt>はな</rt></ruby>してた<b>のは<ruby>誰<rt>だれ</rt></ruby>ですか</b>？<b><ruby>友達<rt>ともだち</rt></ruby>？</b>',
+        good: '［<ruby>友達<rt>ともだち</rt></ruby>と］さっき<ruby>話<rt>はな</rt></ruby>してた<b>のって<ruby>誰<rt>だれ</rt></ruby>？</b>／［<ruby>丁寧<rt>ていねい</rt></ruby>に］さっき<ruby>話<rt>はな</rt></ruby>して<b>いた</b>のは<ruby>誰<rt>だれ</rt></ruby><b>ですか</b>。',
+        why: 'Lỗi <b>lệch văn phong</b>: 「してた」 là khẩu ngữ nhưng 「ですか」 là lịch sự → chọn MỘT mức. Suồng sã: 話してたのって誰？ ／ Lịch sự: 話していたのは誰ですか。'
+      },
+      {
+        bad: '<b><ruby>同僚<rt>どうりょう</rt></ruby>の</b>？',
+        good: '<b><ruby>同僚<rt>どうりょう</rt></ruby>なの</b>？',
+        why: 'Trước の nghi vấn, DANH TỪ và tính từ -na phải có <b>な</b>: 同僚<b>な</b>の？・<ruby>静<rt>しず</rt></ruby>か<b>な</b>の？. Nếu bỏ な thì 「同僚の？」 bị hiểu là "của đồng nghiệp?" (の sở hữu) — sai nghĩa hoàn toàn.'
+      },
+      {
+        bad: '<ruby>同僚<rt>どうりょう</rt></ruby><b>です</b>よ。／<ruby>同僚<rt>どうりょう</rt></ruby><b>だ</b>。',
+        good: '<ruby>同僚<rt>どうりょう</rt></ruby><b>だよ</b>。',
+        why: '① Đang tâm sự với bạn thân → dùng だ chứ không です. ② Nhưng 「同僚だ」 trơ trọi nghe cứng như tuyên bố/văn viết; thêm <b>よ</b> (「だよ」) mới tự nhiên trong hội thoại. Nữ giới cũng hay nói 「<ruby>同僚<rt>どうりょう</rt></ruby><b>なの</b>」.'
+      },
+      {
+        bad: 'あ、<ruby>玉<rt>たま</rt></ruby>ちゃん<b>ですか</b>。<ruby>同僚<rt>どうりょう</rt></ruby>だよ。',
+        good: 'あ、<ruby>玉<rt>たま</rt></ruby>ちゃん<b>か</b>。<ruby>同僚<rt>どうりょう</rt></ruby>だよ。',
+        why: 'Ở đây B KHÔNG hỏi lại mà đang tự nhận ra ("à, ra là nói về Tama-chan"). Dùng 「ですか」 thành câu hỏi → hội thoại đứt mạch. Thể thường 「～か」 mới mang nghĩa 納得 (đã hiểu ra).'
+      }
+    ]
+  },
+  {
+    cat: "スピーチ · Thuyết trình",
+    title: "目標 · Mục tiêu của tôi",
+    // Bản DÀI: cả bài nói để nguyên một đoạn, không tách câu.
+    note: 'Bản <b>dài</b> — đọc liền cả đoạn, không tách câu. Khung 3 bước bên dưới:<br>① <b class="jp">私の目標は〜ことです。今は、〜を目指しています。</b> → mục tiêu lớn ＋ bước trước mắt<br>② <b class="jp">なぜかというと、〜からです。また、〜からです。そのため、毎日〜ようにしています。例えば〜。それから〜。</b> → lý do ＋ việc đang làm (nêu ví dụ cụ thể để bài dài và có sức thuyết phục)<br>③ <b class="jp">まだまだ〜ですが、少しずつ〜ように頑張りたいです。</b> → kết bằng quyết tâm khiêm tốn<br><b>Ba chỗ dễ mất điểm:</b> <span class="jp">コミュニケーション<b>が</b>取れる</span> (không phải を), lặp <span class="jp">ようにしています</span> nhiều lần, và <span class="jp">お客さん</span> nên đổi thành <span class="jp">お客様</span> khi nói trang trọng.',
+    q: {
+      jp: 'あなたの<ruby>目標<rt>もくひょう</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか。<ruby>今<rt>いま</rt></ruby>、<ruby>何<rt>なに</rt></ruby>を<ruby>目指<rt>めざ</rt></ruby>していますか。',
+      vn: 'Mục tiêu của bạn là gì? Hiện tại bạn đang hướng tới điều gì?'
+    },
+    lines: [
+      {
+        jp: '<ruby>私<rt>わたし</rt></ruby>の<ruby>目標<rt>もくひょう</rt></ruby>は、<ruby>日本人<rt>にほんじん</rt></ruby>のお<ruby>客<rt>きゃく</rt></ruby>さんとスムーズにコミュニケーションが<ruby>取れ<rt>とれ</rt></ruby>るようになることです。<ruby>今<rt>いま</rt></ruby>は、N3<ruby>合格<rt>ごうかく</rt></ruby>を<ruby>目指<rt>めざ</rt></ruby>しています。なぜかというと、<ruby>将来<rt>しょうらい</rt></ruby>、BrSEとして<ruby>働き<rt>はたらき</rt></ruby>たいからです。また、<ruby>日本<rt>にほん</rt></ruby>で<ruby>働き<rt>はたらき</rt></ruby>たいと<ruby>思って<rt>おもって</rt></ruby>いるからです。そのため、<ruby>毎日<rt>まいにち</rt></ruby>、<ruby>日本語<rt>にほんご</rt></ruby>を<ruby>勉強<rt>べんきょう</rt></ruby>するようにしています。<ruby>例<rt>たと</rt></ruby>えば、<ruby>寝る<rt>ねる</rt></ruby><ruby>前<rt>まえ</rt></ruby>に30<ruby>分<rt>ぷん</rt></ruby>ぐらいシャドーイングをするようにしています。それから、<ruby>日本語<rt>にほんご</rt></ruby>のニュースを<ruby>読む<rt>よむ</rt></ruby>ようにしています。まだまだ<ruby>日本語<rt>にほんご</rt></ruby>は<ruby>難<rt>むずか</rt></ruby>しいですが、<ruby>少<rt>すこ</rt></ruby>しずつ<ruby>上手<rt>じょうず</rt></ruby>になれるように<ruby>頑張り<rt>がんばり</rt></ruby>たいです。',
+        vn: 'Mục tiêu của tôi là có thể giao tiếp trôi chảy với khách hàng người Nhật. Hiện tại, tôi đang hướng tới việc đậu N3. Là vì tương lai tôi muốn làm việc với vai trò BrSE. Ngoài ra, cũng vì tôi đang muốn làm việc ở Nhật. Vì vậy, mỗi ngày tôi cố gắng học tiếng Nhật. Ví dụ, trước khi ngủ tôi cố gắng shadowing khoảng 30 phút. Ngoài ra, tôi cố gắng đọc tin tức tiếng Nhật. Tiếng Nhật vẫn còn rất khó, nhưng tôi muốn cố gắng để dần dần giỏi hơn.'
+      }
+    ],
+    vocab: [
+      ["目標","もくひょう","mục tiêu"],
+      ["目指す","めざす","hướng tới, nhắm tới (＋を)"],
+      ["合格する","ごうかくする","thi đỗ (＋に)"],
+      ["スムーズに","","trôi chảy, suôn sẻ"],
+      ["コミュニケーションを取る","コミュニケーションをとる","giao tiếp (khả năng: ～が取れる)"],
+      ["お客様／お客さん","おきゃくさま／おきゃくさん","khách hàng (様 = lịch sự hơn)"],
+      ["将来","しょうらい","tương lai"],
+      ["BrSE（ブリッジSE）","","Bridge SE — cầu nối kỹ thuật Việt–Nhật"],
+      ["シャドーイング","","shadowing (nghe và nói nhại theo)"],
+      ["ニュース","","tin tức"],
+      ["まだまだ","","vẫn còn (nhấn mạnh hơn まだ)"],
+      ["少しずつ","すこしずつ","dần dần, từng chút một"],
+      ["上手になる","じょうずになる","trở nên giỏi (＋が)"],
+      ["上達する","じょうたつする","tiến bộ (dùng cho ngoại ngữ, kỹ năng)"],
+      ["努力する","どりょくする","nỗ lực (trang trọng)"],
+      ["頑張る","がんばる","cố gắng"]
+    ],
+    grammar: [
+      ["<ruby>私<rt>わたし</rt></ruby>の<ruby>目標<rt>もくひょう</rt></ruby>は～<b>こと</b>です","Động từ KHÔNG nối trực tiếp với です — danh từ hoá bằng <b>こと</b>: コミュニケーションが<ruby>取れ<rt>とれ</rt></ruby>るように<b>なること</b>です。"],
+      ["N＋<b>が</b><ruby>取れ<rt>とれ</rt></ruby>る（<ruby>可能形<rt>かのうけい</rt></ruby>）","Thể khả năng đổi を→<b>が</b>: コミュニケーション<b>を</b><ruby>取る<rt>とる</rt></ruby> → コミュニケーション<b>が</b><ruby>取れ<rt>とれ</rt></ruby>る. Cùng dạng: <ruby>日本語<rt>にほんご</rt></ruby><b>が</b><ruby>話せる<rt>はなせる</rt></ruby> ／ <ruby>漢字<rt>かんじ</rt></ruby><b>が</b><ruby>読める<rt>よめる</rt></ruby>. Đây là lỗi trợ từ số 1 của người học."],
+      ["<ruby>可能形<rt>かのうけい</rt></ruby>＋<b>ようになる</b>","Trở nên làm được ~ (năng lực mới hình thành): <ruby>取れ<rt>とれ</rt></ruby>る<b>ようになる</b> ／ <ruby>話せる<rt>はなせる</rt></ruby><b>ようになる</b>. Cách chuẩn để nói mục tiêu về KỸ NĂNG."],
+      ["N＋<b>として</b>","Với vai trò/tư cách là ~: BrSE<b>として</b><ruby>働く<rt>はたらく</rt></ruby> ／ エンジニア<b>として</b><ruby>働く<rt>はたらく</rt></ruby>. Không dùng に."],
+      ["なぜかというと、～<b>からです</b>。<b>また</b>、～からです。","Mở bằng なぜかというと thì <b>PHẢI</b> kết bằng からです. Có hai lý do → lý do thứ hai mở bằng <b>また</b>（＝ngoài ra）hoặc それに, vẫn kết bằng からです."],
+      ["<b>そのため</b>／<b><ruby>例<rt>たと</rt></ruby>えば</b>／<b>それから</b>","Ba từ nối làm bài nói dài mà vẫn mạch lạc: <b>そのため</b>＝vì vậy (dẫn sang việc đang làm) → <b><ruby>例<rt>たと</rt></ruby>えば</b>＝ví dụ (nêu việc cụ thể) → <b>それから</b>＝ngoài ra (thêm việc nữa). Đều đặt đầu câu ＋ 、."],
+      ["～<b>ようにしています</b>","Cố gắng duy trì ~ như thói quen (có ý chí): <ruby>勉強<rt>べんきょう</rt></ruby>する<b>ようにしています</b>. Phân biệt <b>ようになる</b>＝ năng lực tự hình thành ／ <b>ようにする</b>＝ nỗ lực mình tự đặt ra. Đừng dùng quá 2 lần trong một bài — xem phần sửa lỗi."],
+      ["V<ruby>辞書形<rt>じしょけい</rt></ruby>＋<b><ruby>前<rt>まえ</rt></ruby>に</b>","Trước khi ~: <ruby>寝る<rt>ねる</rt></ruby><b><ruby>前<rt>まえ</rt></ruby>に</b>. Luôn dùng thể từ điển, KHÔNG dùng thể た: ✕<ruby>寝た<rt>ねた</rt></ruby><ruby>前<rt>まえ</rt></ruby>に."],
+      ["<ruby>数量<rt>すうりょう</rt></ruby>＋<b>ぐらい／くらい</b>","Khoảng ~ (thời lượng, số lượng): 30<ruby>分<rt>ぷん</rt></ruby><b>ぐらい</b>. Với thời ĐIỂM thì dùng ごろ: 7<ruby>時<rt>じ</rt></ruby><b>ごろ</b>."],
+      ["<b>まだまだ</b>～ですが、～","Vẫn còn ~ nhưng ~. Cách hạ thấp bản thân trước rồi mới nói quyết tâm → nghe khiêm tốn, rất được ưa ở Nhật. Tương tự: 「<ruby>大変<rt>たいへん</rt></ruby>かもしれませんが」."],
+      ["～<b>ように</b><ruby>頑張り<rt>がんばり</rt></ruby>ます／～<b>ように</b><ruby>努力<rt>どりょく</rt></ruby>します","Cố gắng ĐỂ đạt được ~ (mục đích): <ruby>少<rt>すこ</rt></ruby>しずつ<ruby>上手<rt>じょうず</rt></ruby>になれる<b>ように</b><ruby>頑張り<rt>がんばり</rt></ruby>たいです。 Trước ように dùng thể khả năng hoặc ない: 「<ruby>忘れ<rt>わすれ</rt></ruby>ない<b>ように</b>メモします」."]
+    ],
+    fix: [
+      {
+        bad: 'お<ruby>客<rt>きゃく</rt></ruby>さんとスムーズにコミュニケーション<b>を</b><ruby>取れ<rt>とれ</rt></ruby>るようになることです。',
+        good: 'お<ruby>客様<rt>きゃくさま</rt></ruby>とスムーズにコミュニケーション<b>が</b><ruby>取れ<rt>とれ</rt></ruby>るようになることです。',
+        why: '① Thể khả năng <ruby>取れ<rt>とれ</rt></ruby>る đổi を→<b>が</b>: コミュニケーション<b>が</b><ruby>取れ<rt>とれ</rt></ruby>る. ② Khi phát biểu / nói về công việc, dùng <b>お<ruby>客様<rt>きゃくさま</rt></ruby></b> thay お<ruby>客<rt>きゃく</rt></ruby>さん (お客さん chỉ dùng khi nói thân mật trong nội bộ).'
+      },
+      {
+        bad: '…<ruby>勉強<rt>べんきょう</rt></ruby>する<b>ようにしています</b>。…シャドーイングをする<b>ようにしています</b>。…ニュースを<ruby>読む<rt>よむ</rt></ruby><b>ようにしています</b>。',
+        good: '…<ruby>勉強<rt>べんきょう</rt></ruby>する<b>ようにしています</b>。…シャドーイング<b>をしています</b>。…ニュース<b>も<ruby>読んで<rt>よんで</rt></ruby>います</b>。',
+        why: 'Ba câu liền dùng cùng một mẫu → nghe như học thuộc lòng. Giữ <b>ようにしています</b> cho câu TỔNG (毎日勉強する), các ví dụ cụ thể chuyển sang <b>ています</b>. Thêm <b>も</b> ở câu cuối để nối ý "ngoài ra còn…".'
+      },
+      {
+        bad: '<ruby>将来<rt>しょうらい</rt></ruby>、BrSEとして<b><ruby>働き<rt>はたらき</rt></ruby>たいからです</b>。また、<ruby>日本<rt>にほん</rt></ruby>で<b><ruby>働き<rt>はたらき</rt></ruby>たいと<ruby>思って<rt>おもって</rt></ruby>いるからです</b>。',
+        good: '<ruby>将来<rt>しょうらい</rt></ruby>、<ruby>日本<rt>にほん</rt></ruby>でBrSEとして<b><ruby>働き<rt>はたらき</rt></ruby>たいからです</b>。／［<ruby>二<rt>ふた</rt></ruby>に<ruby>分ける<rt>わける</rt></ruby>なら］…BrSEとして<ruby>働き<rt>はたらき</rt></ruby>たいからです。また、<ruby>日本<rt>にほん</rt></ruby>の<b><ruby>技術<rt>ぎじゅつ</rt></ruby>も<ruby>学び<rt>まなび</rt></ruby>たい</b>と<ruby>思って<rt>おもって</rt></ruby>いるからです。',
+        why: 'Hai câu đều là 「<ruby>働き<rt>はたらき</rt></ruby>たい」 → lý do thứ hai không thêm thông tin mới. Hoặc <b>gộp</b> thành một câu, hoặc đổi nội dung lý do thứ hai (học công nghệ, thu nhập, môi trường…) để 「また」 có giá trị.'
+      },
+      {
+        bad: '<ruby>少<rt>すこ</rt></ruby>しずつ<b><ruby>上手<rt>じょうず</rt></ruby>になれるように</b><ruby>頑張り<rt>がんばり</rt></ruby>たいです。',
+        good: '<ruby>少<rt>すこ</rt></ruby>しずつ<b><ruby>上達<rt>じょうたつ</rt></ruby>できるように</b><ruby>頑張り<rt>がんばり</rt></ruby>たいです。／<ruby>少<rt>すこ</rt></ruby>しずつ<b><ruby>上手<rt>じょうず</rt></ruby>になるように</b><ruby>頑張り<rt>がんばり</rt></ruby>たいです。',
+        why: 'Câu gốc KHÔNG sai, nhưng 「<ruby>上手<rt>じょうず</rt></ruby>に<b>なれる</b>」(khả năng của khả năng) hơi nặng. Với ngoại ngữ, người Nhật hay dùng <b><ruby>上達<rt>じょうたつ</rt></ruby>する</b> (tiến bộ): <ruby>上達<rt>じょうたつ</rt></ruby>できるように. Đơn giản hơn: <ruby>上手<rt>じょうず</rt></ruby>に<b>なる</b>ように.'
+      },
+      {
+        bad: '<ruby>日本語<rt>にほんご</rt></ruby><b>を</b>もっと<ruby>上手<rt>じょうず</rt></ruby>になりたいです。',
+        good: '<ruby>日本語<rt>にほんご</rt></ruby><b>が</b>もっと<ruby>上手<rt>じょうず</rt></ruby>になりたいです。',
+        why: '<ruby>上手<rt>じょうず</rt></ruby>になる là sự THAY ĐỔI trạng thái → lấy <b>が</b>, không lấy を. Muốn dùng を thì đổi sang động từ có tân ngữ: 「<ruby>日本語<rt>にほんご</rt></ruby><b>を</b><ruby>上手<rt>じょうず</rt></ruby>に<ruby>話せる<rt>はなせる</rt></ruby>ようになりたい」.'
       }
     ]
   }
